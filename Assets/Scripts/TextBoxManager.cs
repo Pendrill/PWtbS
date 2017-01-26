@@ -19,10 +19,17 @@ public class TextBoxManager : MonoBehaviour {
 	public MoveLeftRight playerMovement;
 	public bool stopPlayerMovement;
 
+	bool isTyping, cancelTyping;
+	public float typeSpeed;
+
 	//we could include a way for the player to stop moving when dialogue pops up
 
 	// Use this for initialization
 	void Start () {
+
+		isTyping = false;
+		cancelTyping = false;
+
 		if (textFile != null) {
 			textLines = (textFile.text.Split('\n'));
 		}
@@ -45,16 +52,38 @@ public class TextBoxManager : MonoBehaviour {
 			return;
 		}
 
-		theText.text = textLines [currentLine];
+		//theText.text = textLines [currentLine];
 
 		if(Input.GetKeyDown(KeyCode.Mouse0)){
-			currentLine += 1;
+			if (!isTyping) {
+				currentLine += 1;
+				if (currentLine > endAtLine) {
+					disableTextBox ();
+					currentLine = 0;
+				} else {
+					StartCoroutine (TextScroll (textLines [currentLine]));
+				}
+			} else if(isTyping && !cancelTyping) {
+				cancelTyping = true;
+			}
 		}
 
-		if (currentLine > endAtLine) {
-			disableTextBox ();
-			currentLine = 0;
+	}
+
+	private IEnumerator TextScroll(string lineOfText){
+		int letter = 0;
+		theText.text = "";
+		isTyping = true;
+		cancelTyping = false;
+
+		while (isTyping && !cancelTyping && letter < lineOfText.Length - 1) {
+			theText.text += lineOfText [letter];
+			letter += 1;
+			yield return new WaitForSeconds (typeSpeed);
 		}
+		theText.text = lineOfText;
+		isTyping = false;
+		cancelTyping = false;
 	}
 
 	public void enableTextBox(){
@@ -63,6 +92,7 @@ public class TextBoxManager : MonoBehaviour {
 		//if (stopPlayerMovement) {
 		playerMovement.canMove = false;
 		//}
+		StartCoroutine (TextScroll (textLines [currentLine]));
 	}
 
 	public void disableTextBox (){
