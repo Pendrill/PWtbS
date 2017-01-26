@@ -6,6 +6,7 @@ public class MoveLeftRight : MonoBehaviour {
 
 	public Rigidbody playerRigidBody;
 	public int playerSpeed;
+	public bool canMove;
 	// Use this for initialization
 	void Start () {
 		playerRigidBody = GetComponent<Rigidbody> ();
@@ -14,6 +15,9 @@ public class MoveLeftRight : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if (!canMove) {
+			return;
+		}
 		if (Input.GetKey (KeyCode.D)) {
 			playerRigidBody.AddForce (transform.right * playerSpeed * Time.deltaTime);
 		} else if (Input.GetKey (KeyCode.A)) {
