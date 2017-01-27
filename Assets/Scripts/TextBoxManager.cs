@@ -54,7 +54,7 @@ public class TextBoxManager : MonoBehaviour {
 
 		//theText.text = textLines [currentLine];
 
-		if(Input.GetKeyDown(KeyCode.Mouse0)){
+		if(Input.GetKeyDown(KeyCode.K)){//KeyCode.Mouse0)){
 			if (!isTyping) {
 				currentLine += 1;
 				if (currentLine > endAtLine) {

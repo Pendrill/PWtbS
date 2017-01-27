@@ -23,7 +23,7 @@ public class ActivateTextAtLine : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (waitForPress && Input.GetKeyDown (KeyCode.Mouse1)) {
+		if (waitForPress && Input.GetKeyDown (KeyCode.T)){//KeyCode.Mouse1)) {
 			theTextBoxManager.reloadScript (theText);
 			theTextBoxManager.currentLine = startLine;
 			theTextBoxManager.endAtLine = endLine;
