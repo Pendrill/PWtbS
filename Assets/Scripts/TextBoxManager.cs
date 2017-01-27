@@ -22,6 +22,8 @@ public class TextBoxManager : MonoBehaviour {
 	bool isTyping, cancelTyping;
 	public float typeSpeed;
 
+	public float time_left;
+
 	//we could include a way for the player to stop moving when dialogue pops up
 
 	// Use this for initialization
@@ -50,11 +52,14 @@ public class TextBoxManager : MonoBehaviour {
 		
 		if (!isTextBoxActive) {
 			return;
+		} else {
+			time_left -= Time.deltaTime;
 		}
 
 		//theText.text = textLines [currentLine];
 
-		if(Input.GetKeyDown(KeyCode.K)){//KeyCode.Mouse0)){
+		if(Input.GetKeyDown(KeyCode.Mouse0)){
+			
 			if (!isTyping) {
 				currentLine += 1;
 				if (currentLine > endAtLine) {
@@ -63,7 +68,7 @@ public class TextBoxManager : MonoBehaviour {
 				} else {
 					StartCoroutine (TextScroll (textLines [currentLine]));
 				}
-			} else if(isTyping && !cancelTyping) {
+			} else if(isTyping && !cancelTyping && time_left < 0) {
 				cancelTyping = true;
 			}
 		}
@@ -99,6 +104,7 @@ public class TextBoxManager : MonoBehaviour {
 		textBox.SetActive (false);
 		isTextBoxActive = false;
 		playerMovement.canMove = true;
+		time_left = 0.5f;
 	}
 
 	public void reloadScript(TextAsset newText){
