@@ -31,10 +31,11 @@ public class ActivateTextAtLine : MonoBehaviour {
 			RaycastHit hit;
 			if (Physics.Raycast (ray, out hit)) {
 				if (interactable) {
-					//Debug.Log ("this is the npc");
-					theTextBoxManager.reloadScript (theText);
-					theTextBoxManager.currentLine = startLine;
-					theTextBoxManager.endAtLine = endLine;
+					Debug.Log (hit.transform.name);
+					Debug.Log (theText);
+					theTextBoxManager.reloadScript (hit.transform.gameObject.GetComponent<ActivateTextAtLine> ().theText);
+					theTextBoxManager.currentLine = hit.transform.gameObject.GetComponent<ActivateTextAtLine> ().startLine;
+					theTextBoxManager.endAtLine = hit.transform.gameObject.GetComponent<ActivateTextAtLine> ().endLine;
 					theTextBoxManager.enableTextBox ();
 				}
 			}

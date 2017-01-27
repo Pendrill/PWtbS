@@ -104,7 +104,7 @@ public class TextBoxManager : MonoBehaviour {
 		textBox.SetActive (false);
 		isTextBoxActive = false;
 		playerMovement.canMove = true;
-		time_left = 0.5f;
+		time_left = 0.2f;
 	}
 
 	public void reloadScript(TextAsset newText){
