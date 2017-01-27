@@ -16,6 +16,8 @@ public class ActivateTextAtLine : MonoBehaviour {
 	public bool requireButtonPress;
 	bool waitForPress;
 
+	public bool interactable;
+
 	// Use this for initialization
 	void Start () {
 		theTextBoxManager = FindObjectOfType<TextBoxManager> ();	
@@ -23,16 +25,27 @@ public class ActivateTextAtLine : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (waitForPress && Input.GetKeyDown (KeyCode.T)){//KeyCode.Mouse1)) {
-			theTextBoxManager.reloadScript (theText);
-			theTextBoxManager.currentLine = startLine;
-			theTextBoxManager.endAtLine = endLine;
-			theTextBoxManager.enableTextBox ();
+		if (Input.GetKeyDown (KeyCode.Mouse0)) {
+			//this is some test out shit 
+			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+			RaycastHit hit;
+			if (Physics.Raycast (ray, out hit)) {
+				if (interactable) {
+					//Debug.Log ("this is the npc");
+					theTextBoxManager.reloadScript (theText);
+					theTextBoxManager.currentLine = startLine;
+					theTextBoxManager.endAtLine = endLine;
+					theTextBoxManager.enableTextBox ();
+				}
+			}
+
 
 			if (destroyWhenActivated) {
 				Destroy (gameObject);
 			}
 		}
+
+
 	}
 
 	void OnTriggerEnter(Collider other){
