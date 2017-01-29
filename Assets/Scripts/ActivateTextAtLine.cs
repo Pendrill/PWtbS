@@ -18,6 +18,11 @@ public class ActivateTextAtLine : MonoBehaviour {
 
 	public bool interactable;
 
+	public GameObject canTalk;
+	public bool hasCanTalk;
+
+	static string nameOfHit;
+
 	// Use this for initialization
 	void Start () {
 		theTextBoxManager = FindObjectOfType<TextBoxManager> ();	
@@ -25,6 +30,11 @@ public class ActivateTextAtLine : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if (theTextBoxManager.isTextBoxActive) {
+			canTalk.SetActive (false);
+		} else {
+			hoverOverObject ();
+		}
 		if (Input.GetKeyDown (KeyCode.Mouse0) && !theTextBoxManager.isTextBoxActive) {
 			//this is some test out shit 
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -47,6 +57,22 @@ public class ActivateTextAtLine : MonoBehaviour {
 		}
 
 
+	}
+
+	void hoverOverObject(){
+		Ray hover = Camera.main.ScreenPointToRay(Input.mousePosition);
+		RaycastHit hitHover;
+
+		if (Physics.Raycast (hover, out hitHover) && hitHover.collider.gameObject.name == this.gameObject.name) {
+			if (!hasCanTalk ) {
+				canTalk = Instantiate (canTalk, hitHover.transform.position + new Vector3 (0.63f, 1.32f, 0f), Quaternion.identity) as GameObject;
+				hasCanTalk = true;
+			}
+			//canTalk.transform.position = transform.position + new Vector3 (0.63f, 1.32f, 0f);
+			canTalk.SetActive (true);
+		} else {
+			canTalk.SetActive (false);
+		}
 	}
 
 	void OnTriggerEnter(Collider other){
