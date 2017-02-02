@@ -6,7 +6,7 @@ public class MoveCameraDialogue : MonoBehaviour {
 
 	public bool moveToObject;
 	public GameObject theObject;
-	public Vector3 OriginalCameraPosition, offsetPosition;
+	public Vector3 OriginalCameraPosition, offsetPosition;//originalCameraRotation;
 	public float time;
 	public TextBoxManager theTextBoxManager;
 
@@ -17,6 +17,7 @@ public class MoveCameraDialogue : MonoBehaviour {
 		time = 0f;
 		moveToObject = false;
 		OriginalCameraPosition = transform.position;
+		//originalCameraRotation = Camera.main.transform.eulerAngles;
 		theTextBoxManager = FindObjectOfType<TextBoxManager> ();
 		theObject = this.gameObject;
 		offsetPosition = new Vector3 (0, 0, -5);
@@ -27,6 +28,10 @@ public class MoveCameraDialogue : MonoBehaviour {
 		if (moveToObject) {
 			time += Time.deltaTime*2;
 			transform.position = Vector3.Lerp (OriginalCameraPosition, theObject.transform.position + offsetPosition, time);
+			//transform.LookAt (theObject.transform);
+			//Quaternion toRotation = Quaternion.FromToRotation(Vector3.up, transform.forward);
+			transform.rotation = Quaternion.Lerp (transform.rotation, Quaternion.identity, time);
+			//Camera.main.transform.eulerAngles = Vector3.Lerp (-Camera.main.transform.eulerAngles, originalCameraRotation, time);
 			if (!theTextBoxManager.isTextBoxActive && transform.position == theObject.transform.position + offsetPosition) {
 				moveToObject = false;
 			}
