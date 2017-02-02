@@ -14,6 +14,8 @@ public class RotateCamera : MonoBehaviour {
 		speed = 15;
 		RotateCameraMaxY = 20;
 		RotateCameraMinY = -20;
+		RotateCameraMaxX = 10;
+		RotateCameraMinX = -10;
 		offsetScreenPostition = 20;
 		theScreenWidth = Screen.width;
 		theScreenHeight = Screen.height;
@@ -28,6 +30,20 @@ public class RotateCamera : MonoBehaviour {
 		} else if (Input.mousePosition.x < 0 + offsetScreenPostition){
 			Camera.main.transform.eulerAngles = euler;
 			euler.y -= speed * Time.deltaTime;
+		}
+
+		if (Input.mousePosition.y > theScreenHeight - offsetScreenPostition) {
+			Camera.main.transform.eulerAngles = euler;
+			euler.x -= speed * Time.deltaTime;
+		} else if (Input.mousePosition.y < 0 + offsetScreenPostition) {
+			Camera.main.transform.eulerAngles = euler;
+			euler.x += speed * Time.deltaTime;
+		}
+
+		if (euler.x >= RotateCameraMaxX) {
+			euler.x = Mathf.Clamp (euler.x, RotateCameraMinX, RotateCameraMaxX);
+		} else if (euler.x <= RotateCameraMinX) {
+			euler.x = Mathf.Clamp (euler.x, RotateCameraMinX, RotateCameraMaxX);
 		}
 		if (euler.y >= RotateCameraMaxY) {
 			euler.y = Mathf.Clamp (euler.y, RotateCameraMinY, RotateCameraMaxY);
