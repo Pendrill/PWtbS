@@ -23,13 +23,17 @@ public class ActivateTextAtLine : MonoBehaviour {
 
 	static string nameOfHit;
 
+	public MoveCameraDialogue MoveCameraDialogue;
+
 	// Use this for initialization
 	void Start () {
-		theTextBoxManager = FindObjectOfType<TextBoxManager> ();	
+		theTextBoxManager = FindObjectOfType<TextBoxManager> ();
+		MoveCameraDialogue = FindObjectOfType<MoveCameraDialogue> ();
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		transform.LookAt (MoveCameraDialogue.transform);
 		if (theTextBoxManager.isTextBoxActive) {
 			canTalk.SetActive (false);
 		} else {
@@ -39,14 +43,16 @@ public class ActivateTextAtLine : MonoBehaviour {
 			//this is some test out shit 
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 			RaycastHit hit;
-			if (Physics.Raycast (ray, out hit)) {
+			if (Physics.Raycast (ray, out hit) && hit.collider.gameObject.name == this.gameObject.name) {
 				if (interactable) {
 					Debug.Log (hit.transform.name);
 					Debug.Log (theText);
+					MoveCameraDialogue.moveTowardObject (hit.transform.gameObject);
 					theTextBoxManager.reloadScript (hit.transform.gameObject.GetComponent<ActivateTextAtLine> ().theText);
 					theTextBoxManager.currentLine = hit.transform.gameObject.GetComponent<ActivateTextAtLine> ().startLine;
 					theTextBoxManager.endAtLine = hit.transform.gameObject.GetComponent<ActivateTextAtLine> ().endLine;
-					theTextBoxManager.enableTextBox ();
+					StartCoroutine (waitToDisplayDialogueBox ());
+					//theTextBoxManager.enableTextBox ();
 				}
 			}
 
@@ -97,5 +103,10 @@ public class ActivateTextAtLine : MonoBehaviour {
 		if (other.name == "Player1") {
 			waitForPress = false;
 		}
+	}
+
+	private IEnumerator waitToDisplayDialogueBox(){
+		yield return new WaitForSeconds (0.4f);
+		theTextBoxManager.enableTextBox ();
 	}
 }
