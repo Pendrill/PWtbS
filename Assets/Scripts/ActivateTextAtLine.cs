@@ -40,11 +40,12 @@ public class ActivateTextAtLine : MonoBehaviour {
 			hoverOverObject ();
 		}
 		if (Input.GetKeyDown (KeyCode.Mouse0) && !theTextBoxManager.isTextBoxActive && MoveCameraDialogue.transform.position == MoveCameraDialogue.OriginalCameraPosition) {
-			//this is some test out shit 
+			//this is some test out shit
+
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 			RaycastHit hit;
-			if (Physics.Raycast (ray, out hit) && hit.collider.gameObject.name == this.gameObject.name) {
-				if (interactable) {
+			if (Physics.Raycast (ray, out hit) ) {
+				if (hit.collider.gameObject.name == this.gameObject.name) {
 					Debug.Log (hit.transform.name);
 					Debug.Log (theText);
 					MoveCameraDialogue.moveTowardObject (hit.transform.gameObject);
@@ -53,8 +54,14 @@ public class ActivateTextAtLine : MonoBehaviour {
 					theTextBoxManager.endAtLine = hit.transform.gameObject.GetComponent<ActivateTextAtLine> ().endLine;
 					StartCoroutine (waitToDisplayDialogueBox ());
 					//theTextBoxManager.enableTextBox ();
-				}
-			}
+				} /*else if (!interactable) {
+					
+					Debug.Log ("If this shows up, then this is bad");
+					
+				}*/
+			} /*else {
+				Debug.Log ("If this shows up, then this is bad");
+			}*/
 
 
 			if (destroyWhenActivated) {
