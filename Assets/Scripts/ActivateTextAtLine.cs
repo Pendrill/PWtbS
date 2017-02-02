@@ -34,12 +34,12 @@ public class ActivateTextAtLine : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		transform.LookAt (MoveCameraDialogue.transform);
-		if (theTextBoxManager.isTextBoxActive) {
+		if (theTextBoxManager.isTextBoxActive || MoveCameraDialogue.transform.position != MoveCameraDialogue.OriginalCameraPosition) {
 			canTalk.SetActive (false);
 		} else {
 			hoverOverObject ();
 		}
-		if (Input.GetKeyDown (KeyCode.Mouse0) && !theTextBoxManager.isTextBoxActive) {
+		if (Input.GetKeyDown (KeyCode.Mouse0) && !theTextBoxManager.isTextBoxActive && MoveCameraDialogue.transform.position == MoveCameraDialogue.OriginalCameraPosition) {
 			//this is some test out shit 
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 			RaycastHit hit;
@@ -81,7 +81,7 @@ public class ActivateTextAtLine : MonoBehaviour {
 		}
 	}
 
-	void OnTriggerEnter(Collider other){
+	/*void OnTriggerEnter(Collider other){
 		if (other.name == "Player1") {
 
 			if (requireButtonPress) {
@@ -103,7 +103,7 @@ public class ActivateTextAtLine : MonoBehaviour {
 		if (other.name == "Player1") {
 			waitForPress = false;
 		}
-	}
+	}*/
 
 	private IEnumerator waitToDisplayDialogueBox(){
 		yield return new WaitForSeconds (0.4f);
