@@ -36,7 +36,7 @@ public class ActivateTextAtLine : MonoBehaviour {
 		transform.LookAt (MoveCameraDialogue.transform);
 		if (theTextBoxManager.isTextBoxActive || MoveCameraDialogue.transform.position != MoveCameraDialogue.OriginalCameraPosition) {
 			canTalk.SetActive (false);
-		} else {
+		} else if(interactable){
 			hoverOverObject ();
 		}
 		if (Input.GetKeyDown (KeyCode.Mouse0) && !theTextBoxManager.isTextBoxActive && MoveCameraDialogue.transform.position == MoveCameraDialogue.OriginalCameraPosition) {
@@ -45,7 +45,7 @@ public class ActivateTextAtLine : MonoBehaviour {
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 			RaycastHit hit;
 			if (Physics.Raycast (ray, out hit) ) {
-				if (hit.collider.gameObject.name == this.gameObject.name) {
+				if (hit.collider.gameObject.name == this.gameObject.name && interactable) {
 					Debug.Log (hit.transform.name);
 					Debug.Log (theText);
 					MoveCameraDialogue.moveTowardObject (hit.transform.gameObject);
