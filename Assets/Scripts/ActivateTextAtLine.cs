@@ -46,8 +46,8 @@ public class ActivateTextAtLine : MonoBehaviour {
 			RaycastHit hit;
 			if (Physics.Raycast (ray, out hit) ) {
 				if (hit.collider.gameObject.name == this.gameObject.name && interactable) {
-					Debug.Log (hit.transform.name);
-					Debug.Log (theText);
+					//Debug.Log (hit.transform.name);
+					//Debug.Log (theText);
 					MoveCameraDialogue.moveTowardObject (hit.transform.gameObject);
 					theTextBoxManager.reloadScript (hit.transform.gameObject.GetComponent<ActivateTextAtLine> ().theText);
 					theTextBoxManager.currentLine = hit.transform.gameObject.GetComponent<ActivateTextAtLine> ().startLine;
