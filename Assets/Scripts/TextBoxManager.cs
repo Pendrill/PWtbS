@@ -10,7 +10,7 @@ public class TextBoxManager : MonoBehaviour {
 
 	//this is the block of text
 	public TextAsset textFile;
-	public string[] textLines;
+	public string[] textLines, individualWord;
 
 	public int currentLine;
 	public int endAtLine;
@@ -24,10 +24,15 @@ public class TextBoxManager : MonoBehaviour {
 
 	public float time_left;
 
+	public gameManager theGameManager;
+	public string updatedLineOfText;
+
 	//we could include a way for the player to stop moving when dialogue pops up
 
 	// Use this for initialization
 	void Start () {
+		
+		theGameManager = FindObjectOfType<gameManager> ();
 
 		isTyping = false;
 		cancelTyping = false;
@@ -66,7 +71,11 @@ public class TextBoxManager : MonoBehaviour {
 					disableTextBox ();
 					currentLine = 0;
 				} else {
-					StartCoroutine (TextScroll (textLines [currentLine]));
+					individualWord = textLines[currentLine].Split (' ');
+					for (int i = 0; i < individualWord.Length; i++) {
+						updatedLineOfText += theGameManager.checkIfScramble (individualWord [i]) + "   ";
+					}
+					StartCoroutine (TextScroll (updatedLineOfText));//textLines [currentLine]));
 				}
 			} else if(isTyping && !cancelTyping && time_left < 0) {
 				cancelTyping = true;
@@ -82,6 +91,7 @@ public class TextBoxManager : MonoBehaviour {
 		cancelTyping = false;
 
 		while (isTyping && !cancelTyping && letter < lineOfText.Length - 1) {
+			
 			theText.text += lineOfText [letter];
 			letter += 1;
 			yield return new WaitForSeconds (typeSpeed);
@@ -89,6 +99,8 @@ public class TextBoxManager : MonoBehaviour {
 		theText.text = lineOfText;
 		isTyping = false;
 		cancelTyping = false;
+		individualWord = new string[1];
+		updatedLineOfText = "";
 	}
 
 	public void enableTextBox(){
@@ -97,7 +109,11 @@ public class TextBoxManager : MonoBehaviour {
 		//if (stopPlayerMovement) {
 		playerMovement.canMove = false;
 		//}
-		StartCoroutine (TextScroll (textLines [currentLine]));
+		individualWord = textLines[currentLine].Split (' ');
+		for (int i = 0; i < individualWord.Length; i++) {
+			updatedLineOfText += theGameManager.checkIfScramble (individualWord [i]) + "   ";
+		}
+		StartCoroutine (TextScroll (updatedLineOfText));//textLines [currentLine]));
 	}
 
 	public void disableTextBox (){
