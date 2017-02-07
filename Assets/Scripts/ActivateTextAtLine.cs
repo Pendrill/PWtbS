@@ -25,6 +25,8 @@ public class ActivateTextAtLine : MonoBehaviour {
 
 	public MoveCameraDialogue MoveCameraDialogue;
 
+	public Vector3 canTalkDialogueBoxOffset;
+
 	// Use this for initialization
 	void Start () {
 		theTextBoxManager = FindObjectOfType<TextBoxManager> ();
@@ -78,7 +80,7 @@ public class ActivateTextAtLine : MonoBehaviour {
 
 		if (Physics.Raycast (hover, out hitHover) && hitHover.collider.gameObject.name == this.gameObject.name) {
 			if (!hasCanTalk ) {
-				canTalk = Instantiate (canTalk, hitHover.transform.position + new Vector3 (0.63f, 1.32f, 0f), Quaternion.identity) as GameObject;
+				canTalk = Instantiate (canTalk, hitHover.transform.position + canTalkDialogueBoxOffset, hitHover.transform.rotation) as GameObject;
 				hasCanTalk = true;
 			}
 			//canTalk.transform.position = transform.position + new Vector3 (0.63f, 1.32f, 0f);
