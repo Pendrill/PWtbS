@@ -7,10 +7,10 @@ public class TranslatorManager : MonoBehaviour {
 	public List<string> newScrambledWord = new List<string>();
 	public List<string> definitionOffered = new List<string> ();
 	public List<bool> wasDefinitionCorrect = new List<bool> ();
-	public Text wordScrambled;
+	public Text wordScrambled, pageNumber;
 	public Text wordDefined;
 	public GameObject translatorPanel;
-	public int currentPage;
+	public int currentPage, totalPage;
 	public bool panelIsActive, doesExist, userIsTyping;
 	public string userDefinition;
 	public gameManager theGameManager;
@@ -34,6 +34,7 @@ public class TranslatorManager : MonoBehaviour {
 			currentPage = 0;
 		}
 		if (panelIsActive) {
+			pageNumber.text = (currentPage + 1) + "/" + totalPage;
 			wordScrambled.text = newScrambledWord [currentPage];
 			wordDefined.text = definitionOffered [currentPage];
 			if (Input.GetKeyDown (KeyCode.Return) && !userIsTyping && !wasDefinitionCorrect[currentPage]) {
@@ -52,6 +53,7 @@ public class TranslatorManager : MonoBehaviour {
 	}
 
 	public void enableTranslatorPanel(){
+		totalPage = newScrambledWord.Count;
 		panelIsActive = true;
 		translatorPanel.SetActive (true);
 	}
