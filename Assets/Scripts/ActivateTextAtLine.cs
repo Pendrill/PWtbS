@@ -11,7 +11,7 @@ public class ActivateTextAtLine : MonoBehaviour {
 
 	public TextBoxManager theTextBoxManager;
 
-	public bool destroyWhenActivated;
+	public bool destroyWhenActivated, isTranslator;
 
 	public bool requireButtonPress;
 	bool waitForPress;
@@ -26,9 +26,10 @@ public class ActivateTextAtLine : MonoBehaviour {
 	public MoveCameraDialogue MoveCameraDialogue;
 
 	public Vector3 canTalkDialogueBoxOffset;
-
+	public TranslatorManager theTranslatorManager;
 	// Use this for initialization
 	void Start () {
+		theTranslatorManager = FindObjectOfType<TranslatorManager> ();
 		theTextBoxManager = FindObjectOfType<TextBoxManager> ();
 		MoveCameraDialogue = FindObjectOfType<MoveCameraDialogue> ();
 	}
@@ -50,6 +51,9 @@ public class ActivateTextAtLine : MonoBehaviour {
 				if (hit.collider.gameObject.name == this.gameObject.name && interactable) {
 					//Debug.Log (hit.transform.name);
 					//Debug.Log (theText);
+					if (isTranslator) {
+						theTranslatorManager.startTranslatingJournal ();
+					}
 					MoveCameraDialogue.moveTowardObject (hit.transform.gameObject);
 					theTextBoxManager.reloadScript (hit.transform.gameObject.GetComponent<ActivateTextAtLine> ().theText);
 					theTextBoxManager.currentLine = hit.transform.gameObject.GetComponent<ActivateTextAtLine> ().startLine;

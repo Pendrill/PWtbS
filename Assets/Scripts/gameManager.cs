@@ -45,6 +45,11 @@ public class gameManager : MonoBehaviour {
 			//Debug.Log (keyWords[i] + "   " + removedPunctuation);
 			if (removedPunctuation.Trim().Equals(keyWords [i].Trim()) ) {
 				//Debug.Log ("What about this one?");
+				//have the check for if it has been translated within this if statement
+				if (isWordTranslated [i]) {
+					removedPunctuation = "";
+					return word;
+				}
 				removedPunctuation = "";
 				theTranslatorManager.checkIfWordHasAlreadyBeenEncountered (keyWordsScramble [i]);
 				return keyWordsScramble[i];
@@ -63,5 +68,21 @@ public class gameManager : MonoBehaviour {
 		}
 		removedPunctuation = sb.ToString();
 		sb = new System.Text.StringBuilder ();
+	}
+
+	public bool checkTranslation(string wordScrambled, string userTranslation){
+		int indexOfScrambled = 0;
+		for (int i = 0; i < keyWordsScramble.Length; i++) {
+			if (wordScrambled.Trim ().Equals (keyWordsScramble [i].Trim ())) {
+				indexOfScrambled = i;
+				//what if i include a break here?
+			}
+		}
+		if (userTranslation.Trim ().Equals (keyWords [indexOfScrambled].Trim())) {
+			isWordTranslated [indexOfScrambled] = true;
+			return true;
+		}
+		return false;
+
 	}
 }

@@ -13,8 +13,10 @@ public class TranslatorManager : MonoBehaviour {
 	public int currentPage;
 	public bool panelIsActive, doesExist, userIsTyping;
 	public string userDefinition;
+	public gameManager theGameManager;
 	// Use this for initialization
 	void Start () {
+		theGameManager = FindObjectOfType<gameManager> ();
 		//newScrambledWord.Add ("test");
 		if (panelIsActive) {
 			enableTranslatorPanel ();
@@ -34,7 +36,7 @@ public class TranslatorManager : MonoBehaviour {
 		if (panelIsActive) {
 			wordScrambled.text = newScrambledWord [currentPage];
 			wordDefined.text = definitionOffered [currentPage];
-			if (Input.GetKeyDown (KeyCode.Return) && !userIsTyping) {
+			if (Input.GetKeyDown (KeyCode.Return) && !userIsTyping && !wasDefinitionCorrect[currentPage]) {
 				userIsTyping = true;
 			} else if (Input.GetKeyDown (KeyCode.Return) && userIsTyping) {
 				//lockItDown
@@ -214,5 +216,14 @@ public class TranslatorManager : MonoBehaviour {
 			definitionOffered.Insert (currentPage, userDefinition);
 		}
 
+	}
+
+	public void startTranslatingJournal(){
+		for (int i = 0; i < definitionOffered.Count; i++) {
+			if(theGameManager.checkTranslation(newScrambledWord[i], definitionOffered[i])){
+				wasDefinitionCorrect [i] = true;
+			} 
+
+		}
 	}
 }
