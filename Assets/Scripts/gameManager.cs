@@ -17,8 +17,10 @@ public class gameManager : MonoBehaviour {
 
 	char test;
 
+	public TranslatorManager theTranslatorManager;
 	// Use this for initialization
 	void Start () {
+		theTranslatorManager = FindObjectOfType<TranslatorManager> ();
 		if (keyWordsTXT != null) {
 			keyWords = keyWordsTXT.text.Split ('\n');
 		}
@@ -39,6 +41,7 @@ public class gameManager : MonoBehaviour {
 			if (removedPunctuation.Trim().Equals(keyWords [i].Trim()) ) {
 				//Debug.Log ("What about this one?");
 				removedPunctuation = "";
+				theTranslatorManager.checkIfWordHasAlreadyBeenEncountered (keyWordsScramble [i]);
 				return keyWordsScramble[i];
 			}
 		}
