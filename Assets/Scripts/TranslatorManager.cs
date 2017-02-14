@@ -79,15 +79,23 @@ public class TranslatorManager : MonoBehaviour {
 	public void nextPage(){
 		if (currentPage < newScrambledWord.Count - 1) {
 			currentPage += 1;
+			userIsTyping = false;
+			userDefinition = "";
 		} else {
 			currentPage = 0;
+			userIsTyping = false;
+			userDefinition = "";
 		}
 	}
 	public void previousPage(){
 		if (currentPage > 0) {
 			currentPage -= 1;
+			userIsTyping = false;
+			userDefinition = "";
 		} else {
 			currentPage = newScrambledWord.Count - 1;
+			userIsTyping = false;
+			userDefinition = "";
 		}
 	}
 
@@ -195,6 +203,10 @@ public class TranslatorManager : MonoBehaviour {
 			definitionOffered.Insert (currentPage, userDefinition);
 		} else if (Input.GetKeyDown (KeyCode.Z)) {
 			userDefinition += 'z';
+			definitionOffered.RemoveAt (currentPage);
+			definitionOffered.Insert (currentPage, userDefinition);
+		} else if (Input.GetKeyDown (KeyCode.Backspace)) {
+			userDefinition = userDefinition.Substring (0, userDefinition.Length - 1);
 			definitionOffered.RemoveAt (currentPage);
 			definitionOffered.Insert (currentPage, userDefinition);
 		}
