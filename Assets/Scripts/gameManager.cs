@@ -8,6 +8,7 @@ public class gameManager : MonoBehaviour {
 	public TextAsset textFile, keyWordsTXT, keyWordsScrambleTXT;
 	public string[] keyWords, keyWordsScramble;
 	public string scrambledWord, removedPunctuation, testString;
+	public List<bool> isWordTranslated = new List<bool> ();
 
 	public bool happenedOnce;
 
@@ -27,6 +28,10 @@ public class gameManager : MonoBehaviour {
 		if (keyWordsScrambleTXT != null) {
 			keyWordsScramble = keyWordsScrambleTXT.text.Split ('\n');
 		}
+		for (int i = 0; i < keyWordsScramble.Length; i++) {
+			isWordTranslated.Add (false);
+		}
+
 	}
 	
 	// Update is called once per frame

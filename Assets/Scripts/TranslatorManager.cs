@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class TranslatorManager : MonoBehaviour {
 	public List<string> newScrambledWord = new List<string>();
 	public List<string> definitionOffered = new List<string> ();
+	public List<bool> wasDefinitionCorrect = new List<bool> ();
 	public Text wordScrambled;
 	public Text wordDefined;
 	public GameObject translatorPanel;
@@ -60,6 +61,7 @@ public class TranslatorManager : MonoBehaviour {
 		if (newScrambledWord.Count.Equals(0)) {
 			newScrambledWord.Add (word);
 			definitionOffered.Add ("");
+			wasDefinitionCorrect.Add (false);
 		}
 		for (int i = 0; i < newScrambledWord.Count; i++) {
 			if (newScrambledWord [i].Trim ().Equals (word.Trim ())) {
@@ -72,6 +74,7 @@ public class TranslatorManager : MonoBehaviour {
 		if (!doesExist) {
 			newScrambledWord.Add (word);
 			definitionOffered.Add ("");
+			wasDefinitionCorrect.Add (false);
 		} else {
 			doesExist = false;
 		}
