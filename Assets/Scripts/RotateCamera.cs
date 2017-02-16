@@ -11,7 +11,7 @@ public class RotateCamera : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		theTextBoxManager = FindObjectOfType<TextBoxManager> ();
-		speed = 15;
+		speed = 25;
 		RotateCameraMaxY = 20;
 		RotateCameraMinY = -20;
 		RotateCameraMaxX = 10;
