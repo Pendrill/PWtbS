@@ -10,7 +10,7 @@ public class TranslatorManager : MonoBehaviour {
 	public Text wordScrambled, pageNumber;
 	public Text wordDefined;
 	public GameObject translatorPanel;
-	public int currentPage, totalPage;
+	public int currentPage, totalPage, translationIndex;
 	public bool panelIsActive, doesExist, userIsTyping;
 	public string userDefinition;
 	public gameManager theGameManager;
@@ -33,7 +33,7 @@ public class TranslatorManager : MonoBehaviour {
 			disableTranslatorPanel ();
 			currentPage = 0;
 		}
-		if (panelIsActive) {
+		if (panelIsActive && newScrambledWord.Count > 0) {
 			pageNumber.text = (currentPage + 1) + "/" + totalPage;
 			wordScrambled.text = newScrambledWord [currentPage];
 			wordDefined.text = definitionOffered [currentPage];
@@ -107,116 +107,120 @@ public class TranslatorManager : MonoBehaviour {
 	}
 
 	public void typeTranslation(){
+		if (userDefinition.Length < 10) {
+			if (Input.GetKeyDown (KeyCode.A)) {
+				userDefinition += 'a';
+				definitionOffered.RemoveAt (currentPage);
+				definitionOffered.Insert (currentPage, userDefinition);
+			} else if (Input.GetKeyDown (KeyCode.B)) {
+				userDefinition += 'b';
+				definitionOffered.RemoveAt (currentPage);
+				definitionOffered.Insert (currentPage, userDefinition);
+			} else if (Input.GetKeyDown (KeyCode.C)) {
+				userDefinition += 'c';
+				definitionOffered.RemoveAt (currentPage);
+				definitionOffered.Insert (currentPage, userDefinition);
+			} else if (Input.GetKeyDown (KeyCode.D)) {
+				userDefinition += 'd';
+				definitionOffered.RemoveAt (currentPage);
+				definitionOffered.Insert (currentPage, userDefinition);
+			} else if (Input.GetKeyDown (KeyCode.E)) {
+				userDefinition += 'e';
+				definitionOffered.RemoveAt (currentPage);
+				definitionOffered.Insert (currentPage, userDefinition);
+			} else if (Input.GetKeyDown (KeyCode.F)) {
+				userDefinition += 'f';
+				definitionOffered.RemoveAt (currentPage);
+				definitionOffered.Insert (currentPage, userDefinition);
+			} else if (Input.GetKeyDown (KeyCode.G)) {
+				userDefinition += 'g';
+				definitionOffered.RemoveAt (currentPage);
+				definitionOffered.Insert (currentPage, userDefinition);
+			} else if (Input.GetKeyDown (KeyCode.H)) {
+				userDefinition += 'h';
+				definitionOffered.RemoveAt (currentPage);
+				definitionOffered.Insert (currentPage, userDefinition);
+			} else if (Input.GetKeyDown (KeyCode.I)) {
+				userDefinition += 'i';
+				definitionOffered.RemoveAt (currentPage);
+				definitionOffered.Insert (currentPage, userDefinition);
+			} else if (Input.GetKeyDown (KeyCode.J)) {
+				userDefinition += 'j';
+				definitionOffered.RemoveAt (currentPage);
+				definitionOffered.Insert (currentPage, userDefinition);
+			} else if (Input.GetKeyDown (KeyCode.K)) {
+				userDefinition += 'q';
+				definitionOffered.RemoveAt (currentPage);
+				definitionOffered.Insert (currentPage, userDefinition);
+			} else if (Input.GetKeyDown (KeyCode.L)) {
+				userDefinition += 'l';
+				definitionOffered.RemoveAt (currentPage);
+				definitionOffered.Insert (currentPage, userDefinition);
+			} else if (Input.GetKeyDown (KeyCode.M)) {
+				userDefinition += 'm';
+				definitionOffered.RemoveAt (currentPage);
+				definitionOffered.Insert (currentPage, userDefinition);
+			} else if (Input.GetKeyDown (KeyCode.N)) {
+				userDefinition += 'n';
+				definitionOffered.RemoveAt (currentPage);
+				definitionOffered.Insert (currentPage, userDefinition);
+			} else if (Input.GetKeyDown (KeyCode.O)) {
+				userDefinition += 'o';
+				definitionOffered.RemoveAt (currentPage);
+				definitionOffered.Insert (currentPage, userDefinition);
+			} else if (Input.GetKeyDown (KeyCode.P)) {
+				userDefinition += 'p';
+				definitionOffered.RemoveAt (currentPage);
+				definitionOffered.Insert (currentPage, userDefinition);
+			} else if (Input.GetKeyDown (KeyCode.Q)) {
+				userDefinition += 'q';
+				definitionOffered.RemoveAt (currentPage);
+				definitionOffered.Insert (currentPage, userDefinition);
+			} else if (Input.GetKeyDown (KeyCode.R)) {
+				userDefinition += 'r';
+				definitionOffered.RemoveAt (currentPage);
+				definitionOffered.Insert (currentPage, userDefinition);
+			} else if (Input.GetKeyDown (KeyCode.S)) {
+				userDefinition += 's';
+				definitionOffered.RemoveAt (currentPage);
+				definitionOffered.Insert (currentPage, userDefinition);
+			} else if (Input.GetKeyDown (KeyCode.T)) {
+				userDefinition += 't';
+				definitionOffered.RemoveAt (currentPage);
+				definitionOffered.Insert (currentPage, userDefinition);
+			} else if (Input.GetKeyDown (KeyCode.U)) {
+				userDefinition += 'u';
+				definitionOffered.RemoveAt (currentPage);
+				definitionOffered.Insert (currentPage, userDefinition);
+			} else if (Input.GetKeyDown (KeyCode.V)) {
+				userDefinition += 'v';
+				definitionOffered.RemoveAt (currentPage);
+				definitionOffered.Insert (currentPage, userDefinition);
+			} else if (Input.GetKeyDown (KeyCode.W)) {
+				userDefinition += 'w';
+				definitionOffered.RemoveAt (currentPage);
+				definitionOffered.Insert (currentPage, userDefinition);
+			} else if (Input.GetKeyDown (KeyCode.X)) {
+				userDefinition += 'x';
+				definitionOffered.RemoveAt (currentPage);
+				definitionOffered.Insert (currentPage, userDefinition);
+			} else if (Input.GetKeyDown (KeyCode.Y)) {
+				userDefinition += 'y';
+				definitionOffered.RemoveAt (currentPage);
+				definitionOffered.Insert (currentPage, userDefinition);
+			} else if (Input.GetKeyDown (KeyCode.Z)) {
+				userDefinition += 'z';
+				definitionOffered.RemoveAt (currentPage);
+				definitionOffered.Insert (currentPage, userDefinition);
+			}
 
-		if (Input.GetKeyDown (KeyCode.A)) {
-			userDefinition += 'a';
-			definitionOffered.RemoveAt (currentPage);
-			definitionOffered.Insert (currentPage, userDefinition);
-		} else if (Input.GetKeyDown (KeyCode.B)) {
-			userDefinition += 'b';
-			definitionOffered.RemoveAt (currentPage);
-			definitionOffered.Insert (currentPage, userDefinition);
-		} else if (Input.GetKeyDown (KeyCode.C)) {
-			userDefinition += 'c';
-			definitionOffered.RemoveAt (currentPage);
-			definitionOffered.Insert (currentPage, userDefinition);
-		} else if (Input.GetKeyDown (KeyCode.D)) {
-			userDefinition += 'd';
-			definitionOffered.RemoveAt (currentPage);
-			definitionOffered.Insert (currentPage, userDefinition);
-		} else if (Input.GetKeyDown (KeyCode.E)) {
-			userDefinition += 'e';
-			definitionOffered.RemoveAt (currentPage);
-			definitionOffered.Insert (currentPage, userDefinition);
-		} else if (Input.GetKeyDown (KeyCode.F)) {
-			userDefinition += 'f';
-			definitionOffered.RemoveAt (currentPage);
-			definitionOffered.Insert (currentPage, userDefinition);
-		} else if (Input.GetKeyDown (KeyCode.G)) {
-			userDefinition += 'g';
-			definitionOffered.RemoveAt (currentPage);
-			definitionOffered.Insert (currentPage, userDefinition);
-		} else if (Input.GetKeyDown (KeyCode.H)) {
-			userDefinition += 'h';
-			definitionOffered.RemoveAt (currentPage);
-			definitionOffered.Insert (currentPage, userDefinition);
-		} else if (Input.GetKeyDown (KeyCode.I)) {
-			userDefinition += 'i';
-			definitionOffered.RemoveAt (currentPage);
-			definitionOffered.Insert (currentPage, userDefinition);
-		} else if (Input.GetKeyDown (KeyCode.J)) {
-			userDefinition += 'j';
-			definitionOffered.RemoveAt (currentPage);
-			definitionOffered.Insert (currentPage, userDefinition);
-		} else if (Input.GetKeyDown (KeyCode.K)) {
-			userDefinition += 'q';
-			definitionOffered.RemoveAt (currentPage);
-			definitionOffered.Insert (currentPage, userDefinition);
-		} else if (Input.GetKeyDown (KeyCode.L)) {
-			userDefinition += 'l';
-			definitionOffered.RemoveAt (currentPage);
-			definitionOffered.Insert (currentPage, userDefinition);
-		} else if (Input.GetKeyDown (KeyCode.M)) {
-			userDefinition += 'm';
-			definitionOffered.RemoveAt (currentPage);
-			definitionOffered.Insert (currentPage, userDefinition);
-		} else if (Input.GetKeyDown (KeyCode.N)) {
-			userDefinition += 'n';
-			definitionOffered.RemoveAt (currentPage);
-			definitionOffered.Insert (currentPage, userDefinition);
-		} else if (Input.GetKeyDown (KeyCode.O)) {
-			userDefinition += 'o';
-			definitionOffered.RemoveAt (currentPage);
-			definitionOffered.Insert (currentPage, userDefinition);
-		} else if (Input.GetKeyDown (KeyCode.P)) {
-			userDefinition += 'p';
-			definitionOffered.RemoveAt (currentPage);
-			definitionOffered.Insert (currentPage, userDefinition);
-		} else if (Input.GetKeyDown (KeyCode.Q)) {
-			userDefinition += 'q';
-			definitionOffered.RemoveAt (currentPage);
-			definitionOffered.Insert (currentPage, userDefinition);
-		} else if (Input.GetKeyDown (KeyCode.R)) {
-			userDefinition += 'r';
-			definitionOffered.RemoveAt (currentPage);
-			definitionOffered.Insert (currentPage, userDefinition);
-		} else if (Input.GetKeyDown (KeyCode.S)) {
-			userDefinition += 's';
-			definitionOffered.RemoveAt (currentPage);
-			definitionOffered.Insert (currentPage, userDefinition);
-		} else if (Input.GetKeyDown (KeyCode.T)) {
-			userDefinition += 't';
-			definitionOffered.RemoveAt (currentPage);
-			definitionOffered.Insert (currentPage, userDefinition);
-		} else if (Input.GetKeyDown (KeyCode.U)) {
-			userDefinition += 'u';
-			definitionOffered.RemoveAt (currentPage);
-			definitionOffered.Insert (currentPage, userDefinition);
-		} else if (Input.GetKeyDown (KeyCode.V)) {
-			userDefinition += 'v';
-			definitionOffered.RemoveAt (currentPage);
-			definitionOffered.Insert (currentPage, userDefinition);
-		} else if (Input.GetKeyDown (KeyCode.W)) {
-			userDefinition += 'w';
-			definitionOffered.RemoveAt (currentPage);
-			definitionOffered.Insert (currentPage, userDefinition);
-		} else if (Input.GetKeyDown (KeyCode.X)) {
-			userDefinition += 'x';
-			definitionOffered.RemoveAt (currentPage);
-			definitionOffered.Insert (currentPage, userDefinition);
-		} else if (Input.GetKeyDown (KeyCode.Y)) {
-			userDefinition += 'y';
-			definitionOffered.RemoveAt (currentPage);
-			definitionOffered.Insert (currentPage, userDefinition);
-		} else if (Input.GetKeyDown (KeyCode.Z)) {
-			userDefinition += 'z';
-			definitionOffered.RemoveAt (currentPage);
-			definitionOffered.Insert (currentPage, userDefinition);
-		} else if (Input.GetKeyDown (KeyCode.Backspace)) {
+		}
+		if (Input.GetKeyDown (KeyCode.Backspace) && userDefinition.Length > 0) {
 			userDefinition = userDefinition.Substring (0, userDefinition.Length - 1);
 			definitionOffered.RemoveAt (currentPage);
 			definitionOffered.Insert (currentPage, userDefinition);
 		}
+
 
 	}
 
@@ -227,5 +231,21 @@ public class TranslatorManager : MonoBehaviour {
 			} 
 
 		}
+	}
+
+	public bool getTentativeDefinition(string word){
+		for (int i = 0; i < newScrambledWord.Count; i++) {
+			if(word.Trim().Equals(newScrambledWord[i].Trim())){
+				if (definitionOffered [i].Length > 0) {
+					translationIndex = i;
+					return true;
+				} else {
+					return false;
+				}
+				//translationIndex = i;
+				//return true;
+			}
+		}
+		return false;
 	}
 }
