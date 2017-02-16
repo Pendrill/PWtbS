@@ -27,6 +27,7 @@ public class ActivateTextAtLine : MonoBehaviour {
 
 	public Vector3 canTalkDialogueBoxOffset;
 	public TranslatorManager theTranslatorManager;
+
 	// Use this for initialization
 	void Start () {
 		theTranslatorManager = FindObjectOfType<TranslatorManager> ();
@@ -39,10 +40,10 @@ public class ActivateTextAtLine : MonoBehaviour {
 		transform.LookAt (MoveCameraDialogue.transform);
 		if (theTextBoxManager.isTextBoxActive || MoveCameraDialogue.transform.position != MoveCameraDialogue.OriginalCameraPosition) {
 			canTalk.SetActive (false);
-		} else if(interactable){
+		} else if(interactable && !theTranslatorManager.panelIsActive){
 			hoverOverObject ();
 		}
-		if (Input.GetKeyDown (KeyCode.Mouse0) && !theTextBoxManager.isTextBoxActive && MoveCameraDialogue.transform.position == MoveCameraDialogue.OriginalCameraPosition) {
+		if (Input.GetKeyDown (KeyCode.Mouse0) && !theTextBoxManager.isTextBoxActive && MoveCameraDialogue.transform.position == MoveCameraDialogue.OriginalCameraPosition && !theTranslatorManager.panelIsActive) {
 			//this is some test out shit
 
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);

@@ -5,6 +5,7 @@ using UnityEngine;
 public class WallZoom : MonoBehaviour {
 
 	public TextBoxManager theTextBoxManager;
+	public TranslatorManager theTranslatorManager;
 	public MoveCameraDialogue theMoveCameraDialogue;
 	public bool isZoom, ZoomOut;
 
@@ -12,13 +13,14 @@ public class WallZoom : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		theTextBoxManager = FindObjectOfType<TextBoxManager> ();
+		theTranslatorManager = FindObjectOfType<TranslatorManager> ();
 		theMoveCameraDialogue = FindObjectOfType<MoveCameraDialogue> ();
 		isZoom = false;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetKeyDown (KeyCode.Mouse0) && !theTextBoxManager.isTextBoxActive && theMoveCameraDialogue.transform.position == theMoveCameraDialogue.OriginalCameraPosition) {
+		if (Input.GetKeyDown (KeyCode.Mouse0) && !theTextBoxManager.isTextBoxActive && theMoveCameraDialogue.transform.position == theMoveCameraDialogue.OriginalCameraPosition && !theTranslatorManager.panelIsActive) {
 
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 			RaycastHit hit;
