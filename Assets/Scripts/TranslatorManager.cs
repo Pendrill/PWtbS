@@ -10,7 +10,7 @@ public class TranslatorManager : MonoBehaviour {
 	public Text wordScrambled, pageNumber;
 	public Text wordDefined;
 	public GameObject translatorPanel;
-	public int currentPage, totalPage;
+	public int currentPage, totalPage, translationIndex;
 	public bool panelIsActive, doesExist, userIsTyping;
 	public string userDefinition;
 	public gameManager theGameManager;
@@ -231,5 +231,21 @@ public class TranslatorManager : MonoBehaviour {
 			} 
 
 		}
+	}
+
+	public bool getTentativeDefinition(string word){
+		for (int i = 0; i < newScrambledWord.Count; i++) {
+			if(word.Trim().Equals(newScrambledWord[i].Trim())){
+				if (definitionOffered [i].Length > 0) {
+					translationIndex = i;
+					return true;
+				} else {
+					return false;
+				}
+				//translationIndex = i;
+				//return true;
+			}
+		}
+		return false;
 	}
 }

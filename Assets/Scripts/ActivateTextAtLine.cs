@@ -123,4 +123,5 @@ public class ActivateTextAtLine : MonoBehaviour {
 		yield return new WaitForSeconds (0.4f);
 		theTextBoxManager.enableTextBox ();
 	}
+
 }
