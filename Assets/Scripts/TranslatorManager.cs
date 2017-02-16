@@ -48,6 +48,12 @@ public class TranslatorManager : MonoBehaviour {
 				typeTranslation ();
 
 			}
+			if (wasDefinitionCorrect [currentPage]) {
+				wordDefined.color = Color.green;
+			} else {
+				wordDefined.color = Color.white;
+			}
+
 		}
 
 	}
