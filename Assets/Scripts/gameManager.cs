@@ -50,6 +50,10 @@ public class gameManager : MonoBehaviour {
 					removedPunctuation = "";
 					return word;
 				}
+				//check if word has tentative definition
+				if(theTranslatorManager.getTentativeDefinition(keyWordsScramble[i])){
+					return theTranslatorManager.definitionOffered [theTranslatorManager.translationIndex];
+				}
 				removedPunctuation = "";
 				theTranslatorManager.checkIfWordHasAlreadyBeenEncountered (keyWordsScramble [i]);
 				return keyWordsScramble[i];
