@@ -48,11 +48,11 @@ public class RotateCamera : MonoBehaviour {
 			} else if (euler.x <= RotateCameraMinX) {
 				euler.x = Mathf.Clamp (euler.x, RotateCameraMinX, RotateCameraMaxX);
 			}
-			if (euler.y >= RotateCameraMaxY) {
+			/*if (euler.y >= RotateCameraMaxY) {
 				euler.y = Mathf.Clamp (euler.y, RotateCameraMinY, RotateCameraMaxY);
 			} else if (euler.y <= RotateCameraMinY) {
 				euler.y = Mathf.Clamp (euler.y, RotateCameraMinY, RotateCameraMaxY);
-			}
+			}*/
 
 			if (theTextBoxManager.isTextBoxActive) {
 				euler = new Vector3 (0, 0, 0);

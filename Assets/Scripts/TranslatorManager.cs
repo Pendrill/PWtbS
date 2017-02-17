@@ -155,7 +155,7 @@ public class TranslatorManager : MonoBehaviour {
 				definitionOffered.RemoveAt (currentPage);
 				definitionOffered.Insert (currentPage, userDefinition);
 			} else if (Input.GetKeyDown (KeyCode.K)) {
-				userDefinition += 'q';
+				userDefinition += 'k';
 				definitionOffered.RemoveAt (currentPage);
 				definitionOffered.Insert (currentPage, userDefinition);
 			} else if (Input.GetKeyDown (KeyCode.L)) {
