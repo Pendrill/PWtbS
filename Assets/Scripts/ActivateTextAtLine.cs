@@ -4,32 +4,49 @@ using UnityEngine;
 
 public class ActivateTextAtLine : MonoBehaviour {
 
+	//the text game object that will display the dialogue/text
 	public TextAsset theText;
 
+	//ints that keep track of where we start and end the dialogue (in regards to the text line)
 	public int startLine;
 	public int endLine;
 
+	//get the script and game object that contain the textboxmanager info and functions
 	public TextBoxManager theTextBoxManager;
 
+	//bools that check whether or not we need to destroy the object once we talked to it (currently never being used)
+	//and whether or not the object that is being interacted with is the translator character.
 	public bool destroyWhenActivated, isTranslator;
 
+	//bool that checks if a button press is requiered to intereact with the specific character/object
 	public bool requireButtonPress;
-	bool waitForPress;
 
+	//OBSOLETE
+	//bool waitForPress;
+
+	//checks if the object that has been clicked on is interactable
 	public bool interactable;
 
+	//canTalk is a game object that represents a mini dialogue box that appears over the specific character indicating that you can talk to them
 	public GameObject canTalk;
+	//bool to check if specific object has the dialogue box object mentionned above attached to it
 	public bool hasCanTalk;
 
-	static string nameOfHit;
+	//Never ended up using this
+	//static string nameOfHit;
 
+	//reference to the script and object that controls the camera when dialogue is activated
 	public MoveCameraDialogue MoveCameraDialogue;
 
+	// Vector 3 that keeps track of where the mini dialogue box mentionned above needs to be located in relation to its associated character
 	public Vector3 canTalkDialogueBoxOffset;
+
+	//reference to the translator manager object and script
 	public TranslatorManager theTranslatorManager;
 
 	// Use this for initialization
 	void Start () {
+		//we find the specific objects in the scene as to be able to access their functions
 		theTranslatorManager = FindObjectOfType<TranslatorManager> ();
 		theTextBoxManager = FindObjectOfType<TextBoxManager> ();
 		MoveCameraDialogue = FindObjectOfType<MoveCameraDialogue> ();
@@ -37,28 +54,43 @@ public class ActivateTextAtLine : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		//we set it so that the characters/objects are always facing the player
 		transform.LookAt (MoveCameraDialogue.transform);
-		if (theTextBoxManager.isTextBoxActive || MoveCameraDialogue.transform.position != MoveCameraDialogue.OriginalCameraPosition) {
+
+		//if the dialogue textbox is active and the camera is not in its original position
+		if (theTextBoxManager.isTextBoxActive || MoveCameraDialogue.transform.position != MoveCameraDialogue.OriginalCameraPosition || theTranslatorManager.panelIsActive) {
+			//then the mini dialogue box should not be displayed
 			canTalk.SetActive (false);
-		} else if(interactable && !theTranslatorManager.panelIsActive){
+		//On the other hand, if the object is interactable then we enable the hoverOverObject function
+		} else if(interactable){
 			hoverOverObject ();
 		}
+
+		//If the player clicks on the mouse, and we are currently not in dialogue, the camera is not moving, and we are not currently translating words, that means the player is trying to interact with an object in the world
 		if (Input.GetKeyDown (KeyCode.Mouse0) && !theTextBoxManager.isTextBoxActive && MoveCameraDialogue.transform.position == MoveCameraDialogue.OriginalCameraPosition && !theTranslatorManager.panelIsActive) {
 			//this is some test out shit
 
+			//we create a ray cast that is emmited forward from the position of the mouse
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 			RaycastHit hit;
+			//if there is a hit
 			if (Physics.Raycast (ray, out hit) ) {
+				//we only want to run this for the specific object that got hit (as this script will be attached to many objects)
 				if (hit.collider.gameObject.name == this.gameObject.name && interactable) {
 					//Debug.Log (hit.transform.name);
 					//Debug.Log (theText);
+					//we check if the object is the translator character
 					if (isTranslator) {
+						//if so then we need to check the translations offered by the player
 						theTranslatorManager.startTranslatingJournal ();
 					}
+					//otherwise we need to zoom in the camera towards the object that got hit by the raycast
 					MoveCameraDialogue.moveTowardObject (hit.transform.gameObject);
+					//and then we need to update the dialogue text, start, and end line
 					theTextBoxManager.reloadScript (hit.transform.gameObject.GetComponent<ActivateTextAtLine> ().theText);
 					theTextBoxManager.currentLine = hit.transform.gameObject.GetComponent<ActivateTextAtLine> ().startLine;
 					theTextBoxManager.endAtLine = hit.transform.gameObject.GetComponent<ActivateTextAtLine> ().endLine;
+					//Finally we have a coroutine that starts so as to wait that the camera has zoomed in
 					StartCoroutine (waitToDisplayDialogueBox ());
 					//theTextBoxManager.enableTextBox ();
 				} /*else if (!interactable) {
@@ -71,26 +103,35 @@ public class ActivateTextAtLine : MonoBehaviour {
 			}*/
 
 
-			if (destroyWhenActivated) {
-				Destroy (gameObject);
-			}
+			//if (destroyWhenActivated) {
+			//	Destroy (gameObject);
+			//}
 		}
 
 
 	}
 
+	/// <summary>
+	/// Hovers  over the object. Checks whether or not we need to display the mini dialogue box next to the interactable object
+	/// </summary>
 	void hoverOverObject(){
+		//creates an other raycast from the mouse
 		Ray hover = Camera.main.ScreenPointToRay(Input.mousePosition);
 		RaycastHit hitHover;
 
+		//check that it hit something, and then run it again solely for the specific object that got hit
 		if (Physics.Raycast (hover, out hitHover) && hitHover.collider.gameObject.name == this.gameObject.name) {
+			//if this is the first time the mouse hovered over the object
 			if (!hasCanTalk ) {
+				//then we instantiate the mini dialogue box next to the character
 				canTalk = Instantiate (canTalk, hitHover.transform.position + canTalkDialogueBoxOffset, hitHover.transform.rotation) as GameObject;
 				hasCanTalk = true;
 			}
 			//canTalk.transform.position = transform.position + new Vector3 (0.63f, 1.32f, 0f);
+			//we no longer need to instantiate the mini dialogue box, we just set it to active
 			canTalk.SetActive (true);
-		} else {
+		//once the mouse move away from the character/object, we disable the mini dialogue box
+		} else {			
 			canTalk.SetActive (false);
 		}
 	}
@@ -119,6 +160,10 @@ public class ActivateTextAtLine : MonoBehaviour {
 		}
 	}*/
 
+	/// <summary>
+	/// Waits to display dialogue box during the zoom in of the camera.
+	/// </summary>
+	/// <returns>The to display dialogue box.</returns>
 	private IEnumerator waitToDisplayDialogueBox(){
 		yield return new WaitForSeconds (0.4f);
 		theTextBoxManager.enableTextBox ();
