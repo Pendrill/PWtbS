@@ -5,11 +5,11 @@ using UnityEngine;
 public class MoveCameraDialogue : MonoBehaviour {
 
 	// a set of bools that checks various things regarding the camera movement
-	public bool moveToObject, moveToMouse, wallZoom, objectZoom, zoomOut;
+	public bool moveToObject, moveToMouse, wallZoom, objectZoom, zoomOut, bar;
 	//reference to the specific object that needs to be focused on
 	public GameObject theObject;
 	//set of vector 3 for the original camera position, the offet once zoomed in for the camera;
-	public Vector3 OriginalCameraPosition, offsetPosition, mouseLocationZoom, mouseOffsetPosition;//originalCameraRotation;
+	public Vector3 OriginalCameraPosition, offsetPosition, mouseLocationZoom, mouseOffsetPosition, cameraRotationBar;//originalCameraRotation;
 	//refrence to eleapsed time
 	public float time;
 	//reference to the text box manager
@@ -17,9 +17,11 @@ public class MoveCameraDialogue : MonoBehaviour {
 
 
 
+
 	// Use this for initialization
 	void Start () {
 		//make sure the time is set to 0
+
 		time = 0f;
 		moveToObject = false;
 		//se the original camera position to it's current transform position
@@ -33,6 +35,7 @@ public class MoveCameraDialogue : MonoBehaviour {
 		offsetPosition = new Vector3 (0, 0, -5);
 		//dont think i use this anymore
 		mouseOffsetPosition = new Vector3 (0, 0, -5);
+		cameraRotationBar = new Vector3 (58.236f, -179.735f, 0.225f);
 
 	}
 	
@@ -59,8 +62,11 @@ public class MoveCameraDialogue : MonoBehaviour {
 		//if you are moving towards a point on the wall
 		} else if (moveToMouse) {
 			//zoom in towards where the raycast of the mouse hit the wall + offset
-			time += Time.deltaTime * 2;
+			time += Time.deltaTime;
 			transform.position = Vector3.Lerp (OriginalCameraPosition, mouseLocationZoom + mouseOffsetPosition, time);
+			if (bar && transform.position == mouseLocationZoom + mouseOffsetPosition) {
+				transform.rotation = Quaternion.Lerp (transform.rotation, Quaternion.Euler(cameraRotationBar), time-1);
+			}
 		//otherwise zoom out/ stay zoomed out
 		}else {
 			time -= Time.deltaTime*2;
@@ -103,10 +109,12 @@ public class MoveCameraDialogue : MonoBehaviour {
 	/// Moves the toward non object.
 	/// </summary>
 	/// <param name="MousePosition">Mouse position.</param>
-	public void moveTowardNonObject(Vector3 MousePosition){
+	public void moveTowardNonObject(Vector3 MousePosition, bool isBar){
 		//sets the position that needs to be zoomed into to the position of raycast hit on the wall with the mouse
 		mouseLocationZoom = MousePosition;
 		moveToMouse = true;
+		bar = isBar;
 	}
+
 
 }

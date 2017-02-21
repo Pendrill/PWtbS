@@ -14,12 +14,14 @@ public class RotateCamera : MonoBehaviour {
 	public TranslatorManager theTranslatorManager;
 	//sets the info for various ints regarding the maximum and minimum amount of ratation for the camera.
 	public int RotateCameraMaxX, RotateCameraMaxY, RotateCameraMinY, RotateCameraMinX;
+	public MoveCameraDialogue theMoveCameraDialogue;
 
 	// Use this for initialization
 	void Start () {
 		//get the textboxmanager and the translator manager
 		theTextBoxManager = FindObjectOfType<TextBoxManager> ();
 		theTranslatorManager = FindObjectOfType<TranslatorManager> ();
+		theMoveCameraDialogue = FindObjectOfType<MoveCameraDialogue> ();
 		//we set the speed for how fast the rotation of the camera will happen when the mouse reaches the edges of the screen
 		speed = 25;
 		//maximum and minimum degrees fro which the degrees the camera can rotate on both the x and y axis
@@ -38,7 +40,7 @@ public class RotateCamera : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		//if the translator journal panel is no active 
-		if (!theTranslatorManager.panelIsActive) {
+		if (!theTranslatorManager.panelIsActive && !theMoveCameraDialogue.moveToMouse) {
 			//then if the mouse reaches the edges of the screen
 			//rotate on the x and y axises accordingly 
 			if (Input.mousePosition.x > theScreenWidth - offsetScreenPostition) {
@@ -64,14 +66,14 @@ public class RotateCamera : MonoBehaviour {
 				euler.x = Mathf.Clamp (euler.x, RotateCameraMinX, RotateCameraMaxX);
 			}
 			//.y is for left and right whereas .x is for up and down
-			if (euler.y >= RotateCameraMaxY) {
+			/*if (euler.y >= RotateCameraMaxY) {
 				euler.y = Mathf.Clamp (euler.y, RotateCameraMinY, RotateCameraMaxY);
 			} else if (euler.y <= RotateCameraMinY) {
 				euler.y = Mathf.Clamp (euler.y, RotateCameraMinY, RotateCameraMaxY);
-			}
+			}*/
 
 			//reset euler when text box is active.
-			if (theTextBoxManager.isTextBoxActive) {
+			if (theTextBoxManager.isTextBoxActive ) {
 				euler = new Vector3 (0, 0, 0);
 			}
 		}

@@ -12,7 +12,7 @@ public class Contract_Manager : MonoBehaviour {
 	public SpriteRenderer panelColor;
 	float time;
 	Color currentAlpha, destinationAlpha;
-	public bool contractGotSelected;
+	public bool contractGotSelected, switchDecision;
 	public string ContractTitle, Objective, Target;
 	public Text ContractTXT, ObjectiveTXT, TargetTXT;
 	public Button button;
@@ -40,6 +40,18 @@ public class Contract_Manager : MonoBehaviour {
 			TargetTXT.rectTransform.anchoredPosition3D = Vector3.Lerp (TargetOP, TargetD, time);
 			button.GetComponent<RectTransform> ().anchoredPosition3D = Vector3.Lerp (ButtonOP, ButtonD, time);
 
+		} else {
+			time -= Time.deltaTime * 2;
+			panelColor.color = Color.Lerp (currentAlpha, destinationAlpha, time);
+			ContractTXT.rectTransform.anchoredPosition3D = Vector3.Lerp (ContractOP, ContractD, time);
+			ObjectiveTXT.rectTransform.anchoredPosition3D = Vector3.Lerp (ObjectiveOP, ObjectiveD, time);
+			TargetTXT.rectTransform.anchoredPosition3D = Vector3.Lerp (TargetOP, TargetD, time);
+			button.GetComponent<RectTransform> ().anchoredPosition3D = Vector3.Lerp (ButtonOP, ButtonD, time);
+		}
+		if (time > 1f) {
+			time = 1f;
+		} else if (time < 0f) {
+			time = 0f;
 		}
 	}
 
@@ -50,6 +62,11 @@ public class Contract_Manager : MonoBehaviour {
 
 	}
 	public void moveUnselectedContractsAwayFromBar(GameObject contract){
+
+	}
+	public void ChooseOtherContract(){
+		contractGotSelected = false;
+		switchDecision = true;
 
 	}
 }

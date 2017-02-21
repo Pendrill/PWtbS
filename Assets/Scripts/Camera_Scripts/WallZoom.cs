@@ -9,7 +9,9 @@ public class WallZoom : MonoBehaviour {
 	public TranslatorManager theTranslatorManager;
 	public MoveCameraDialogue theMoveCameraDialogue;
 	//bools checking if we are zooming in or out.
-	public bool isZoom, ZoomOut;
+	public bool isZoom, ZoomOut, isBar;
+	public Collider barCollider;
+	public Vector3 cameraLocationContractSelect;
 
 
 	// Use this for initialization
@@ -19,6 +21,9 @@ public class WallZoom : MonoBehaviour {
 		theTranslatorManager = FindObjectOfType<TranslatorManager> ();
 		theMoveCameraDialogue = FindObjectOfType<MoveCameraDialogue> ();
 		isZoom = false;
+		barCollider = GetComponent<Collider>();
+		cameraLocationContractSelect = new Vector3 (-2.62f, 5.59f, -20.35f);
+
 	}
 	
 	// Update is called once per frame
@@ -32,20 +37,29 @@ public class WallZoom : MonoBehaviour {
 			//if it hits and it is for this specific object
 			if (Physics.Raycast (ray, out hit) && hit.collider.gameObject.name == this.gameObject.name) {
 				//we then move towards the point where the raycast hit
-				theMoveCameraDialogue.moveTowardNonObject (hit.point);
-				//isZoom = true;
-				// we wait so that the zoom in can happen
-				StartCoroutine(waitToZoomOut());
+				if (isBar) {
+					theMoveCameraDialogue.moveTowardNonObject (cameraLocationContractSelect, isBar);
+					barCollider.enabled = false;
+				} else {
+					theMoveCameraDialogue.moveTowardNonObject (hit.point, isBar);
+					//isZoom = true;
+					// we wait so that the zoom in can happen
+				}
+				StartCoroutine (waitToZoomOut ());
 			}
 		}
 		//if we are zoomed in
 		if (isZoom) {
-			if (Input.GetKeyDown (KeyCode.Mouse0)) {
-				//then we need to zoom out
-				theMoveCameraDialogue.wallZoom = true;
-				theMoveCameraDialogue.moveToMouse = false;
-				isZoom = false;
-				ZoomOut = true;
+			if (isBar) {
+
+			} else {
+				if (Input.GetKeyDown (KeyCode.Mouse0)) {
+					//then we need to zoom out
+					theMoveCameraDialogue.wallZoom = true;
+					theMoveCameraDialogue.moveToMouse = false;
+					isZoom = false;
+					ZoomOut = true;
+				}
 			}
 
 		}
