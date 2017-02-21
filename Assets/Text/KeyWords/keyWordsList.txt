@@ -3,3 +3,5 @@ mouse
 interact
 fun
 screen
+charger
+charge
