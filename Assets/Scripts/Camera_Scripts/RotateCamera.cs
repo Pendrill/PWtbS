@@ -23,7 +23,7 @@ public class RotateCamera : MonoBehaviour {
 		theTranslatorManager = FindObjectOfType<TranslatorManager> ();
 		theMoveCameraDialogue = FindObjectOfType<MoveCameraDialogue> ();
 		//we set the speed for how fast the rotation of the camera will happen when the mouse reaches the edges of the screen
-		speed = 25;
+		speed = 55;
 		//maximum and minimum degrees fro which the degrees the camera can rotate on both the x and y axis
 		RotateCameraMaxY = 20;
 		RotateCameraMinY = -20;

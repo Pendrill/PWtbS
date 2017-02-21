@@ -15,8 +15,8 @@ public class Contract_Manager : MonoBehaviour {
 	public bool contractGotSelected, switchDecision;
 	public string ContractTitle, Objective, Target;
 	public Text ContractTXT, ObjectiveTXT, TargetTXT;
-	public Button button;
-	public Vector3 ContractOP, ObjectiveOP, TargetOP, ContractD, ObjectiveD, TargetD, ButtonOP, ButtonD;
+	public Button button, confirm;
+	public Vector3 ContractOP, ObjectiveOP, TargetOP, ContractD, ObjectiveD, TargetD, ButtonOP, ButtonD, confirmOP, confirmD;
 	void Start () {
 		//theContractSelection = FindObjectOfType<Contract_Selection> ();
 		currentAlpha = panelColor.color;
@@ -25,6 +25,7 @@ public class Contract_Manager : MonoBehaviour {
 		ObjectiveOP = ObjectiveTXT.rectTransform.anchoredPosition3D;
 		TargetOP = TargetTXT.rectTransform.anchoredPosition3D;
 		ButtonOP = button.GetComponent<RectTransform> ().anchoredPosition3D;
+		confirmOP = confirm.GetComponent<RectTransform> ().anchoredPosition3D;
 	}
 	
 	// Update is called once per frame
@@ -39,6 +40,7 @@ public class Contract_Manager : MonoBehaviour {
 			ObjectiveTXT.rectTransform.anchoredPosition3D = Vector3.Lerp (ObjectiveOP, ObjectiveD, time);
 			TargetTXT.rectTransform.anchoredPosition3D = Vector3.Lerp (TargetOP, TargetD, time);
 			button.GetComponent<RectTransform> ().anchoredPosition3D = Vector3.Lerp (ButtonOP, ButtonD, time);
+			confirm.GetComponent<RectTransform> ().anchoredPosition3D = Vector3.Lerp (confirmOP, confirmD, time);
 
 		} else {
 			time -= Time.deltaTime * 2;
@@ -47,6 +49,8 @@ public class Contract_Manager : MonoBehaviour {
 			ObjectiveTXT.rectTransform.anchoredPosition3D = Vector3.Lerp (ObjectiveOP, ObjectiveD, time);
 			TargetTXT.rectTransform.anchoredPosition3D = Vector3.Lerp (TargetOP, TargetD, time);
 			button.GetComponent<RectTransform> ().anchoredPosition3D = Vector3.Lerp (ButtonOP, ButtonD, time);
+			confirm.GetComponent<RectTransform> ().anchoredPosition3D = Vector3.Lerp (confirmOP, confirmD, time);
+
 		}
 		if (time > 1f) {
 			time = 1f;
@@ -67,6 +71,9 @@ public class Contract_Manager : MonoBehaviour {
 	public void ChooseOtherContract(){
 		contractGotSelected = false;
 		switchDecision = true;
+
+	}
+	public void SelectContract(){
 
 	}
 }
