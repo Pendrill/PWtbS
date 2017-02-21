@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ActivateTextAtLine : MonoBehaviour {
 
@@ -46,8 +47,11 @@ public class ActivateTextAtLine : MonoBehaviour {
 
 	public static bool charger, notebook;
 
-	// Use this for initialization
-	void Start () {
+    public Image chargerSprite;
+    public Image notebookSprite;
+
+    // Use this for initialization
+    void Start () {
 		//we find the specific objects in the scene as to be able to access their functions
 		theTranslatorManager = FindObjectOfType<TranslatorManager> ();
 		theTextBoxManager = FindObjectOfType<TextBoxManager> ();
@@ -88,8 +92,10 @@ public class ActivateTextAtLine : MonoBehaviour {
 					}
 					if(hit.collider.gameObject.name.Equals("notebook")){
 						ActivateTextAtLine.notebook = true;
+                        notebookSprite.enabled = true;
 					}else if(hit.collider.gameObject.name.Equals("charger")){
-						ActivateTextAtLine.charger = true;
+						ActivateTextAtLine.charger = true;                       
+                        chargerSprite.enabled = true;
 					}
 					//otherwise we need to zoom in the camera towards the object that got hit by the raycast
 					MoveCameraDialogue.moveTowardObject (hit.transform.gameObject);
@@ -112,11 +118,14 @@ public class ActivateTextAtLine : MonoBehaviour {
 
 			if (disableObject && !theTextBoxManager.isTextBoxActive) {
 				gameObject.SetActive (false);
-			}
+                notebookSprite.enabled = false;
+            }
 		}
 		if (disableObject && !theTextBoxManager.isTextBoxActive) {
 			gameObject.SetActive (false);
-		}
+            chargerSprite.enabled = false;
+            notebookSprite.enabled = false;
+        }
 		if (ActivateTextAtLine.charger) {
 			Debug.Log ("hello");
 		}
@@ -147,7 +156,7 @@ public class ActivateTextAtLine : MonoBehaviour {
 		}
 	}
 
-	/*void OnTriggerEnter(Collider other){
+    /*void OnTriggerEnter(Collider other){
 		if (other.name == "Player1") {
 
 			if (requireButtonPress) {
@@ -171,16 +180,30 @@ public class ActivateTextAtLine : MonoBehaviour {
 		}
 	}*/
 
-	/// <summary>
-	/// Waits to display dialogue box during the zoom in of the camera.
-	/// </summary>
-	/// <returns>The to display dialogue box.</returns>
-	private IEnumerator waitToDisplayDialogueBox(){
-		yield return new WaitForSeconds (0.4f);
-		theTextBoxManager.enableTextBox ();
-		if (destroyWhenActivated) {
-			disableObject = true;
-		}
-	}
+    /// <summary>
+    /// Waits to display dialogue box during the zoom in of the camera.
+    /// </summary>
+    /// <returns>The to display dialogue box.</returns>
+    private IEnumerator waitToDisplayDialogueBox()
+    {
+        yield return new WaitForSeconds(0.4f);
+        theTextBoxManager.enableTextBox();
+        if (destroyWhenActivated)
+        {
+            disableObject = true;
+        }
+    }
+        private IEnumerator waitToDisplayChargerSprite()
+    {
+        yield return new WaitForSeconds(0.4f);
+        theTextBoxManager.enableTextBox();
+        notebookSprite.enabled = true;
+        chargerSprite.enabled = true;
+
+        if (destroyWhenActivated)
+        {
+            disableObject = true;
+        }
+    }
 
 }
