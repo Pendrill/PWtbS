@@ -16,7 +16,7 @@ public class ActivateTextAtLine : MonoBehaviour {
 
 	//bools that check whether or not we need to destroy the object once we talked to it (currently never being used)
 	//and whether or not the object that is being interacted with is the translator character.
-	public bool destroyWhenActivated, isTranslator;
+	public bool destroyWhenActivated, disableObject, isTranslator;
 
 	//bool that checks if a button press is requiered to intereact with the specific character/object
 	public bool requireButtonPress;
@@ -43,6 +43,8 @@ public class ActivateTextAtLine : MonoBehaviour {
 
 	//reference to the translator manager object and script
 	public TranslatorManager theTranslatorManager;
+
+	public static bool charger, notebook;
 
 	// Use this for initialization
 	void Start () {
@@ -84,6 +86,11 @@ public class ActivateTextAtLine : MonoBehaviour {
 						//if so then we need to check the translations offered by the player
 						theTranslatorManager.startTranslatingJournal ();
 					}
+					if(hit.collider.gameObject.name.Equals("notebook")){
+						ActivateTextAtLine.notebook = true;
+					}else if(hit.collider.gameObject.name.Equals("charger")){
+						ActivateTextAtLine.charger = true;
+					}
 					//otherwise we need to zoom in the camera towards the object that got hit by the raycast
 					MoveCameraDialogue.moveTowardObject (hit.transform.gameObject);
 					//and then we need to update the dialogue text, start, and end line
@@ -103,12 +110,16 @@ public class ActivateTextAtLine : MonoBehaviour {
 			}*/
 
 
-			//if (destroyWhenActivated) {
-			//	Destroy (gameObject);
-			//}
+			if (disableObject && !theTextBoxManager.isTextBoxActive) {
+				gameObject.SetActive (false);
+			}
 		}
-
-
+		if (disableObject && !theTextBoxManager.isTextBoxActive) {
+			gameObject.SetActive (false);
+		}
+		if (ActivateTextAtLine.charger) {
+			Debug.Log ("hello");
+		}
 	}
 
 	/// <summary>
@@ -167,6 +178,9 @@ public class ActivateTextAtLine : MonoBehaviour {
 	private IEnumerator waitToDisplayDialogueBox(){
 		yield return new WaitForSeconds (0.4f);
 		theTextBoxManager.enableTextBox ();
+		if (destroyWhenActivated) {
+			disableObject = true;
+		}
 	}
 
 }

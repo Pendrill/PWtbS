@@ -12,11 +12,13 @@ public class Contract_Manager : MonoBehaviour {
 	public SpriteRenderer panelColor;
 	float time;
 	Color currentAlpha, destinationAlpha;
-	public bool contractGotSelected, switchDecision;
+	public bool contractGotSelected, switchDecision, confirmed;
 	public string ContractTitle, Objective, Target;
 	public Text ContractTXT, ObjectiveTXT, TargetTXT;
 	public Button button, confirm;
 	public Vector3 ContractOP, ObjectiveOP, TargetOP, ContractD, ObjectiveD, TargetD, ButtonOP, ButtonD, confirmOP, confirmD;
+	public static int Set, Number;
+	public GameObject selectedContract;
 	void Start () {
 		//theContractSelection = FindObjectOfType<Contract_Selection> ();
 		currentAlpha = panelColor.color;
@@ -60,6 +62,7 @@ public class Contract_Manager : MonoBehaviour {
 	}
 
 	public void setUpSelectedContract (GameObject contract){
+		selectedContract = contract;
 		ContractTitle = contract.GetComponent<Contract_Selection> ().ContractTitle;
 		Objective = contract.GetComponent<Contract_Selection> ().Objective;
 		Target = contract.GetComponent<Contract_Selection> ().Target;
@@ -74,6 +77,9 @@ public class Contract_Manager : MonoBehaviour {
 
 	}
 	public void SelectContract(){
-
+		Set = selectedContract.GetComponent<Contract_Selection> ().Set;
+		Number = selectedContract.GetComponent<Contract_Selection> ().Number;
+		ChooseOtherContract ();
+		confirmed = true;
 	}
 }

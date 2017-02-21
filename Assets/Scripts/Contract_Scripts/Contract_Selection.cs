@@ -11,6 +11,7 @@ public class Contract_Selection : MonoBehaviour {
 	public float time;
 	public GameObject outline;
 	public MoveCameraDialogue theMoveCameraDialogue;
+	public int Set, Number;
 
 	public string ContractTitle, Objective, Target;
 

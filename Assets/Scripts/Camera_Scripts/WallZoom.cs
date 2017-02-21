@@ -12,6 +12,7 @@ public class WallZoom : MonoBehaviour {
 	public bool isZoom, ZoomOut, isBar;
 	public Collider barCollider;
 	public Vector3 cameraLocationContractSelect;
+	public Contract_Manager theContractManager;
 
 
 	// Use this for initialization
@@ -23,13 +24,14 @@ public class WallZoom : MonoBehaviour {
 		isZoom = false;
 		barCollider = GetComponent<Collider>();
 		cameraLocationContractSelect = new Vector3 (-2.62f, 5.59f, -20.35f);
+		theContractManager = FindObjectOfType <Contract_Manager> ();
 
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		//if we click and we are not in a conversation, the camera is in its original position, and the translator journal is currently not on screen
-		if (Input.GetKeyDown (KeyCode.Mouse0) && !theTextBoxManager.isTextBoxActive && theMoveCameraDialogue.transform.position == theMoveCameraDialogue.OriginalCameraPosition && !theTranslatorManager.panelIsActive) {
+		if (Input.GetKeyDown (KeyCode.Mouse0) && !theTextBoxManager.isTextBoxActive && theMoveCameraDialogue.transform.position == theMoveCameraDialogue.OriginalCameraPosition && !theTranslatorManager.panelIsActive && !theContractManager.confirmed) {
 
 			//we send out a raycast from the mouse position
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -50,8 +52,14 @@ public class WallZoom : MonoBehaviour {
 		}
 		//if we are zoomed in
 		if (isZoom) {
-			if (isBar) {
-
+			if (isBar){ 
+				if(theContractManager.confirmed) {
+					theMoveCameraDialogue.wallZoom = true;
+					theMoveCameraDialogue.moveToMouse = false;
+					isZoom = false;
+					ZoomOut = true;
+					theContractManager.confirmed = false;
+				}
 			} else {
 				if (Input.GetKeyDown (KeyCode.Mouse0)) {
 					//then we need to zoom out

@@ -69,14 +69,18 @@ public class MoveCameraDialogue : MonoBehaviour {
 			}
 		//otherwise zoom out/ stay zoomed out
 		}else {
-			time -= Time.deltaTime*2;
+			time -= Time.deltaTime;
 			//if there was a zoom in then we need to zoom out
 			//based on whether it was a zoom towards the wall or and interactable object
 			if (wallZoom) {
 				transform.position = Vector3.Lerp (OriginalCameraPosition, mouseLocationZoom + mouseOffsetPosition, time);
+				if (bar) {
+					transform.rotation = Quaternion.Lerp (transform.rotation, Quaternion.Euler(-10,-175,0), time);
+				}
 				//wallZoom = false;
 			} else if(objectZoom) {
 				transform.position = Vector3.Lerp (OriginalCameraPosition, theObject.transform.position + offsetPosition, time);
+
 			}
 		}
 		//lock the time to either 0 or 1
