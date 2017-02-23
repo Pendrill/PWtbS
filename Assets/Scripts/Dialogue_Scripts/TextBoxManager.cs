@@ -39,6 +39,7 @@ public class TextBoxManager : MonoBehaviour {
 	public gameManager theGameManager;
 	//string that keeps track of the updated line of dialogue that needs to be displayed on screen
 	public string updatedLineOfText;
+	public TranslatorManager theTranslatorManager;
 
 	//we could include a way for the player to stop moving when dialogue pops up (DONE)
 
@@ -47,6 +48,7 @@ public class TextBoxManager : MonoBehaviour {
 
 		//get the game manager object
 		theGameManager = FindObjectOfType<gameManager> ();
+		theTranslatorManager = FindObjectOfType<TranslatorManager> ();
 
 		//make sure that the istyping and canceltyping are both set to false, as nothing should be displaying on the screen when the scene first runs
 		isTyping = false;
@@ -85,7 +87,7 @@ public class TextBoxManager : MonoBehaviour {
 		//theText.text = textLines [currentLine];
 
 		//Checks if the player clicked the mouse
-		if(Input.GetKeyDown(KeyCode.Mouse0)){
+		if(Input.GetKeyDown(KeyCode.Mouse0) && !theTranslatorManager.panelIsActive){
 			//checks that all the letters of the specific dialogue line have been displayed
 			if (!isTyping) {
 				//if yes then we move on to the next line
@@ -102,7 +104,7 @@ public class TextBoxManager : MonoBehaviour {
 					for (int i = 0; i < individualWord.Length; i++) {
 						//we want to check wether or not we need to scramble the words that appear in the dialogue
 						//we call on the check if scramble function in the game manager script and then add the returned word to the updatedLinneOfText
-						updatedLineOfText += theGameManager.checkIfScramble (individualWord [i]) + "   ";
+						updatedLineOfText += theGameManager.checkIfScramble (individualWord [i]) + "  ";
 					}
 					//Once that is done, we start the coroutine that will display the updated line of text one letter at a time.
 					StartCoroutine (TextScroll (updatedLineOfText));//textLines [currentLine]));
@@ -166,7 +168,7 @@ public class TextBoxManager : MonoBehaviour {
 		//we represt the same process as above to check if the words witin the line of dialogue need to be scrambled, and then updated the line of text accordingly 
 		individualWord = textLines[currentLine].Split (' ');
 		for (int i = 0; i < individualWord.Length; i++) {
-			updatedLineOfText += theGameManager.checkIfScramble (individualWord [i]) + "   ";
+			updatedLineOfText += theGameManager.checkIfScramble (individualWord [i]) + "  ";
 		}
 		//we then start the couroutine that will display the sentences of dialogue one letter at a time.
 		StartCoroutine (TextScroll (updatedLineOfText));//textLines [currentLine]));

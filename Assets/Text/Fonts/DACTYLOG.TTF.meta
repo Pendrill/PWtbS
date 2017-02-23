@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: f809d4d8d81a4f04db9a7f172e62c178
+timeCreated: 1487888101
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Dactylographe
+  fontNames:
+  - Dactylographe
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
