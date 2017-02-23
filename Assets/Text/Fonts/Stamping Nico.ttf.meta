@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 7e8bcc8329ab4b649a5b21a3fa9db7ed
+timeCreated: 1487888217
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Stamping Nico
+  fontNames:
+  - Stamping Nico
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
