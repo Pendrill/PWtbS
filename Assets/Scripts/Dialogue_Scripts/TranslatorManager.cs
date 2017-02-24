@@ -33,7 +33,7 @@ public class TranslatorManager : MonoBehaviour {
 	public bool typer;
 	public Vector3 typerPos, typerOriginalPos;
 
-    public GameObject journalButton;
+    //public GameObject journalButton;
     //protected Button journalBtn;
 
 	// Use this for initialization
