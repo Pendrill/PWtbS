@@ -33,6 +33,8 @@ public class TranslatorManager : MonoBehaviour {
 	public bool typer;
 	public Vector3 typerPos, typerOriginalPos;
 
+    public GameObject journalButton;
+    //protected Button journalBtn;
 
 	// Use this for initialization
 	void Start () {
@@ -47,7 +49,24 @@ public class TranslatorManager : MonoBehaviour {
 		}
 		typerPos = typingBar.GetComponent<RectTransform> ().anchoredPosition3D;
 		typerOriginalPos = typingBar.GetComponent<RectTransform> ().anchoredPosition3D;
+    
 	}
+
+    public void journalBtnClicked()
+    {
+        if (!panelIsActive)
+        {
+            enableTranslatorPanel();
+        }else if(panelIsActive && !userIsTyping)
+        {
+            disableTranslatorPanel();
+            typingBar.GetComponent<RectTransform>().anchoredPosition3D = typerOriginalPos;
+            typingBar.SetActive(false);
+            //we reset the current page to 0
+            currentPage = 0;
+        }
+    
+    }
 	
 	// Update is called once per frame
 	void Update () {
