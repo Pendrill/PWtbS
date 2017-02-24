@@ -33,7 +33,7 @@ public class TranslatorManager : MonoBehaviour {
 	public bool typer;
 	public Vector3 typerPos, typerOriginalPos;
 
-    public GameObject journalButton;
+    //public GameObject journalButton;
     //protected Button journalBtn;
 
 	// Use this for initialization
@@ -445,9 +445,9 @@ public class TranslatorManager : MonoBehaviour {
 		}
 	}
 	public void moveTyperForward(){
-		typingBar.GetComponent<RectTransform> ().anchoredPosition3D += new Vector3 (12, 0, 0);
+		typingBar.GetComponent<RectTransform> ().anchoredPosition3D += new Vector3 (10, 0, 0);
 	}
 	public void moveTyperBackward(){
-		typingBar.GetComponent<RectTransform> ().anchoredPosition3D -= new Vector3 (12, 0, 0);
+		typingBar.GetComponent<RectTransform> ().anchoredPosition3D -= new Vector3 (10, 0, 0);
 	}
 }
