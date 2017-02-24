@@ -36,7 +36,7 @@ public class RotateCamera : MonoBehaviour {
 		RotateCameraMaxX = 10;
 		RotateCameraMinX = -10;
 		//we set the offset to where the mouse needs to reach so that the camera starts to rotate
-		offsetScreenPostition = 100;
+		offsetScreenPostition = 10;
 		//gets/sets the screen width and height
 		theScreenWidth = Screen.width;
 		theScreenHeight = Screen.height;
