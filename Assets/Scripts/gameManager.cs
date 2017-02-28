@@ -12,7 +12,7 @@ public class gameManager : MonoBehaviour {
 	//we create a number of strings to keep track of the scrambled word and the word without punctuation
 	public string scrambledWord, removedPunctuation;// testString;
 	// we create a list that will keep track of wether or not the 
-	public List<bool> isWordTranslated = new List<bool> ();
+	public static List<bool> isWordTranslated = new List<bool> ();
 
 	//public bool happenedOnce;
 
@@ -26,6 +26,8 @@ public class gameManager : MonoBehaviour {
 	//get the translatormanager object and script
 	public TranslatorManager theTranslatorManager;
 
+	public static bool first = true;
+
 	// Use this for initialization
 	void Start () {
 		//get the translator object
@@ -38,9 +40,12 @@ public class gameManager : MonoBehaviour {
 			keyWordsScramble = keyWordsScrambleTXT.text.Split ('\n');
 		}
 		//use a for loop to set the list keeping track of if the words got translated to false
-		for (int i = 0; i < keyWordsScramble.Length; i++) {
-			isWordTranslated.Add (false);
+		if (first) {
+			for (int i = 0; i < keyWordsScramble.Length; i++) {
+				isWordTranslated.Add (false);
+			}
 		}
+		first = false;
 
 	}
 	
@@ -74,7 +79,7 @@ public class gameManager : MonoBehaviour {
 				//Otherwise we check if word has tentative definition
 				if(theTranslatorManager.getTentativeDefinition(keyWordsScramble[i])){
 					//if yes then we return the tentative definition offered by the user
-					return theTranslatorManager.definitionOffered [theTranslatorManager.translationIndex];
+					return TranslatorManager.definitionOffered [theTranslatorManager.translationIndex];
 				}
 				//Otherwise we first check if the specific word has been encountered
 				removedPunctuation = "";
