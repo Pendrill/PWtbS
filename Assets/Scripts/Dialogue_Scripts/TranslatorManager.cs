@@ -119,10 +119,12 @@ public class TranslatorManager : MonoBehaviour {
 
 		}
 		if (Input.GetAxis ("Mouse ScrollWheel") > 0f) {
-			nextPage ();
+			//nextPage ();
+			previousPage();
 		}
 		if (Input.GetAxis ("Mouse ScrollWheel") < 0f) {
-			previousPage ();
+			//previousPage ();
+			nextPage();
 		}
 
 	}
@@ -445,9 +447,9 @@ public class TranslatorManager : MonoBehaviour {
 		}
 	}
 	public void moveTyperForward(){
-		typingBar.GetComponent<RectTransform> ().anchoredPosition3D += new Vector3 (10, 0, 0);
+		typingBar.GetComponent<RectTransform> ().anchoredPosition3D += new Vector3 (6, 0, 0);
 	}
 	public void moveTyperBackward(){
-		typingBar.GetComponent<RectTransform> ().anchoredPosition3D -= new Vector3 (10, 0, 0);
+		typingBar.GetComponent<RectTransform> ().anchoredPosition3D -= new Vector3 (6, 0, 0);
 	}
 }
