@@ -6,9 +6,9 @@ using UnityEngine.UI;
 public class TranslatorManager : MonoBehaviour {
 
 	//create a set of three lists to keep track of any new encountered scrambled words, the user definition, and whether the word was correctly translated
-	public List<string> newScrambledWord = new List<string>();
-	public List<string> definitionOffered = new List<string> ();
-	public List<bool> wasDefinitionCorrect = new List<bool> ();
+	public static List<string> newScrambledWord = new List<string>();
+	public static List<string> definitionOffered = new List<string> ();
+	public static List<bool> wasDefinitionCorrect = new List<bool> ();
 
 	//we set a text object for the scrambled word, page number, and definition offered
 	public Text wordScrambled, pageNumber;
