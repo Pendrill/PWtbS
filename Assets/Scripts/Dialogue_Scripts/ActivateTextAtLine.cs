@@ -50,6 +50,7 @@ public class ActivateTextAtLine : MonoBehaviour {
     public Image chargerSprite;
     public Image notebookSprite;
 
+	public bool behind;
     // Use this for initialization
     void Start () {
 		//we find the specific objects in the scene as to be able to access their functions
