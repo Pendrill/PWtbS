@@ -14,6 +14,7 @@ public class MoveCameraDialogue : MonoBehaviour {
 	public float time;
 	//reference to the text box manager
 	public TextBoxManager theTextBoxManager;
+	public objectPickupManager theObjectPickupManager;
 	bool back;
 
 
@@ -30,6 +31,7 @@ public class MoveCameraDialogue : MonoBehaviour {
 		//originalCameraRotation = Camera.main.transform.eulerAngles;
 		//find the textbox manager
 		theTextBoxManager = FindObjectOfType<TextBoxManager> ();
+		theObjectPickupManager = FindObjectOfType<objectPickupManager> ();
 		//set the object to the main camera
 		theObject = this.gameObject;
 		//set the offset for the camera once it has zoomed in
@@ -55,7 +57,7 @@ public class MoveCameraDialogue : MonoBehaviour {
 				//lerp the camera rotation so a to face the object
 				transform.rotation = Quaternion.Lerp (transform.rotation, Quaternion.identity, time);
 				//Camera.main.transform.eulerAngles = Vector3.Lerp (-Camera.main.transform.eulerAngles, originalCameraRotation, time);
-				if (!theTextBoxManager.isTextBoxActive && transform.position == theObject.transform.position + offsetPosition) {
+				if (!theTextBoxManager.isTextBoxActive && transform.position == theObject.transform.position + offsetPosition && !theObjectPickupManager.isActive) {
 					//unzoom
 					moveToObject = false;
 					zoomOut = true;
@@ -69,7 +71,7 @@ public class MoveCameraDialogue : MonoBehaviour {
 				//lerp the camera rotation so a to face the object
 				transform.rotation = Quaternion.Lerp (transform.rotation, Quaternion.identity * Quaternion.Euler( 0, 180, 0) , time);
 				//Camera.main.transform.eulerAngles = Vector3.Lerp (-Camera.main.transform.eulerAngles, originalCameraRotation, time);
-				if (!theTextBoxManager.isTextBoxActive && transform.position == theObject.transform.position + offsetPositionBack) {
+				if (!theTextBoxManager.isTextBoxActive && transform.position == theObject.transform.position + offsetPositionBack && !theObjectPickupManager.isActive) {
 					//unzoom
 					moveToObject = false;
 					zoomOut = true;
