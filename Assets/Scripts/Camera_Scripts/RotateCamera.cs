@@ -23,6 +23,7 @@ public class RotateCamera : MonoBehaviour {
 	bool left, right, up, down;
 
 	public objectPickupManager theObjectPickupManager;
+    public bool back;
 
 	// Use this for initialization
 	void Start () {
@@ -122,7 +123,14 @@ public class RotateCamera : MonoBehaviour {
 
 			//reset euler when text box is active.
 			if (theTextBoxManager.isTextBoxActive || theObjectPickupManager.isActive) {
-				euler = new Vector3 (0, 0, 0);
+                if (!back)
+                {
+                    euler = new Vector3(0, 0, 0);
+                }else
+                {
+                    euler = new Vector3(0, 180, 0);
+                }
+				
 			}
 		}
 
