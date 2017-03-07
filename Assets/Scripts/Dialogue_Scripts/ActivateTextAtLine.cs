@@ -52,6 +52,7 @@ public class ActivateTextAtLine : MonoBehaviour {
 
 	public bool behind;
     public RotateCamera theRotateCamera;
+    public Vector3 specificOffset;
     // Use this for initialization
     void Start () {
 		//we find the specific objects in the scene as to be able to access their functions
@@ -93,15 +94,15 @@ public class ActivateTextAtLine : MonoBehaviour {
 						//if so then we need to check the translations offered by the player
 						theTranslatorManager.startTranslatingJournal ();
 					}
-					if(hit.collider.gameObject.name.Equals("notebook")){
+					/*if(hit.collider.gameObject.name.Equals("notebook")){
 						ActivateTextAtLine.notebook = true;
                         notebookSprite.enabled = true;
 					}else if(hit.collider.gameObject.name.Equals("charger")){
 						ActivateTextAtLine.charger = true;                       
                         chargerSprite.enabled = true;
-					}
+					}*/
 					//otherwise we need to zoom in the camera towards the object that got hit by the raycast
-					MoveCameraDialogue.moveTowardObject (hit.transform.gameObject);
+					MoveCameraDialogue.moveTowardObject (hit.transform.gameObject, specificOffset);
 					//and then we need to update the dialogue text, start, and end line
 					theTextBoxManager.reloadScript (hit.transform.gameObject.GetComponent<ActivateTextAtLine> ().theText);
 					theTextBoxManager.currentLine = hit.transform.gameObject.GetComponent<ActivateTextAtLine> ().startLine;

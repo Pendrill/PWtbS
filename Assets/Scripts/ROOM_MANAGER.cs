@@ -10,8 +10,9 @@ public class ROOM_MANAGER : MonoBehaviour {
 	public TextAsset theText, chargerAndNotebook, notebook, charger;
 	public int startLine, endLine, startLineNC, endLineNC,startLineC, endLineC,startLineN, endLineN;
 	public static bool complete;
-	// Use this for initialization
-	void Start () {
+    public Vector3 specificOffset;
+    // Use this for initialization
+    void Start () {
 		theTranslatorManager = FindObjectOfType<TranslatorManager> ();
 		theTextBoxManager = FindObjectOfType<TextBoxManager> ();
 		MoveCameraDialogue = FindObjectOfType<MoveCameraDialogue> ();
@@ -28,7 +29,7 @@ public class ROOM_MANAGER : MonoBehaviour {
 				//we only want to run this for the specific object that got hit (as this script will be attached to many objects)
 				if (hit.collider.gameObject.name == this.gameObject.name) {
 					if (ActivateTextAtLine.notebook && ActivateTextAtLine.charger) {
-						MoveCameraDialogue.moveTowardObject (hit.transform.gameObject);
+						MoveCameraDialogue.moveTowardObject (hit.transform.gameObject,specificOffset);
 						//and then we need to update the dialogue text, start, and end line
 						theTextBoxManager.reloadScript (hit.transform.gameObject.GetComponent<ROOM_MANAGER> ().chargerAndNotebook);
 						theTextBoxManager.currentLine = hit.transform.gameObject.GetComponent<ROOM_MANAGER> ().startLineNC;
@@ -37,7 +38,7 @@ public class ROOM_MANAGER : MonoBehaviour {
 						complete =true;
 						StartCoroutine (waitToDisplayDialogueBox ());
 					} else if (ActivateTextAtLine.notebook) {
-						MoveCameraDialogue.moveTowardObject (hit.transform.gameObject);
+						MoveCameraDialogue.moveTowardObject (hit.transform.gameObject, specificOffset);
 						//and then we need to update the dialogue text, start, and end line
 						theTextBoxManager.reloadScript (hit.transform.gameObject.GetComponent<ROOM_MANAGER> ().notebook);
 						theTextBoxManager.currentLine = hit.transform.gameObject.GetComponent<ROOM_MANAGER> ().startLineN;
@@ -45,7 +46,7 @@ public class ROOM_MANAGER : MonoBehaviour {
 						complete =true;
 						StartCoroutine (waitToDisplayDialogueBox ());
 					} else if (ActivateTextAtLine.charger) {
-						MoveCameraDialogue.moveTowardObject (hit.transform.gameObject);
+						MoveCameraDialogue.moveTowardObject (hit.transform.gameObject, specificOffset);
 						//and then we need to update the dialogue text, start, and end line
 						theTextBoxManager.reloadScript (hit.transform.gameObject.GetComponent<ROOM_MANAGER> ().charger);
 						theTextBoxManager.currentLine = hit.transform.gameObject.GetComponent<ROOM_MANAGER> ().startLineC;
@@ -53,7 +54,7 @@ public class ROOM_MANAGER : MonoBehaviour {
 						complete =true;
 						StartCoroutine (waitToDisplayDialogueBox ());
 					} else {
-						MoveCameraDialogue.moveTowardObject (hit.transform.gameObject);
+						MoveCameraDialogue.moveTowardObject (hit.transform.gameObject,specificOffset);
 						//and then we need to update the dialogue text, start, and end line
 						theTextBoxManager.reloadScript (hit.transform.gameObject.GetComponent<ROOM_MANAGER> ().theText);
 						theTextBoxManager.currentLine = hit.transform.gameObject.GetComponent<ROOM_MANAGER> ().startLine;

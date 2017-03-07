@@ -133,7 +133,8 @@ public class MoveCameraDialogue : MonoBehaviour {
 	/// Moves the toward object.
 	/// </summary>
 	/// <param name="theDestination">The destination.</param>
-	public void moveTowardObject(GameObject theDestination){
+	public void moveTowardObject(GameObject theDestination, Vector3 objectOffset){
+        offsetPosition = objectOffset;
 		//sets the position that needs to be zoomed into to the position of the object
 		theObject = theDestination;
 		//we now can zoom in towards that object
