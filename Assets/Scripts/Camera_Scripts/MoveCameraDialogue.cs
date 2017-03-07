@@ -137,7 +137,9 @@ public class MoveCameraDialogue : MonoBehaviour {
 		//we now can zoom in towards that object
 		moveToObject = true;
 		objectZoom = true;
-		back = theDestination.GetComponent<ActivateTextAtLine> ().behind;
+		if (theDestination.GetComponent<ActivateTextAtLine> () != null) {
+			back = theDestination.GetComponent<ActivateTextAtLine> ().behind;
+		}
 	}
 	/// <summary>
 	/// Moves the toward non object.

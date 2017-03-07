@@ -128,7 +128,7 @@ public class ActivateTextAtLine : MonoBehaviour {
             notebookSprite.enabled = false;
         }
 		if (ActivateTextAtLine.charger) {
-			Debug.Log ("hello");
+			//Debug.Log ("hello");
 		}
 	}
 

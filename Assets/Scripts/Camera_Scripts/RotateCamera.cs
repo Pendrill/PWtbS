@@ -49,7 +49,7 @@ public class RotateCamera : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		//if the translator journal panel is no active 
-		if (!theTranslatorManager.panelIsActive && !theMoveCameraDialogue.moveToMouse && !theTextBoxManager.isTextBoxActive) {
+		if (!theTranslatorManager.panelIsActive && !theMoveCameraDialogue.moveToMouse ){//&& !theTextBoxManager.isTextBoxActive) {
 			//then if the mouse reaches the edges of the screen
 			//rotate on the x and y axises accordingly 
 			if (Input.mousePosition.x > theScreenWidth - offsetScreenPostition) {
