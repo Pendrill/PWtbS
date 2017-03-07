@@ -11,8 +11,9 @@ public class PickUpObject : MonoBehaviour {
 	public Image chargerSprite, notebookSprite;
 	public int startLine, endLine;
 	public TextAsset theText;
-	// Use this for initialization
-	void Start () {
+    public Vector3 specificOffset;
+    // Use this for initialization
+    void Start () {
 		theTranslatorManager = FindObjectOfType<TranslatorManager> ();
 		theTextBoxManager = FindObjectOfType<TextBoxManager> ();
 		MoveCameraDialogue = FindObjectOfType<MoveCameraDialogue> ();
@@ -38,7 +39,7 @@ public class PickUpObject : MonoBehaviour {
 						chargerSprite.enabled = true;
 					}
 					//otherwise we need to zoom in the camera towards the object that got hit by the raycast
-					MoveCameraDialogue.moveTowardObject (hit.transform.gameObject);
+					MoveCameraDialogue.moveTowardObject (hit.transform.gameObject, specificOffset);
 					//and then we need to update the dialogue text, start, and end line
 					theObjectPickupManager.reloadScript (hit.transform.gameObject.GetComponent<PickUpObject> ().theText, hit.transform.gameObject);
 					theObjectPickupManager.currentLine = hit.transform.gameObject.GetComponent<PickUpObject> ().startLine;
