@@ -22,12 +22,15 @@ public class RotateCamera : MonoBehaviour {
 	Color currentAlpha, destinationAlpha;
 	bool left, right, up, down;
 
+	public objectPickupManager theObjectPickupManager;
+
 	// Use this for initialization
 	void Start () {
 		//get the textboxmanager and the translator manager
 		theTextBoxManager = FindObjectOfType<TextBoxManager> ();
 		theTranslatorManager = FindObjectOfType<TranslatorManager> ();
 		theMoveCameraDialogue = FindObjectOfType<MoveCameraDialogue> ();
+		theObjectPickupManager = FindObjectOfType<objectPickupManager> ();
 		//we set the speed for how fast the rotation of the camera will happen when the mouse reaches the edges of the screen
 		speed = 55;
 		//maximum and minimum degrees fro which the degrees the camera can rotate on both the x and y axis
@@ -49,7 +52,7 @@ public class RotateCamera : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		//if the translator journal panel is no active 
-		if (!theTranslatorManager.panelIsActive && !theMoveCameraDialogue.moveToMouse && !theTextBoxManager.isTextBoxActive) {
+		if (!theTranslatorManager.panelIsActive && !theMoveCameraDialogue.moveToMouse ){//&& !theTextBoxManager.isTextBoxActive) {
 			//then if the mouse reaches the edges of the screen
 			//rotate on the x and y axises accordingly 
 			if (Input.mousePosition.x > theScreenWidth - offsetScreenPostition) {
@@ -118,7 +121,7 @@ public class RotateCamera : MonoBehaviour {
 			}*/
 
 			//reset euler when text box is active.
-			if (theTextBoxManager.isTextBoxActive ) {
+			if (theTextBoxManager.isTextBoxActive || theObjectPickupManager.isActive) {
 				euler = new Vector3 (0, 0, 0);
 			}
 		}

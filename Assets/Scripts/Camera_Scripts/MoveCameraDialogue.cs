@@ -9,11 +9,13 @@ public class MoveCameraDialogue : MonoBehaviour {
 	//reference to the specific object that needs to be focused on
 	public GameObject theObject;
 	//set of vector 3 for the original camera position, the offet once zoomed in for the camera;
-	public Vector3 OriginalCameraPosition, offsetPosition, mouseLocationZoom, mouseOffsetPosition, cameraRotationBar;//originalCameraRotation;
+	public Vector3 OriginalCameraPosition, offsetPosition, offsetPositionBack, mouseLocationZoom, mouseOffsetPosition, cameraRotationBar;//originalCameraRotation;
 	//refrence to eleapsed time
 	public float time;
 	//reference to the text box manager
 	public TextBoxManager theTextBoxManager;
+	public objectPickupManager theObjectPickupManager;
+	bool back;
 
 
 
@@ -29,10 +31,12 @@ public class MoveCameraDialogue : MonoBehaviour {
 		//originalCameraRotation = Camera.main.transform.eulerAngles;
 		//find the textbox manager
 		theTextBoxManager = FindObjectOfType<TextBoxManager> ();
+		theObjectPickupManager = FindObjectOfType<objectPickupManager> ();
 		//set the object to the main camera
 		theObject = this.gameObject;
 		//set the offset for the camera once it has zoomed in
 		offsetPosition = new Vector3 (0, 0, -5);
+		offsetPositionBack = new Vector3 (-0.5f, 1, 5);
 		//dont think i use this anymore
 		mouseOffsetPosition = new Vector3 (0, 0, -5);
 		cameraRotationBar = new Vector3 (58.236f, -179.735f, 0.225f);
@@ -45,20 +49,42 @@ public class MoveCameraDialogue : MonoBehaviour {
 		if (moveToObject) {
 			//change time so as to have the lerp work
 			time += Time.deltaTime * 2;
-			//lerp the camera position towards the object with the offset
-			transform.position = Vector3.Lerp (OriginalCameraPosition, theObject.transform.position + offsetPosition, time);
-			//transform.LookAt (theObject.transform);
-			//Quaternion toRotation = Quaternion.FromToRotation(Vector3.up, transform.forward);
-			//lerp the camera rotation so a to face the object
-			transform.rotation = Quaternion.Lerp (transform.rotation, Quaternion.identity, time);
-			//Camera.main.transform.eulerAngles = Vector3.Lerp (-Camera.main.transform.eulerAngles, originalCameraRotation, time);
-			//if dialogue is no longer happening and the camera is zoomed in
-			if (!theTextBoxManager.isTextBoxActive && transform.position == theObject.transform.position + offsetPosition) {
-				//unzoom
-				moveToObject = false;
-				zoomOut = true;
-				//objectZoom = false;
+			if (!back) {
+				//lerp the camera position towards the object with the offset
+				transform.position = Vector3.Lerp (OriginalCameraPosition, theObject.transform.position + offsetPosition, time);
+				//transform.LookAt (theObject.transform);
+				//Quaternion toRotation = Quaternion.FromToRotation(Vector3.up, transform.forward);
+				//lerp the camera rotation so a to face the object
+				transform.rotation = Quaternion.Lerp (transform.rotation, Quaternion.identity, time);
+				//Camera.main.transform.eulerAngles = Vector3.Lerp (-Camera.main.transform.eulerAngles, originalCameraRotation, time);
+				if (!theTextBoxManager.isTextBoxActive && transform.position == theObject.transform.position + offsetPosition && !theObjectPickupManager.isActive) {
+					//unzoom
+					moveToObject = false;
+					zoomOut = true;
+					//objectZoom = false;
+				}
+			} else {
+				//lerp the camera position towards the object with the offset
+				transform.position = Vector3.Lerp (OriginalCameraPosition, theObject.transform.position + offsetPositionBack, time);
+				//transform.LookAt (theObject.transform);
+				//Quaternion toRotation = Quaternion.FromToRotation(Vector3.up, transform.forward);
+				//lerp the camera rotation so a to face the object
+				transform.rotation = Quaternion.Lerp (transform.rotation, Quaternion.identity * Quaternion.Euler( 0, 180, 0) , time);
+				//Camera.main.transform.eulerAngles = Vector3.Lerp (-Camera.main.transform.eulerAngles, originalCameraRotation, time);
+				if (!theTextBoxManager.isTextBoxActive && transform.position == theObject.transform.position + offsetPositionBack && !theObjectPickupManager.isActive) {
+					//unzoom
+					moveToObject = false;
+					zoomOut = true;
+					//objectZoom = false;
+				}
 			}
+			//if dialogue is no longer happening and the camera is zoomed in
+			//if (!theTextBoxManager.isTextBoxActive && transform.position == theObject.transform.position + offsetPosition) {
+				//unzoom
+				//moveToObject = false;
+				//zoomOut = true;
+				//objectZoom = false;
+			//}
 		//if you are moving towards a point on the wall
 		} else if (moveToMouse) {
 			//zoom in towards where the raycast of the mouse hit the wall + offset
@@ -79,7 +105,11 @@ public class MoveCameraDialogue : MonoBehaviour {
 				}
 				//wallZoom = false;
 			} else if(objectZoom) {
-				transform.position = Vector3.Lerp (OriginalCameraPosition, theObject.transform.position + offsetPosition, time);
+				if (!back) {
+					transform.position = Vector3.Lerp (OriginalCameraPosition, theObject.transform.position + offsetPosition, time);
+				} else {
+					transform.position = Vector3.Lerp (OriginalCameraPosition, theObject.transform.position + offsetPositionBack, time);
+				}
 
 			}
 		}
@@ -94,6 +124,7 @@ public class MoveCameraDialogue : MonoBehaviour {
 			if (transform.position == OriginalCameraPosition) {
 				zoomOut = false;
 				objectZoom = false;
+				back = false;
 			}
 		}
 	}
@@ -108,6 +139,9 @@ public class MoveCameraDialogue : MonoBehaviour {
 		//we now can zoom in towards that object
 		moveToObject = true;
 		objectZoom = true;
+		if (theDestination.GetComponent<ActivateTextAtLine> () != null) {
+			back = theDestination.GetComponent<ActivateTextAtLine> ().behind;
+		}
 	}
 	/// <summary>
 	/// Moves the toward non object.
