@@ -51,12 +51,14 @@ public class ActivateTextAtLine : MonoBehaviour {
     public Image notebookSprite;
 
 	public bool behind;
+    public RotateCamera theRotateCamera;
     // Use this for initialization
     void Start () {
 		//we find the specific objects in the scene as to be able to access their functions
 		theTranslatorManager = FindObjectOfType<TranslatorManager> ();
 		theTextBoxManager = FindObjectOfType<TextBoxManager> ();
 		MoveCameraDialogue = FindObjectOfType<MoveCameraDialogue> ();
+        theRotateCamera = FindObjectOfType<RotateCamera>();
 	}
 	
 	// Update is called once per frame
@@ -106,6 +108,7 @@ public class ActivateTextAtLine : MonoBehaviour {
 					theTextBoxManager.endAtLine = hit.transform.gameObject.GetComponent<ActivateTextAtLine> ().endLine;
 					//Finally we have a coroutine that starts so as to wait that the camera has zoomed in
 					StartCoroutine (waitToDisplayDialogueBox ());
+                    
 					//theTextBoxManager.enableTextBox ();
 				} /*else if (!interactable) {
 					
@@ -193,6 +196,7 @@ public class ActivateTextAtLine : MonoBehaviour {
         {
             disableObject = true;
         }
+        theRotateCamera.back = behind;
     }
         private IEnumerator waitToDisplayChargerSprite()
     {
