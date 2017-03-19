@@ -53,6 +53,13 @@ public class ThoughtBubble : MonoBehaviour {
 	public RotateCamera theRotateCamera;
 	public Vector3 specificOffset;
 	public RotateMouseClick theRotateMouseClick;
+
+	public GameObject thoughtBubble_1, thoughtBubble_2, thoughtBubble_3;
+	public Text thoughtBubbleText_1, thoughtBubbleText_2, thoughtBubbleText_3;
+	public string thoughtBubbleString_1, thoughtBubbleString_2, thoughtBubbleString_3;
+	public bool ThoughtBubbleRequired = true;
+	private GameObject currentHit;
+	public string arbThought;
 	// Use this for initialization
 	void Start () {
 		//we find the specific objects in the scene as to be able to access their functions
@@ -88,6 +95,7 @@ public class ThoughtBubble : MonoBehaviour {
 			if (Physics.Raycast (ray, out hit) ) {
 				//we only want to run this for the specific object that got hit (as this script will be attached to many objects)
 				if (hit.collider.gameObject.name == this.gameObject.name && interactable) {
+					currentHit = hit.collider.gameObject;
 					//Debug.Log (hit.transform.name);
 					//Debug.Log (theText);
 					//we check if the object is the translator character
@@ -103,11 +111,12 @@ public class ThoughtBubble : MonoBehaviour {
                         chargerSprite.enabled = true;
 					}*/
 					//otherwise we need to zoom in the camera towards the object that got hit by the raycast
-					MoveCameraDialogue.moveTowardObject (hit.transform.gameObject, specificOffset);
+					MoveCameraDialogue.moveTowardObject (currentHit, specificOffset);
 					//and then we need to update the dialogue text, start, and end line
-					theTextBoxManager.reloadScript (hit.transform.gameObject.GetComponent<ActivateTextAtLine> ().theText);
-					theTextBoxManager.currentLine = hit.transform.gameObject.GetComponent<ActivateTextAtLine> ().startLine;
-					theTextBoxManager.endAtLine = hit.transform.gameObject.GetComponent<ActivateTextAtLine> ().endLine;
+					theTextBoxManager.reloadScript (currentHit.GetComponent<ThoughtBubble> ().arbThought);
+					theTextBoxManager.currentLine = currentHit.GetComponent<ThoughtBubble> ().startLine;
+					theTextBoxManager.endAtLine = currentHit.GetComponent<ThoughtBubble> ().endLine;
+					theTextBoxManager.reloadThoughtBubble (currentHit);
 					//Finally we have a coroutine that starts so as to wait that the camera has zoomed in
 					StartCoroutine (waitToDisplayDialogueBox ());
 

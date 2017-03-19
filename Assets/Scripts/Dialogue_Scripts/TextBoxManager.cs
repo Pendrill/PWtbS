@@ -29,7 +29,7 @@ public class TextBoxManager : MonoBehaviour {
 
 	//Checks if letters are still appearing on screen during dialogue (as opposed to already having them all displayed)
 	//checks if the player has clicked and needs the whole line of text to be displayed.
-	bool isTyping, cancelTyping;
+	bool isTyping, cancelTyping, isTyping_TB1, cancelTyping_TB1, isTyping_TB2, cancelTyping_TB2, isTyping_TB3, cancelTyping_TB3;
 	public float typeSpeed;
 
 	//checks how much time is left in relation to the coroutine for the zoom in and out of the camera
@@ -38,8 +38,15 @@ public class TextBoxManager : MonoBehaviour {
 	//reference to the game manager script and the object it is attached to;
 	public gameManager theGameManager;
 	//string that keeps track of the updated line of dialogue that needs to be displayed on screen
-	public string updatedLineOfText;
+	public string updatedLineOfText, updatedLineOfText_TB1, updatedLineOfText_TB2, updatedLineOfText_TB3;
 	public TranslatorManager theTranslatorManager;
+
+	public GameObject thoughtBubble_1, thoughtBubble_2, thoughtBubble_3;
+	public Text thoughtBubbleText_1, thoughtBubbleText_2, thoughtBubbleText_3;
+	public string thoughtBubbleString_1, thoughtBubbleString_2, thoughtBubbleString_3;
+	public string[] individualWordTBT_1, individualWordTBT_2, individualWordTBT_3;
+	public bool ThoughtBubbleRequiered = false, beingDisplayed = false ;
+	string playerText;
 
 	//we could include a way for the player to stop moving when dialogue pops up (DONE)
 
@@ -57,7 +64,7 @@ public class TextBoxManager : MonoBehaviour {
 		//make sure that a textfile with the dialogue has been inputed
 		if (textFile != null) {
 			//so that we can then split the dialogue from the textfile into the specific array
-			textLines = (textFile.text.Split('\n'));
+			//textLines = (textFile.text.Split('\n'));
 		}
 
 		//if no end at line has been specified then it should be the last line of the textfile.
@@ -85,33 +92,55 @@ public class TextBoxManager : MonoBehaviour {
 		}
 
 		//theText.text = textLines [currentLine];
-
+		if (ThoughtBubbleRequiered && !beingDisplayed) {
+			beingDisplayed = true;
+			individualWordTBT_1 = thoughtBubbleString_1.Split (' ');
+			individualWordTBT_2 = thoughtBubbleString_2.Split (' ');
+			individualWordTBT_3 = thoughtBubbleString_3.Split (' ');
+			for (int i = 0; i < individualWordTBT_1.Length; i++) {
+				updatedLineOfText_TB1 += theGameManager.checkIfScramble (individualWordTBT_1 [i]) + "  ";
+			}
+			for (int i = 0; i < individualWordTBT_2.Length; i++) {
+				updatedLineOfText_TB2 += theGameManager.checkIfScramble (individualWordTBT_2 [i]) + "  ";
+			}
+			for (int i = 0; i < individualWordTBT_3.Length; i++) {
+				updatedLineOfText_TB3 += theGameManager.checkIfScramble (individualWordTBT_3 [i]) + "  ";
+			}
+			StartCoroutine (TextScroll_TB1 (updatedLineOfText_TB1));
+			StartCoroutine (TextScroll_TB2 (updatedLineOfText_TB2));
+			StartCoroutine (TextScroll_TB3 (updatedLineOfText_TB3));
+		}
 		//Checks if the player clicked the mouse
-		if(Input.GetKeyDown(KeyCode.Mouse0) && !theTranslatorManager.panelIsActive){
+		if(!theTranslatorManager.panelIsActive){//if(Input.GetKeyDown(KeyCode.Mouse0) && !theTranslatorManager.panelIsActive){
 			//checks that all the letters of the specific dialogue line have been displayed
-			if (!isTyping) {
+			//if (!isTyping) {
 				//if yes then we move on to the next line
-				currentLine += 1;
+				//currentLine += 1;
 				//we check if we have passed the final line of dialogue
-				if (currentLine > endAtLine) {
+				//if (currentLine > endAtLine) {
 					//if so we call the disable text box function and we reset the current line variable
-					disableTextBox ();
-					currentLine = 0;
-				} else {
+					//disableTextBox ();
+					//currentLine = 0;
+				//} else {
 					//if not, then we take the current line and split it as to have each word have its own index within the array
-					individualWord = textLines[currentLine].Split (' ');
+				//individualWord = textLines[currentLine].Split (' ');
+				//individualWord = playerText.Split (' ');
 					//we then use a for loop that will go through each word within the array
-					for (int i = 0; i < individualWord.Length; i++) {
+				//for (int i = 0; i < individualWord.Length; i++) {
 						//we want to check wether or not we need to scramble the words that appear in the dialogue
 						//we call on the check if scramble function in the game manager script and then add the returned word to the updatedLinneOfText
-						updatedLineOfText += theGameManager.checkIfScramble (individualWord [i]) + "  ";
-					}
+					//updatedLineOfText += theGameManager.checkIfScramble (individualWord [i]) + "  ";
+				//}
 					//Once that is done, we start the coroutine that will display the updated line of text one letter at a time.
-					StartCoroutine (TextScroll (updatedLineOfText));//textLines [currentLine]));
-				}
+				//StartCoroutine (TextScroll (updatedLineOfText));//textLines [currentLine]));
+				//}
 			//If the user clicks but the letters are still being displayed then we need to cancel the typing as to show the full line of dialogue immediately
-			} else if(isTyping && !cancelTyping && time_left < 0) {
+			//} else if(((isTyping && !cancelTyping) ||(isTyping_TB1 && !cancelTyping_TB1)||(isTyping_TB2 && !cancelTyping_TB2)||(isTyping_TB3 && !cancelTyping_TB3)) && time_left < 0) {
+			if(((isTyping && !cancelTyping) ||(isTyping_TB1 && !cancelTyping_TB1)||(isTyping_TB2 && !cancelTyping_TB2)||(isTyping_TB3 && !cancelTyping_TB3)) && time_left < 0) {
 				cancelTyping = true;
+				cancelTyping_TB1 = true;
+				cancelTyping_TB2 = true;
+				cancelTyping_TB3 = true;
 			}
 		}
 
@@ -153,6 +182,96 @@ public class TextBoxManager : MonoBehaviour {
 		updatedLineOfText = "";
 	}
 
+	private IEnumerator TextScroll_TB1(string lineOfText){
+		//we reset the int that keeps track of the number of letters
+		int letter = 0;
+		//we reset the text that will be displayed on the screen as dialogue
+		thoughtBubbleText_1.text = "";
+		//when this coroutine is happening than, we are currently typing letters on the screen
+		isTyping_TB1 = true;
+		//we reset the cancel typing bool to false
+		cancelTyping_TB1 = false;
+
+		//we have a while loop that will display the line of text one letter at a time
+		while (isTyping_TB1 && !cancelTyping_TB1 && letter < lineOfText.Length - 1) {
+			//we add one letter to the text object
+			thoughtBubbleText_1.text += lineOfText [letter];
+			//we move on to the next letter
+			letter += 1;
+			//we then return and wait a number of seconds before displaying the nest letter
+			yield return new WaitForSeconds (typeSpeed);
+		}
+		//once all the letters have been displayed or if the user cancelled the typing, we diplay the whole line of dialogue
+		thoughtBubbleText_1.text = lineOfText;
+		//we are no longer typing
+		isTyping_TB1 = false;
+		//there is no longer a need to cancel the typing
+		cancelTyping_TB1 = false;
+		//we reset the individual word array for the next line of dialogue
+		individualWordTBT_1 = new string[1];
+		//we do the same for the updated line of text
+		updatedLineOfText = "";
+	}
+	private IEnumerator TextScroll_TB2(string lineOfText){
+		//we reset the int that keeps track of the number of letters
+		int letter = 0;
+		//we reset the text that will be displayed on the screen as dialogue
+		thoughtBubbleText_2.text = "";
+		//when this coroutine is happening than, we are currently typing letters on the screen
+		isTyping_TB2 = true;
+		//we reset the cancel typing bool to false
+		cancelTyping_TB2 = false;
+
+		//we have a while loop that will display the line of text one letter at a time
+		while (isTyping_TB2 && !cancelTyping_TB2 && letter < lineOfText.Length - 1) {
+			//we add one letter to the text object
+			thoughtBubbleText_2.text += lineOfText [letter];
+			//we move on to the next letter
+			letter += 1;
+			//we then return and wait a number of seconds before displaying the nest letter
+			yield return new WaitForSeconds (typeSpeed);
+		}
+		//once all the letters have been displayed or if the user cancelled the typing, we diplay the whole line of dialogue
+		thoughtBubbleText_2.text = lineOfText;
+		//we are no longer typing
+		isTyping_TB2 = false;
+		//there is no longer a need to cancel the typing
+		cancelTyping_TB2 = false;
+		//we reset the individual word array for the next line of dialogue
+		individualWordTBT_2 = new string[1];
+		//we do the same for the updated line of text
+		updatedLineOfText = "";
+	}
+	private IEnumerator TextScroll_TB3(string lineOfText){
+		//we reset the int that keeps track of the number of letters
+		int letter = 0;
+		//we reset the text that will be displayed on the screen as dialogue
+		thoughtBubbleText_3.text = "";
+		//when this coroutine is happening than, we are currently typing letters on the screen
+		isTyping_TB3 = true;
+		//we reset the cancel typing bool to false
+		cancelTyping_TB3 = false;
+
+		//we have a while loop that will display the line of text one letter at a time
+		while (isTyping_TB3 && !cancelTyping_TB3 && letter < lineOfText.Length - 1) {
+			//we add one letter to the text object
+			thoughtBubbleText_3.text += lineOfText [letter];
+			//we move on to the next letter
+			letter += 1;
+			//we then return and wait a number of seconds before displaying the nest letter
+			yield return new WaitForSeconds (typeSpeed);
+		}
+		//once all the letters have been displayed or if the user cancelled the typing, we diplay the whole line of dialogue
+		thoughtBubbleText_3.text = lineOfText;
+		//we are no longer typing
+		isTyping_TB3 = false;
+		//there is no longer a need to cancel the typing
+		cancelTyping_TB3 = false;
+		//we reset the individual word array for the next line of dialogue
+		individualWordTBT_3 = new string[1];
+		//we do the same for the updated line of text
+		updatedLineOfText = "";
+	}
 	/// <summary>
 	/// Enables the text box specific for the dialogue.
 	/// </summary>
@@ -166,7 +285,8 @@ public class TextBoxManager : MonoBehaviour {
 		//}
 
 		//we represt the same process as above to check if the words witin the line of dialogue need to be scrambled, and then updated the line of text accordingly 
-		individualWord = textLines[currentLine].Split (' ');
+		//individualWord = textLines[currentLine].Split (' ');
+		individualWord = playerText.Split (' ');
 		for (int i = 0; i < individualWord.Length; i++) {
 			updatedLineOfText += theGameManager.checkIfScramble (individualWord [i]) + "  ";
 		}
@@ -185,6 +305,9 @@ public class TextBoxManager : MonoBehaviour {
 		//playerMovement.canMove = true;\
 		//we reset the time left
 		time_left = 0.2f;
+		thoughtBubbleText_1.text = "";
+		thoughtBubbleText_2.text = "";
+		thoughtBubbleText_3.text = "";
 	}
 
 	/// <summary>
@@ -199,5 +322,23 @@ public class TextBoxManager : MonoBehaviour {
 			//have the text file be split by line into the newly reset array.
 			textLines = (newText.text.Split('\n'));
 		}
+	}
+
+	public void reloadScript(string arbThought){
+		playerText = arbThought;
+	}
+
+	public void reloadThoughtBubble(GameObject hit){
+		ThoughtBubble currentThoughtBubble = hit.GetComponent<ThoughtBubble> ();
+		thoughtBubble_1= currentThoughtBubble.thoughtBubble_1;
+		thoughtBubble_2= currentThoughtBubble.thoughtBubble_2;
+		thoughtBubble_3= currentThoughtBubble.thoughtBubble_3;
+		thoughtBubbleText_1 = currentThoughtBubble.thoughtBubbleText_1;
+		thoughtBubbleText_2 = currentThoughtBubble.thoughtBubbleText_2;
+		thoughtBubbleText_3 = currentThoughtBubble.thoughtBubbleText_3;
+		thoughtBubbleString_1 = currentThoughtBubble.thoughtBubbleString_1;
+		thoughtBubbleString_2 = currentThoughtBubble.thoughtBubbleString_2;
+		thoughtBubbleString_3 = currentThoughtBubble.thoughtBubbleString_3;
+		ThoughtBubbleRequiered = true;
 	}
 }
