@@ -53,13 +53,15 @@ public class ActivateTextAtLine : MonoBehaviour {
 	public bool behind;
     public RotateCamera theRotateCamera;
     public Vector3 specificOffset;
+	public RotateMouseClick theRotateMouseClick;
     // Use this for initialization
     void Start () {
 		//we find the specific objects in the scene as to be able to access their functions
 		theTranslatorManager = FindObjectOfType<TranslatorManager> ();
 		theTextBoxManager = FindObjectOfType<TextBoxManager> ();
 		MoveCameraDialogue = FindObjectOfType<MoveCameraDialogue> ();
-        theRotateCamera = FindObjectOfType<RotateCamera>();
+        //theRotateCamera = FindObjectOfType<RotateCamera>();
+		theRotateMouseClick = FindObjectOfType<RotateMouseClick> ();
 	}
 	
 	// Update is called once per frame
@@ -197,7 +199,8 @@ public class ActivateTextAtLine : MonoBehaviour {
         {
             disableObject = true;
         }
-        theRotateCamera.back = behind;
+        //theRotateCamera.back = behind;
+		theRotateMouseClick.back = behind;
     }
         private IEnumerator waitToDisplayChargerSprite()
     {
