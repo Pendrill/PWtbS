@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class RotateMouseClick : MonoBehaviour {
 
-	public float dragSpeed = 45f;
+	public float dragSpeed = 55f;
 	public Vector3 dragOrigin;
 	Vector3 euler;
 	public int RotateCameraMaxX, RotateCameraMinX;
