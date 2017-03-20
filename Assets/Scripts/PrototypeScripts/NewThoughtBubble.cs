@@ -13,15 +13,21 @@ public class NewThoughtBubble : MonoBehaviour {
 	public string thoughtBubbleString_1, thoughtBubbleString_2, thoughtBubbleString_3;
 	public string arbThought;
 	public int identifier;
+    //public GameObject originalThoughtBubble;
 
 	void Start () {
 		theTextBoxManager = FindObjectOfType<TextBoxManager> ();
-
+        //originalThoughtBubble = nextThoughtBubble;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetKeyDown (KeyCode.Mouse0)) {
+        /*if (!theTextBoxManager.isTextBoxActive)
+        {
+            //Debug.Log("from where is this getting accessed?");
+            this.nextThoughtBubble = this.originalThoughtBubble;
+        }*/
+        if (Input.GetKeyDown (KeyCode.Mouse0)) {
 			Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
 			RaycastHit hit;
 			if (Physics.Raycast (ray, out hit)) {
@@ -56,5 +62,6 @@ public class NewThoughtBubble : MonoBehaviour {
 				}
 			}
 		}
+        
 	}
 }

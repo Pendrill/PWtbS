@@ -58,7 +58,7 @@ public class ThoughtBubble : MonoBehaviour {
 	public Text thoughtBubbleText_1, thoughtBubbleText_2, thoughtBubbleText_3;
 	public string thoughtBubbleString_1, thoughtBubbleString_2, thoughtBubbleString_3;
 	public bool ThoughtBubbleRequired = true;
-	private GameObject currentHit;
+	private GameObject currentHit, originalThoughtBubble_1, originalThoughtBubble_2, originalThoughtBubble_3;
 	public string arbThought;
 	// Use this for initialization
 	void Start () {
@@ -68,10 +68,19 @@ public class ThoughtBubble : MonoBehaviour {
 		MoveCameraDialogue = FindObjectOfType<MoveCameraDialogue> ();
 		//theRotateCamera = FindObjectOfType<RotateCamera>();
 		theRotateMouseClick = FindObjectOfType<RotateMouseClick> ();
+        originalThoughtBubble_1 = thoughtBubble_1.GetComponent<NewThoughtBubble>().nextThoughtBubble;
+        originalThoughtBubble_2 = thoughtBubble_2.GetComponent<NewThoughtBubble>().nextThoughtBubble;
+        originalThoughtBubble_3 = thoughtBubble_3.GetComponent<NewThoughtBubble>().nextThoughtBubble;
 	}
 
 	// Update is called once per frame
 	void Update () {
+        if (!theTextBoxManager.isTextBoxActive)
+        {
+            thoughtBubble_1.GetComponent<NewThoughtBubble>().nextThoughtBubble = originalThoughtBubble_1;
+            thoughtBubble_2.GetComponent<NewThoughtBubble>().nextThoughtBubble = originalThoughtBubble_2;
+            thoughtBubble_3.GetComponent<NewThoughtBubble>().nextThoughtBubble = originalThoughtBubble_3;
+        }
 		//we set it so that the characters/objects are always facing the player
 		transform.LookAt (MoveCameraDialogue.transform);
 
