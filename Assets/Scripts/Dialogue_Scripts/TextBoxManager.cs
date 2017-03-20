@@ -310,6 +310,7 @@ public class TextBoxManager : MonoBehaviour {
 		thoughtBubbleText_1.text = "";
 		thoughtBubbleText_2.text = "";
 		thoughtBubbleText_3.text = "";
+        beingDisplayed = false;
 	}
 
 	/// <summary>
