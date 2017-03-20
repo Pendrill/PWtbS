@@ -203,6 +203,10 @@ public class ThoughtBubble : MonoBehaviour {
 	{
 		yield return new WaitForSeconds(0.4f);
 		theTextBoxManager.enableTextBox();
+		thoughtBubble_1.SetActive (true);
+		thoughtBubble_2.SetActive (true);
+		thoughtBubble_3.SetActive(true);
+
 		if (destroyWhenActivated)
 		{
 			disableObject = true;

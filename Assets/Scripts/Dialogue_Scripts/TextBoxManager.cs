@@ -46,7 +46,7 @@ public class TextBoxManager : MonoBehaviour {
 	public string thoughtBubbleString_1, thoughtBubbleString_2, thoughtBubbleString_3;
 	public string[] individualWordTBT_1, individualWordTBT_2, individualWordTBT_3;
 	public bool ThoughtBubbleRequiered = false, beingDisplayed = false ;
-	string playerText;
+	public string playerText;
 
 	//we could include a way for the player to stop moving when dialogue pops up (DONE)
 
@@ -111,7 +111,7 @@ public class TextBoxManager : MonoBehaviour {
 			StartCoroutine (TextScroll_TB3 (updatedLineOfText_TB3));
 		}
 		//Checks if the player clicked the mouse
-		if(!theTranslatorManager.panelIsActive){//if(Input.GetKeyDown(KeyCode.Mouse0) && !theTranslatorManager.panelIsActive){
+		if(Input.GetKeyDown(KeyCode.Mouse0) && !theTranslatorManager.panelIsActive){//if(Input.GetKeyDown(KeyCode.Mouse0) && !theTranslatorManager.panelIsActive){
 			//checks that all the letters of the specific dialogue line have been displayed
 			//if (!isTyping) {
 				//if yes then we move on to the next line
@@ -136,6 +136,7 @@ public class TextBoxManager : MonoBehaviour {
 				//}
 			//If the user clicks but the letters are still being displayed then we need to cancel the typing as to show the full line of dialogue immediately
 			//} else if(((isTyping && !cancelTyping) ||(isTyping_TB1 && !cancelTyping_TB1)||(isTyping_TB2 && !cancelTyping_TB2)||(isTyping_TB3 && !cancelTyping_TB3)) && time_left < 0) {
+			time_left = 0.2f;
 			if(((isTyping && !cancelTyping) ||(isTyping_TB1 && !cancelTyping_TB1)||(isTyping_TB2 && !cancelTyping_TB2)||(isTyping_TB3 && !cancelTyping_TB3)) && time_left < 0) {
 				cancelTyping = true;
 				cancelTyping_TB1 = true;
@@ -184,6 +185,7 @@ public class TextBoxManager : MonoBehaviour {
 
 	private IEnumerator TextScroll_TB1(string lineOfText){
 		//we reset the int that keeps track of the number of letters
+		Debug.Log("Is this getting accessed twice?");
 		int letter = 0;
 		//we reset the text that will be displayed on the screen as dialogue
 		thoughtBubbleText_1.text = "";
@@ -210,7 +212,7 @@ public class TextBoxManager : MonoBehaviour {
 		//we reset the individual word array for the next line of dialogue
 		individualWordTBT_1 = new string[1];
 		//we do the same for the updated line of text
-		updatedLineOfText = "";
+		updatedLineOfText_TB1 = "";
 	}
 	private IEnumerator TextScroll_TB2(string lineOfText){
 		//we reset the int that keeps track of the number of letters
@@ -240,7 +242,7 @@ public class TextBoxManager : MonoBehaviour {
 		//we reset the individual word array for the next line of dialogue
 		individualWordTBT_2 = new string[1];
 		//we do the same for the updated line of text
-		updatedLineOfText = "";
+		updatedLineOfText_TB2 = "";
 	}
 	private IEnumerator TextScroll_TB3(string lineOfText){
 		//we reset the int that keeps track of the number of letters
@@ -270,7 +272,7 @@ public class TextBoxManager : MonoBehaviour {
 		//we reset the individual word array for the next line of dialogue
 		individualWordTBT_3 = new string[1];
 		//we do the same for the updated line of text
-		updatedLineOfText = "";
+		updatedLineOfText_TB3 = "";
 	}
 	/// <summary>
 	/// Enables the text box specific for the dialogue.
@@ -326,6 +328,16 @@ public class TextBoxManager : MonoBehaviour {
 
 	public void reloadScript(string arbThought){
 		playerText = arbThought;
+		//enableTextBox();
+	}
+	public void reloadScriptNext( string arbThought){
+		playerText = arbThought;
+		individualWord = playerText.Split (' ');
+		for (int i = 0; i < individualWord.Length; i++) {
+			updatedLineOfText += theGameManager.checkIfScramble (individualWord [i]) + "  ";
+		}
+		//we then start the couroutine that will display the sentences of dialogue one letter at a time.
+		StartCoroutine (TextScroll (updatedLineOfText));//textLines [currentLine]));
 	}
 
 	public void reloadThoughtBubble(GameObject hit){
@@ -340,5 +352,19 @@ public class TextBoxManager : MonoBehaviour {
 		thoughtBubbleString_2 = currentThoughtBubble.thoughtBubbleString_2;
 		thoughtBubbleString_3 = currentThoughtBubble.thoughtBubbleString_3;
 		ThoughtBubbleRequiered = true;
+	}
+	public void nextThoughtBubble(GameObject hit){
+		NewThoughtBubble currentThoughtBubble = hit.GetComponent<NewThoughtBubble> ();
+		thoughtBubble_1= currentThoughtBubble.thoughtBubble_1;
+		thoughtBubble_2= currentThoughtBubble.thoughtBubble_2;
+		thoughtBubble_3= currentThoughtBubble.thoughtBubble_3;
+		thoughtBubbleText_1 = currentThoughtBubble.thoughtBubbleText_1;
+		thoughtBubbleText_2 = currentThoughtBubble.thoughtBubbleText_2;
+		thoughtBubbleText_3 = currentThoughtBubble.thoughtBubbleText_3;
+		thoughtBubbleString_1 = currentThoughtBubble.thoughtBubbleString_1;
+		thoughtBubbleString_2 = currentThoughtBubble.thoughtBubbleString_2;
+		thoughtBubbleString_3 = currentThoughtBubble.thoughtBubbleString_3;
+		ThoughtBubbleRequiered = true;
+		beingDisplayed = false;
 	}
 }
