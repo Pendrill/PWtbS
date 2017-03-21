@@ -310,10 +310,13 @@ public class TextBoxManager : MonoBehaviour {
 		thoughtBubbleText_1.text = "";
 		thoughtBubbleText_2.text = "";
 		thoughtBubbleText_3.text = "";
-        thoughtBubble_1.SetActive(false);
-        thoughtBubble_2.SetActive(false);
-        thoughtBubble_3.SetActive(false);
-        beingDisplayed = false;
+        if (thoughtBubble_1 != null || thoughtBubble_2 != null || thoughtBubble_3 != null)
+        {
+            thoughtBubble_1.SetActive(false);
+            thoughtBubble_2.SetActive(false);
+            thoughtBubble_3.SetActive(false);
+            beingDisplayed = false;
+        }
 	}
 
 	/// <summary>
