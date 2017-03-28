@@ -47,6 +47,7 @@ public class TextBoxManager : MonoBehaviour {
 	public string[] individualWordTBT_1, individualWordTBT_2, individualWordTBT_3;
 	public bool ThoughtBubbleRequiered = false, beingDisplayed = false ;
 	public string playerText;
+	public bool noDialogue;
 
 	//we could include a way for the player to stop moving when dialogue pops up (DONE)
 
@@ -94,6 +95,7 @@ public class TextBoxManager : MonoBehaviour {
 		//theText.text = textLines [currentLine];
 		if (ThoughtBubbleRequiered && !beingDisplayed) {
 			beingDisplayed = true;
+
 			individualWordTBT_1 = thoughtBubbleString_1.Split (' ');
 			individualWordTBT_2 = thoughtBubbleString_2.Split (' ');
 			individualWordTBT_3 = thoughtBubbleString_3.Split (' ');
@@ -109,6 +111,7 @@ public class TextBoxManager : MonoBehaviour {
 			StartCoroutine (TextScroll_TB1 (updatedLineOfText_TB1));
 			StartCoroutine (TextScroll_TB2 (updatedLineOfText_TB2));
 			StartCoroutine (TextScroll_TB3 (updatedLineOfText_TB3));
+			//StartCoroutine (TextScroll (updatedLineOfText));
 		}
 		//Checks if the player clicked the mouse
 		if(Input.GetKeyDown(KeyCode.Mouse0) && !theTranslatorManager.panelIsActive){//if(Input.GetKeyDown(KeyCode.Mouse0) && !theTranslatorManager.panelIsActive){
@@ -278,6 +281,7 @@ public class TextBoxManager : MonoBehaviour {
 	/// Enables the text box specific for the dialogue.
 	/// </summary>
 	public void enableTextBox(){
+		noDialogue = true;
 		//we set the text box to active
 		textBox.SetActive (true);
 		//the text box is thus currently active
@@ -373,5 +377,8 @@ public class TextBoxManager : MonoBehaviour {
 		thoughtBubbleString_3 = currentThoughtBubble.thoughtBubbleString_3;
 		ThoughtBubbleRequiered = true;
 		beingDisplayed = false;
+	}
+	public void setBox(GameObject thought){
+
 	}
 }

@@ -64,4 +64,7 @@ public class NewThoughtBubble : MonoBehaviour {
 		}
         
 	}
+	public void resetNextBubble(GameObject hit, GameObject bubble){
+		hit.GetComponent<NewThoughtBubble>().nextThoughtBubble = bubble;
+	}
 }
