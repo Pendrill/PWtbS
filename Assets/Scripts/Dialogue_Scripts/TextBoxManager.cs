@@ -311,9 +311,11 @@ public class TextBoxManager : MonoBehaviour {
 		//playerMovement.canMove = true;\
 		//we reset the time left
 		time_left = 0.2f;
-		thoughtBubbleText_1.text = "";
-		thoughtBubbleText_2.text = "";
-		thoughtBubbleText_3.text = "";
+		if (ThoughtBubbleRequiered) {
+			thoughtBubbleText_1.text = "";
+			thoughtBubbleText_2.text = "";
+			thoughtBubbleText_3.text = "";
+		}
         if (thoughtBubble_1 != null || thoughtBubble_2 != null || thoughtBubble_3 != null)
         {
             thoughtBubble_1.SetActive(false);

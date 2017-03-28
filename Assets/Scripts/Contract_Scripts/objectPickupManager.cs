@@ -21,7 +21,10 @@ public class objectPickupManager : MonoBehaviour {
 	public bool pickUpChoice, isActive;
 	public GameObject textBox, clickedObject;
 	public TextAsset placeHolder;
-
+	public bool notebook, charger,notebookInv, chargerInv;
+	public Image[] InventorySlot;
+	public bool[] slotOpen;
+	public GameObject notebookObj, chargerObj;
 	// Use this for initialization
 	void Start () {
 		theTranslatorManager = FindObjectOfType<TranslatorManager> ();
@@ -39,6 +42,7 @@ public class objectPickupManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		checkInventory ();
 		if(Input.GetKeyDown(KeyCode.Mouse0) && !theTranslatorManager.panelIsActive && !pickUpChoice && isActive){
 			//checks that all the letters of the specific dialogue line have been displayed
 			if (!isTyping) {
@@ -139,10 +143,10 @@ public class objectPickupManager : MonoBehaviour {
 	}
 	public void pickedUp(){
 		if (clickedObject.name.Equals ("notebook")) {
-			ActivateTextAtLine.notebook = true;
+			notebook = true;
 
 		} else if (clickedObject.name.Equals ("charger")) {
-			ActivateTextAtLine.charger = true;
+			charger = true;
 		}
 		clickedObject.GetComponent<PickUpObject> ().notebookSprite.enabled = false;
 		clickedObject.GetComponent<PickUpObject> ().chargerSprite.enabled = false;
@@ -156,7 +160,31 @@ public class objectPickupManager : MonoBehaviour {
 		disableTextBox ();
 	}
 
+	public void checkInventory(){
+		if (notebook && !notebookInv) {
+			for (int i = 0; i < slotOpen.Length; i++) {
+				if (!slotOpen[i]) {
+					//Debug.Log ("got up to change sprite");
+					slotOpen [i] = true;
+					InventorySlot [i].GetComponent<Image> ().sprite = notebookObj.GetComponent<PickUpObject> ().notebookSprite.sprite;
+					notebookInv = true;
+					break;
+				}
+			}
 
+		}else if (charger && !chargerInv) {
+			for (int i = 0; i < slotOpen.Length; i++) {
+				if (!slotOpen[i]) {
+					//Debug.Log ("got up to change sprite");
+					slotOpen [i] = true;
+					InventorySlot [i].GetComponent<Image> ().sprite = chargerObj.GetComponent<PickUpObject> ().chargerSprite.sprite;
+					chargerInv = true;
+					break;
+				}
+			}
+
+		}
+	}
 
 	
 }
