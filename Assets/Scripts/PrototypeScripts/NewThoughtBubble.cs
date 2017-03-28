@@ -31,7 +31,7 @@ public class NewThoughtBubble : MonoBehaviour {
 			Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
 			RaycastHit hit;
 			if (Physics.Raycast (ray, out hit)) {
-				if (hit.collider.gameObject.name == this.gameObject.name) {
+				if (hit.collider.gameObject.name == this.gameObject.name && !theTextBoxManager.isTyping) {
 					isFinalThought = nextThoughtBubble.GetComponent<NextThoughtBubble> ().isFinalThought;
 					if (isFinalThought) {
 						thoughtBubble_1.SetActive (false);

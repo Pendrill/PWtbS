@@ -29,7 +29,8 @@ public class TextBoxManager : MonoBehaviour {
 
 	//Checks if letters are still appearing on screen during dialogue (as opposed to already having them all displayed)
 	//checks if the player has clicked and needs the whole line of text to be displayed.
-	bool isTyping, cancelTyping, isTyping_TB1, cancelTyping_TB1, isTyping_TB2, cancelTyping_TB2, isTyping_TB3, cancelTyping_TB3;
+	bool cancelTyping, isTyping_TB1, cancelTyping_TB1, isTyping_TB2, cancelTyping_TB2, isTyping_TB3, cancelTyping_TB3;
+    public bool isTyping;
 	public float typeSpeed;
 
 	//checks how much time is left in relation to the coroutine for the zoom in and out of the camera
@@ -139,8 +140,9 @@ public class TextBoxManager : MonoBehaviour {
 				//}
 			//If the user clicks but the letters are still being displayed then we need to cancel the typing as to show the full line of dialogue immediately
 			//} else if(((isTyping && !cancelTyping) ||(isTyping_TB1 && !cancelTyping_TB1)||(isTyping_TB2 && !cancelTyping_TB2)||(isTyping_TB3 && !cancelTyping_TB3)) && time_left < 0) {
-			time_left = 0.2f;
+			//time_left = 0.2f;
 			if(((isTyping && !cancelTyping) ||(isTyping_TB1 && !cancelTyping_TB1)||(isTyping_TB2 && !cancelTyping_TB2)||(isTyping_TB3 && !cancelTyping_TB3)) && time_left < 0) {
+                Debug.Log("is it being set to false?");
 				cancelTyping = true;
 				cancelTyping_TB1 = true;
 				cancelTyping_TB2 = true;
