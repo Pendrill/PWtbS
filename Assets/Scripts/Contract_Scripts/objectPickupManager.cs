@@ -21,10 +21,12 @@ public class objectPickupManager : MonoBehaviour {
 	public bool pickUpChoice, isActive;
 	public GameObject textBox, clickedObject;
 	public TextAsset placeHolder;
-	public bool notebook, charger,notebookInv, chargerInv;
+	public static bool notebook, charger;
+	public bool notebookInv, chargerInv;
 	public Image[] InventorySlot;
 	public bool[] slotOpen;
 	public GameObject notebookObj, chargerObj;
+	public bool isDropOff;
 	// Use this for initialization
 	void Start () {
 		theTranslatorManager = FindObjectOfType<TranslatorManager> ();
@@ -49,7 +51,7 @@ public class objectPickupManager : MonoBehaviour {
 				//if yes then we move on to the next line
 				currentLine += 1;
 				//we check if we have passed the final line of dialogue
-				if (currentLine >= endAtLine) {
+				if (currentLine >= endAtLine && !isDropOff) {
 					StartCoroutine (TextScroll (textLines[currentLine]));
 					//if so we call the disable text box function and we reset the current line variable
 					pickUpChoice = true;
@@ -64,10 +66,10 @@ public class objectPickupManager : MonoBehaviour {
 				cancelTyping = true;
 			}
 		}
-		if (currentLine > endAtLine) {
+		if (currentLine > endAtLine && isDropOff) {
 			
-			//disableTextBox ();
-			//currentLine = 0;
+			disableTextBox ();
+			currentLine = 0;
 		}
 
 	}
@@ -93,7 +95,17 @@ public class objectPickupManager : MonoBehaviour {
 
 	public void reloadScript(TextAsset newText, GameObject theObject){
 		clickedObject = theObject;
+		isDropOff = false;
 		//makes sure there is a text file that can be parsed
+		if (theText != null) {
+			//reset the array that will contain each line of dialogue
+			textLines = new string[1]; 
+			//have the text file be split by line into the newly reset array.
+			textLines = (newText.text.Split('\n'));
+		}
+	}
+	public void reloadScript(TextAsset newText){
+		isDropOff = true;
 		if (theText != null) {
 			//reset the array that will contain each line of dialogue
 			textLines = new string[1]; 
