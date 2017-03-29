@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ActivateTextAtLine : MonoBehaviour {
-
+public class ThoughtBubble : MonoBehaviour {
 	//the text game object that will display the dialogue/text
 	public TextAsset theText;
 
@@ -47,25 +46,53 @@ public class ActivateTextAtLine : MonoBehaviour {
 
 	public static bool charger, notebook;
 
-    public Image chargerSprite;
-    public Image notebookSprite;
+	public Image chargerSprite;
+	public Image notebookSprite;
 
 	public bool behind;
-    public RotateCamera theRotateCamera;
-    public Vector3 specificOffset;
+	public RotateCamera theRotateCamera;
+	public Vector3 specificOffset;
 	public RotateMouseClick theRotateMouseClick;
-    // Use this for initialization
-    void Start () {
+
+	public GameObject thoughtBubble_1, thoughtBubble_2, thoughtBubble_3;
+	public Text thoughtBubbleText_1, thoughtBubbleText_2, thoughtBubbleText_3;
+	public string thoughtBubbleString_1, thoughtBubbleString_2, thoughtBubbleString_3;
+	public bool ThoughtBubbleRequired = true;
+	public GameObject currentHit, originalThoughtBubble_1, originalThoughtBubble_2, originalThoughtBubble_3;
+	public string arbThought;
+	public bool isHuman;
+	public Vector3 thoughtBubble1Pos, thoughtBubble2Pos, thoughtBubble3Pos;
+	public GameObject TB1, TB2, TB3;
+	//public NewThoughtBubble theNewThoughtBubble;
+	// Use this for initialization
+	void Start () {
 		//we find the specific objects in the scene as to be able to access their functions
+		//thoughtBubble_1.GetComponent<NewThoughtBubble>().nextThoughtBubble = TB1;
+		//thoughtBubble_2.GetComponent<NewThoughtBubble>().nextThoughtBubble = TB2;
+		//thoughtBubble_3.GetComponent<NewThoughtBubble>().nextThoughtBubble = TB3;
 		theTranslatorManager = FindObjectOfType<TranslatorManager> ();
 		theTextBoxManager = FindObjectOfType<TextBoxManager> ();
 		MoveCameraDialogue = FindObjectOfType<MoveCameraDialogue> ();
-        //theRotateCamera = FindObjectOfType<RotateCamera>();
+		//theRotateCamera = FindObjectOfType<RotateCamera>();
 		theRotateMouseClick = FindObjectOfType<RotateMouseClick> ();
+		//theNewThoughtBubble = FindObjectOfType<NewThoughtBubble> ();
+
+        //originalThoughtBubble_1 = thoughtBubble_1.GetComponent<NewThoughtBubble>().nextThoughtBubble;
+        //originalThoughtBubble_2 = thoughtBubble_2.GetComponent<NewThoughtBubble>().nextThoughtBubble;
+        //originalThoughtBubble_3 = thoughtBubble_3.GetComponent<NewThoughtBubble>().nextThoughtBubble;
+		//thoughtBubble_1.transform.position = thoughtBubble1Pos;
+		//thoughtBubble_2.transform.position = thoughtBubble2Pos;
+		//thoughtBubble_3.transform.position = thoughtBubble3Pos;
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
+        if (!theTextBoxManager.isTextBoxActive)
+        {
+            //thoughtBubble_1.GetComponent<NewThoughtBubble>().nextThoughtBubble = originalThoughtBubble_1;
+            //thoughtBubble_2.GetComponent<NewThoughtBubble>().nextThoughtBubble = originalThoughtBubble_2;
+            //thoughtBubble_3.GetComponent<NewThoughtBubble>().nextThoughtBubble = originalThoughtBubble_3;
+        }
 		//we set it so that the characters/objects are always facing the player
 		transform.LookAt (MoveCameraDialogue.transform);
 
@@ -73,7 +100,7 @@ public class ActivateTextAtLine : MonoBehaviour {
 		if (theTextBoxManager.isTextBoxActive || MoveCameraDialogue.transform.position != MoveCameraDialogue.OriginalCameraPosition || theTranslatorManager.panelIsActive) {
 			//then the mini dialogue box should not be displayed
 			canTalk.SetActive (false);
-		//On the other hand, if the object is interactable then we enable the hoverOverObject function
+			//On the other hand, if the object is interactable then we enable the hoverOverObject function
 		} else if(interactable){
 			hoverOverObject ();
 		}
@@ -89,6 +116,7 @@ public class ActivateTextAtLine : MonoBehaviour {
 			if (Physics.Raycast (ray, out hit) ) {
 				//we only want to run this for the specific object that got hit (as this script will be attached to many objects)
 				if (hit.collider.gameObject.name == this.gameObject.name && interactable) {
+					currentHit = hit.collider.gameObject;
 					//Debug.Log (hit.transform.name);
 					//Debug.Log (theText);
 					//we check if the object is the translator character
@@ -104,14 +132,43 @@ public class ActivateTextAtLine : MonoBehaviour {
                         chargerSprite.enabled = true;
 					}*/
 					//otherwise we need to zoom in the camera towards the object that got hit by the raycast
-					MoveCameraDialogue.moveTowardObject (hit.transform.gameObject, specificOffset);
+					MoveCameraDialogue.moveTowardObject (currentHit, specificOffset);
 					//and then we need to update the dialogue text, start, and end line
-					theTextBoxManager.reloadScript (hit.transform.gameObject.GetComponent<ActivateTextAtLine> ().theText);
-					theTextBoxManager.currentLine = hit.transform.gameObject.GetComponent<ActivateTextAtLine> ().startLine;
-					theTextBoxManager.endAtLine = hit.transform.gameObject.GetComponent<ActivateTextAtLine> ().endLine;
+					theTextBoxManager.reloadScript (currentHit.GetComponent<ThoughtBubble> ().arbThought);
+					theTextBoxManager.currentLine = currentHit.GetComponent<ThoughtBubble> ().startLine;
+					theTextBoxManager.endAtLine = currentHit.GetComponent<ThoughtBubble> ().endLine;
+					theTextBoxManager.reloadThoughtBubble (currentHit);
+					if (isHuman) {
+						theTextBoxManager.textBox.GetComponent<RectTransform> ().localPosition = new Vector3 (0, -220, 0);
+					} else {
+						theTextBoxManager.textBox.GetComponent<RectTransform> ().localPosition = new Vector3 (0, 220, 0);
+					}
 					//Finally we have a coroutine that starts so as to wait that the camera has zoomed in
+					//Debug.Log("is reached");
+					thoughtBubble_1.transform.position = thoughtBubble1Pos;
+					thoughtBubble_2.transform.position = thoughtBubble2Pos;
+					thoughtBubble_3.transform.position = thoughtBubble3Pos;
+					//theNewThoughtBubble.resetNextBubble (thoughtBubble_1, TB1);
+					//theNewThoughtBubble.resetNextBubble (thoughtBubble_2, TB2);
+					//theNewThoughtBubble.resetNextBubble (thoughtBubble_3, TB3);
+					thoughtBubble_1.GetComponent<NewThoughtBubble>().nextThoughtBubble = hit.collider.gameObject.GetComponent<ThoughtBubble>().TB1;
+					thoughtBubble_2.GetComponent<NewThoughtBubble>().nextThoughtBubble = hit.collider.gameObject.GetComponent<ThoughtBubble>().TB2;
+					thoughtBubble_3.GetComponent<NewThoughtBubble>().nextThoughtBubble = hit.collider.gameObject.GetComponent<ThoughtBubble>().TB3;
+					thoughtBubble_1.GetComponent<NewThoughtBubble>().thoughtBubbleText_1 = hit.collider.gameObject.GetComponent<ThoughtBubble>().thoughtBubbleText_1;
+					thoughtBubble_1.GetComponent<NewThoughtBubble>().thoughtBubbleText_2 = hit.collider.gameObject.GetComponent<ThoughtBubble>().thoughtBubbleText_2;
+					thoughtBubble_1.GetComponent<NewThoughtBubble>().thoughtBubbleText_3 = hit.collider.gameObject.GetComponent<ThoughtBubble>().thoughtBubbleText_3;
+					thoughtBubble_2.GetComponent<NewThoughtBubble>().thoughtBubbleText_1 = hit.collider.gameObject.GetComponent<ThoughtBubble>().thoughtBubbleText_1;
+					thoughtBubble_2.GetComponent<NewThoughtBubble>().thoughtBubbleText_2 = hit.collider.gameObject.GetComponent<ThoughtBubble>().thoughtBubbleText_2;
+					thoughtBubble_2.GetComponent<NewThoughtBubble>().thoughtBubbleText_3 = hit.collider.gameObject.GetComponent<ThoughtBubble>().thoughtBubbleText_3;
+					thoughtBubble_3.GetComponent<NewThoughtBubble>().thoughtBubbleText_1 = hit.collider.gameObject.GetComponent<ThoughtBubble>().thoughtBubbleText_1;
+					thoughtBubble_3.GetComponent<NewThoughtBubble>().thoughtBubbleText_2 = hit.collider.gameObject.GetComponent<ThoughtBubble>().thoughtBubbleText_2;
+					thoughtBubble_3.GetComponent<NewThoughtBubble>().thoughtBubbleText_3 = hit.collider.gameObject.GetComponent<ThoughtBubble>().thoughtBubbleText_3;
+					originalThoughtBubble_1 = thoughtBubble_1.GetComponent<NewThoughtBubble>().nextThoughtBubble;
+					originalThoughtBubble_2 = thoughtBubble_2.GetComponent<NewThoughtBubble>().nextThoughtBubble;
+					originalThoughtBubble_3 = thoughtBubble_3.GetComponent<NewThoughtBubble>().nextThoughtBubble;
+
 					StartCoroutine (waitToDisplayDialogueBox ());
-                    
+
 					//theTextBoxManager.enableTextBox ();
 				} /*else if (!interactable) {
 					
@@ -125,14 +182,14 @@ public class ActivateTextAtLine : MonoBehaviour {
 
 			if (disableObject && !theTextBoxManager.isTextBoxActive) {
 				gameObject.SetActive (false);
-                notebookSprite.enabled = false;
-            }
+				notebookSprite.enabled = false;
+			}
 		}
 		if (disableObject && !theTextBoxManager.isTextBoxActive) {
 			gameObject.SetActive (false);
-            chargerSprite.enabled = false;
-            notebookSprite.enabled = false;
-        }
+			chargerSprite.enabled = false;
+			notebookSprite.enabled = false;
+		}
 		if (ActivateTextAtLine.charger) {
 			//Debug.Log ("hello");
 		}
@@ -157,13 +214,13 @@ public class ActivateTextAtLine : MonoBehaviour {
 			//canTalk.transform.position = transform.position + new Vector3 (0.63f, 1.32f, 0f);
 			//we no longer need to instantiate the mini dialogue box, we just set it to active
 			canTalk.SetActive (true);
-		//once the mouse move away from the character/object, we disable the mini dialogue box
+			//once the mouse move away from the character/object, we disable the mini dialogue box
 		} else {			
 			canTalk.SetActive (false);
 		}
 	}
 
-    /*void OnTriggerEnter(Collider other){
+	/*void OnTriggerEnter(Collider other){
 		if (other.name == "Player1") {
 
 			if (requireButtonPress) {
@@ -187,32 +244,36 @@ public class ActivateTextAtLine : MonoBehaviour {
 		}
 	}*/
 
-    /// <summary>
-    /// Waits to display dialogue box during the zoom in of the camera.
-    /// </summary>
-    /// <returns>The to display dialogue box.</returns>
-    private IEnumerator waitToDisplayDialogueBox()
-    {
-        yield return new WaitForSeconds(0.4f);
-        theTextBoxManager.enableTextBox();
-        if (destroyWhenActivated)
-        {
-            disableObject = true;
-        }
-        //theRotateCamera.back = behind;
-		theRotateMouseClick.back = behind;
-    }
-        private IEnumerator waitToDisplayChargerSprite()
-    {
-        yield return new WaitForSeconds(0.4f);
-        theTextBoxManager.enableTextBox();
-        notebookSprite.enabled = true;
-        chargerSprite.enabled = true;
+	/// <summary>
+	/// Waits to display dialogue box during the zoom in of the camera.
+	/// </summary>
+	/// <returns>The to display dialogue box.</returns>
+	private IEnumerator waitToDisplayDialogueBox()
+	{
+		yield return new WaitForSeconds(0.4f);
+		theTextBoxManager.enableTextBox();
+		thoughtBubble_1.SetActive (true);
+		thoughtBubble_2.SetActive (true);
+		thoughtBubble_3.SetActive(true);
 
-        if (destroyWhenActivated)
-        {
-            disableObject = true;
-        }
-    }
+		if (destroyWhenActivated)
+		{
+			disableObject = true;
+		}
+		//theRotateCamera.back = behind;
+		theRotateMouseClick.back = behind;
+	}
+	private IEnumerator waitToDisplayChargerSprite()
+	{
+		yield return new WaitForSeconds(0.4f);
+		theTextBoxManager.enableTextBox();
+		notebookSprite.enabled = true;
+		chargerSprite.enabled = true;
+
+		if (destroyWhenActivated)
+		{
+			disableObject = true;
+		}
+	}
 
 }
