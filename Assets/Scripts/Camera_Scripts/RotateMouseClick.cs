@@ -14,7 +14,7 @@ public class RotateMouseClick : MonoBehaviour {
 	public TranslatorManager theTranslatorManager;
 	public MoveCameraDialogue theMoveCameraDialogue;
 	public objectPickupManager theObjectPickupManager;
-    public bool back, inDialogue;
+    public bool back, inDialogue, inPickup;
 
 	// Use this for initialization
 	void Start () {
@@ -31,15 +31,16 @@ public class RotateMouseClick : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (!theTranslatorManager.panelIsActive && !theMoveCameraDialogue.moveToMouse) {
-			if (Input.GetMouseButtonDown (0) && !inDialogue) {
+			if (Input.GetMouseButtonDown (0) && !inDialogue ) {
 				dragOrigin = Input.mousePosition;
 				return;
 			}
 			if (!Input.GetMouseButton (0)) {
 				horizontal = false;
 				vertical = false;
-				if (theTextBoxManager.isTextBoxActive || theObjectPickupManager.isActive) {
+				if (theTextBoxManager.isTextBoxActive || theObjectPickupManager.isTextBoxActive) {
                     inDialogue = true;
+                    //inPickup = true;
 					if (!back)
 					{
 						euler = new Vector3(0, 0, 0);
@@ -87,10 +88,10 @@ public class RotateMouseClick : MonoBehaviour {
                     euler.x = Mathf.Clamp(euler.x, RotateCameraMinX, RotateCameraMaxX);
                 }
             }
-            if (!theTextBoxManager.isTextBoxActive)
+            if (!theTextBoxManager.isTextBoxActive && !theObjectPickupManager.isTextBoxActive)
             {
                 inDialogue = false;
-            }
+            } 
 		}
 	}
 }
