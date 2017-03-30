@@ -34,6 +34,9 @@ public class objectPickupManager : MonoBehaviour {
     Scene scene;
     public GameObject canvas;
     public static bool outOfScene;
+
+    public PlayerStatistics savedPlayerData = new PlayerStatistics();
+
     // Use this for initialization
 
    /* private void Awake()
