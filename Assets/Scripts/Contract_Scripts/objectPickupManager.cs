@@ -57,7 +57,6 @@ public class objectPickupManager : MonoBehaviour {
     }*/
     
 	void Start () {
-        
        /* if (scene.name == "Classroom" && !outOfScene )
         {
             if (!start)
