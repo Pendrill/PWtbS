@@ -34,11 +34,16 @@ public class objectPickupManager : MonoBehaviour {
     Scene scene;
     public GameObject canvas;
     public static bool outOfScene;
-
+	public GameObject o1, o2, o3, o4;
     public PlayerStatistics savedPlayerData = new PlayerStatistics();
 
     // Use this for initialization
-
+	//private void Awake(){
+		//DontDestroyOnLoad (o1);
+		//DontDestroyOnLoad (o2);
+		//DontDestroyOnLoad (o3);
+		//DontDestroyOnLoad (o4);
+	//}
    /* private void Awake()
     {
         scene = SceneManager.GetActiveScene();
@@ -72,6 +77,10 @@ public class objectPickupManager : MonoBehaviour {
                     objectPickupManager.InventorySlot[i] = startPanel[i];
                 }
             }*/
+		InventorySlot = GlobalControl.Instance.inventory;
+		chargerObj = GlobalControl.Instance.chargerObj;
+		notebookObj = GlobalControl.Instance.notebookObj;
+		slotOpen = GlobalControl.Instance.slotOpen;
             theTranslatorManager = FindObjectOfType<TranslatorManager>();
             //make sure that a textfile with the dialogue has been inputed
             if (placeHolder != null)
@@ -283,6 +292,18 @@ public class objectPickupManager : MonoBehaviour {
             InventorySlot[i].GetComponent<Image>().color = color;
         }
     }
+
+	public void SaveInventory(){
+
+		GlobalControl.Instance.o1 = o1;
+		GlobalControl.Instance.o2 = o2;
+		GlobalControl.Instance.o3 = o3;
+		GlobalControl.Instance.o4 = o4;
+		GlobalControl.Instance.inventory = InventorySlot;
+		GlobalControl.Instance.slotOpen = slotOpen;
+		GlobalControl.Instance.notebookObj = notebookObj;
+		GlobalControl.Instance.chargerObj = chargerObj;
+	}
 
 	
 }
