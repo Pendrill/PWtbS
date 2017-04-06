@@ -23,7 +23,13 @@ public class PickUpObject : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (!SceneManager.GetActiveScene().name.Trim().Equals("Location Selection".Trim()) && Input.GetKeyDown (KeyCode.Mouse0) && !theTextBoxManager.isTextBoxActive && MoveCameraDialogue.transform.position == MoveCameraDialogue.OriginalCameraPosition && !theTranslatorManager.panelIsActive) {
+        if (SceneManager.GetActiveScene().name.Trim().Equals("Classroom".Trim()))
+        {
+            notebookSprite = GameObject.FindGameObjectWithTag("notebookSprite").GetComponent<Image>();
+            chargerSprite = GameObject.FindGameObjectWithTag("chargerSprite").GetComponent<Image>();
+
+        }
+        if (!SceneManager.GetActiveScene().name.Trim().Equals("Location Selection".Trim()) && Input.GetKeyDown (KeyCode.Mouse0) && !theTextBoxManager.isTextBoxActive && MoveCameraDialogue.transform.position == MoveCameraDialogue.OriginalCameraPosition && !theTranslatorManager.panelIsActive) {
 			//we create a ray cast that is emmited forward from the position of the mouse
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 			RaycastHit hit;
