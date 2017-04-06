@@ -6,7 +6,7 @@ public class RotateMouseClick : MonoBehaviour {
 
 	public float dragSpeed = 55f;
 	public Vector3 dragOrigin;
-	Vector3 euler;
+	public Vector3 euler;
 	public int RotateCameraMaxX, RotateCameraMinX;
 	public bool horizontal, vertical;
 
@@ -14,7 +14,7 @@ public class RotateMouseClick : MonoBehaviour {
 	public TranslatorManager theTranslatorManager;
 	public MoveCameraDialogue theMoveCameraDialogue;
 	public objectPickupManager theObjectPickupManager;
-	public bool back;
+    public bool back, inDialogue, inPickup;
 
 	// Use this for initialization
 	void Start () {
@@ -31,14 +31,16 @@ public class RotateMouseClick : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (!theTranslatorManager.panelIsActive && !theMoveCameraDialogue.moveToMouse) {
-			if (Input.GetMouseButtonDown (0)) {
+			if (Input.GetMouseButtonDown (0) && !inDialogue ) {
 				dragOrigin = Input.mousePosition;
 				return;
 			}
 			if (!Input.GetMouseButton (0)) {
 				horizontal = false;
 				vertical = false;
-				if (theTextBoxManager.isTextBoxActive || theObjectPickupManager.isActive) {
+				if (theTextBoxManager.isTextBoxActive || theObjectPickupManager.isTextBoxActive) {
+                    inDialogue = true;
+                    //inPickup = true;
 					if (!back)
 					{
 						euler = new Vector3(0, 0, 0);
@@ -49,30 +51,47 @@ public class RotateMouseClick : MonoBehaviour {
 				}
 				return;
 			}
-			Vector3 direction = Input.mousePosition - dragOrigin;
-			if (direction.x < -10 && !horizontal) {
-				vertical = true;
-				Camera.main.transform.eulerAngles = euler;
-				euler.y += dragSpeed * Time.deltaTime;
-			} else if (direction.x > 10 && !horizontal) {
-				vertical = true;
-				Camera.main.transform.eulerAngles = euler;
-				euler.y -= dragSpeed * Time.deltaTime;
-			} else if (direction.y > 20 && !vertical) {
-				horizontal = true;
-				Camera.main.transform.eulerAngles = euler;
-				euler.x -= dragSpeed * Time.deltaTime;
-			} else if (direction.y < -20 && !vertical) {
-				horizontal = true;
-				Camera.main.transform.eulerAngles = euler;
-				euler.x += dragSpeed * Time.deltaTime;
-			} 
+            if (!inDialogue)
+            {
+                Vector3 direction = Input.mousePosition - dragOrigin;
+                if (direction.x < -10 && !horizontal)
+                {
+                    vertical = true;
+                    Camera.main.transform.eulerAngles = euler;
+                    euler.y += dragSpeed * Time.deltaTime;
+                }
+                else if (direction.x > 10 && !horizontal)
+                {
+                    vertical = true;
+                    Camera.main.transform.eulerAngles = euler;
+                    euler.y -= dragSpeed * Time.deltaTime;
+                }
+                else if (direction.y > 20 && !vertical)
+                {
+                    horizontal = true;
+                    Camera.main.transform.eulerAngles = euler;
+                    euler.x -= dragSpeed * Time.deltaTime;
+                }
+                else if (direction.y < -20 && !vertical)
+                {
+                    horizontal = true;
+                    Camera.main.transform.eulerAngles = euler;
+                    euler.x += dragSpeed * Time.deltaTime;
+                }
 
-			if (euler.x >= RotateCameraMaxX) {
-				euler.x = Mathf.Clamp (euler.x, RotateCameraMinX, RotateCameraMaxX);
-			} else if (euler.x <= RotateCameraMinX) {
-				euler.x = Mathf.Clamp (euler.x, RotateCameraMinX, RotateCameraMaxX);
-			}
+                if (euler.x >= RotateCameraMaxX)
+                {
+                    euler.x = Mathf.Clamp(euler.x, RotateCameraMinX, RotateCameraMaxX);
+                }
+                else if (euler.x <= RotateCameraMinX)
+                {
+                    euler.x = Mathf.Clamp(euler.x, RotateCameraMinX, RotateCameraMaxX);
+                }
+            }
+            if (!theTextBoxManager.isTextBoxActive && !theObjectPickupManager.isTextBoxActive)
+            {
+                inDialogue = false;
+            } 
 		}
 	}
 }
