@@ -34,8 +34,16 @@ public class objectPickupManager : MonoBehaviour {
     Scene scene;
     public GameObject canvas;
     public static bool outOfScene;
-    // Use this for initialization
+	public GameObject o1, o2, o3, o4;
+    public PlayerStatistics savedPlayerData = new PlayerStatistics();
 
+    // Use this for initialization
+	//private void Awake(){
+		//DontDestroyOnLoad (o1);
+		//DontDestroyOnLoad (o2);
+		//DontDestroyOnLoad (o3);
+		//DontDestroyOnLoad (o4);
+	//}
    /* private void Awake()
     {
         scene = SceneManager.GetActiveScene();
@@ -54,7 +62,6 @@ public class objectPickupManager : MonoBehaviour {
     }*/
     
 	void Start () {
-        
        /* if (scene.name == "Classroom" && !outOfScene )
         {
             if (!start)
@@ -70,6 +77,10 @@ public class objectPickupManager : MonoBehaviour {
                     objectPickupManager.InventorySlot[i] = startPanel[i];
                 }
             }*/
+		InventorySlot = GlobalControl.Instance.inventory;
+		chargerObj = GlobalControl.Instance.chargerObj;
+		notebookObj = GlobalControl.Instance.notebookObj;
+		slotOpen = GlobalControl.Instance.slotOpen;
             theTranslatorManager = FindObjectOfType<TranslatorManager>();
             //make sure that a textfile with the dialogue has been inputed
             if (placeHolder != null)
@@ -96,7 +107,7 @@ public class objectPickupManager : MonoBehaviour {
        // if (scene.name == "Classroom")
        // {
             alphaCheck();
-            checkInventory();
+        
             if (Input.GetKeyDown(KeyCode.Mouse0) && !theTranslatorManager.panelIsActive && !pickUpChoice && isActive)
             {
                 //checks that all the letters of the specific dialogue line have been displayed
@@ -215,17 +226,20 @@ public class objectPickupManager : MonoBehaviour {
 		//updatedLineOfText = "";
 	}
 	public void pickedUp(){
+        Debug.Log("picked up got accessed");
 		if (clickedObject.name.Equals ("notebook")) {
 			notebook = true;
 
 		} else if (clickedObject.name.Equals ("charger")) {
+            Debug.Log("Charger got picked up");
 			charger = true;
 		}
 		clickedObject.GetComponent<PickUpObject> ().notebookSprite.enabled = false;
 		clickedObject.GetComponent<PickUpObject> ().chargerSprite.enabled = false;
 		clickedObject.SetActive (false);
 		disableTextBox ();
-	}
+        checkInventory();
+    }
 	public void left(){
 		clickedObject.GetComponent<PickUpObject> ().notebookSprite.enabled = false;
 		clickedObject.GetComponent<PickUpObject> ().chargerSprite.enabled = false;
@@ -234,36 +248,46 @@ public class objectPickupManager : MonoBehaviour {
 	}
 
 	public void checkInventory(){
-        if (notebook)
+       /* if (notebook)
         {
             notebookObj.SetActive(false);
         }else if (charger)
         {
             chargerObj.SetActive(false);
-        }
-		if (notebook && !notebookInv) {
+        }*/
+		if (notebook) {
 			for (int i = 0; i < slotOpen.Length; i++) {
 				if (!slotOpen[i]) {
-					//Debug.Log ("got up to change sprite");
+					Debug.Log ("got up to change sprite");
 					slotOpen [i] = true;
 					InventorySlot [i].GetComponent<Image> ().sprite = notebookObj.GetComponent<PickUpObject> ().notebookSprite.sprite;
-					notebookInv = true;
+                    InventorySlot[i].GetComponent<InventoryButton>().currentObjectInSlot = notebookObj;
+                    InventorySlot[i].GetComponent<InventoryButton>().OriginalLocation = SceneManager.GetActiveScene().name;
+                    notebookObj.GetComponent<ObjectInfo>().inInv = true;
+                    notebookObj.GetComponent<ObjectInfo>().InvIndex = i;
+                    //notebookInv = true;
 					break;
 				}
 			}
 
-		}else if (charger && !chargerInv) {
+		}else if (charger) {
 			for (int i = 0; i < slotOpen.Length; i++) {
 				if (!slotOpen[i]) {
-					//Debug.Log ("got up to change sprite");
+					Debug.Log ("got up to change sprite");
 					slotOpen [i] = true;
 					InventorySlot [i].GetComponent<Image> ().sprite = chargerObj.GetComponent<PickUpObject> ().chargerSprite.sprite;
-					chargerInv = true;
+                    InventorySlot[i].GetComponent<InventoryButton>().currentObjectInSlot = chargerObj;
+                    InventorySlot[i].GetComponent<InventoryButton>().OriginalLocation = SceneManager.GetActiveScene().name;
+                    chargerObj.GetComponent<ObjectInfo>().inInv = true;
+                    chargerObj.GetComponent<ObjectInfo>().InvIndex = i;
+                    //chargerInv = true;
 					break;
 				}
 			}
 
 		}
+        notebook = false;
+        charger = false;
 	}
     public void alphaCheck()
     {
@@ -272,15 +296,29 @@ public class objectPickupManager : MonoBehaviour {
             Color color = InventorySlot[i].GetComponent<Image>().color;
             if (slotOpen[i])
             {
+                InventorySlot[i].GetComponent<Button>().interactable = true;
                 color.a = 255;
             }
             else
             {
+                InventorySlot[i].GetComponent<Button>().interactable = false;
                 color.a = 0;
             }
             InventorySlot[i].GetComponent<Image>().color = color;
         }
     }
+
+	public void SaveInventory(){
+
+		GlobalControl.Instance.o1 = o1;
+		GlobalControl.Instance.o2 = o2;
+		GlobalControl.Instance.o3 = o3;
+		GlobalControl.Instance.o4 = o4;
+		GlobalControl.Instance.inventory = InventorySlot;
+		GlobalControl.Instance.slotOpen = slotOpen;
+		GlobalControl.Instance.notebookObj = notebookObj;
+		GlobalControl.Instance.chargerObj = chargerObj;
+	}
 
 	
 }

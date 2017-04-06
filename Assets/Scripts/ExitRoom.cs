@@ -9,12 +9,14 @@ public class ExitRoom : MonoBehaviour {
 	public TextBoxManager theTextBoxManager;
 	public MoveCameraDialogue theMoveCameraDialogue;
 	public TranslatorManager theTranslatorManager;
+	public objectPickupManager theObjectPickupManager;
 	// Use this for initialization
 	void Start () {
 		//theContractManager = FindObjectOfType<Contract_Manager>();
 		theTextBoxManager = FindObjectOfType<TextBoxManager> ();
 		theMoveCameraDialogue = FindObjectOfType<MoveCameraDialogue> ();
 		theTranslatorManager = FindObjectOfType<TranslatorManager> ();
+		theObjectPickupManager = FindObjectOfType <objectPickupManager> ();
 
 	}
 
@@ -31,6 +33,7 @@ public class ExitRoom : MonoBehaviour {
 					SceneManager.LoadScene ("BarDesignTest");
 				} else {
 					Debug.Log ("Clicked on the door");
+					theObjectPickupManager.SaveInventory();
 					SceneManager.LoadScene ("Location Selection");
 				}
 			}
