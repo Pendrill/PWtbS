@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NotebookControl : MonoBehaviour {
-    public static NotebookControl Instance;
+public class ChargerSpriteControl : MonoBehaviour {
+    public static ChargerSpriteControl Instance;
     void Awake()
     {
         if (Instance == null)
@@ -13,7 +13,6 @@ public class NotebookControl : MonoBehaviour {
         }
         else if (Instance != this)
         {
-            Debug.Log("gets destroyed");
             Destroy(gameObject);
         }
     }

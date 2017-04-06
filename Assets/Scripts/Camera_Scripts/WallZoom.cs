@@ -9,14 +9,15 @@ public class WallZoom : MonoBehaviour {
 	public TranslatorManager theTranslatorManager;
 	public MoveCameraDialogue theMoveCameraDialogue;
 	//bools checking if we are zooming in or out.
-	public bool isZoom, ZoomOut, isBar;
+	public bool isZoom, ZoomOut, isBar, behind;
 	public Collider barCollider;
 	public Vector3 cameraLocationContractSelect;
 	public Contract_Manager theContractManager;
+    public RotateMouseClick theRotateMouseClick;
 
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
 		//set the various game objects so that we have access to their scripts
 		theTextBoxManager = FindObjectOfType<TextBoxManager> ();
 		theTranslatorManager = FindObjectOfType<TranslatorManager> ();
@@ -25,8 +26,9 @@ public class WallZoom : MonoBehaviour {
 		barCollider = GetComponent<Collider>();
 		cameraLocationContractSelect = new Vector3 (-2.62f, 5.59f, -20.35f);
 		theContractManager = FindObjectOfType <Contract_Manager> ();
+        theRotateMouseClick = FindObjectOfType<RotateMouseClick>();
 
-	}
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -42,7 +44,8 @@ public class WallZoom : MonoBehaviour {
 				if (isBar) {
 					theMoveCameraDialogue.moveTowardNonObject (cameraLocationContractSelect, isBar);
 					barCollider.enabled = false;
-				} else {
+                    theRotateMouseClick.back = behind;
+                } else {
 					theMoveCameraDialogue.moveTowardNonObject (hit.point, isBar);
 					//isZoom = true;
 					// we wait so that the zoom in can happen
