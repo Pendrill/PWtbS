@@ -62,6 +62,7 @@ public class objectPickupManager : MonoBehaviour {
     }*/
     
 	void Start () {
+        
        /* if (scene.name == "Classroom" && !outOfScene )
         {
             if (!start)
@@ -107,8 +108,13 @@ public class objectPickupManager : MonoBehaviour {
        // if (scene.name == "Classroom")
        // {
             alphaCheck();
-        
-            if (Input.GetKeyDown(KeyCode.Mouse0) && !theTranslatorManager.panelIsActive && !pickUpChoice && isActive)
+        if (SceneManager.GetActiveScene().name.Trim().Equals("Classroom".Trim()))
+        {
+            notebookObj = GameObject.FindGameObjectWithTag("notebook");
+            chargerObj = GameObject.FindGameObjectWithTag("charger");
+
+        }
+;            if (Input.GetKeyDown(KeyCode.Mouse0) && !theTranslatorManager.panelIsActive && !pickUpChoice && isActive)
             {
                 //checks that all the letters of the specific dialogue line have been displayed
                 if (!isTyping)
@@ -237,6 +243,7 @@ public class objectPickupManager : MonoBehaviour {
 		clickedObject.GetComponent<PickUpObject> ().notebookSprite.enabled = false;
 		clickedObject.GetComponent<PickUpObject> ().chargerSprite.enabled = false;
 		clickedObject.SetActive (false);
+        clickedObject.GetComponent<ObjectInfo>().droppedInEnd = false;
 		disableTextBox ();
         checkInventory();
     }
