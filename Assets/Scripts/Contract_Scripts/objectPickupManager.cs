@@ -107,7 +107,7 @@ public class objectPickupManager : MonoBehaviour {
        // if (scene.name == "Classroom")
        // {
             alphaCheck();
-            
+        
             if (Input.GetKeyDown(KeyCode.Mouse0) && !theTranslatorManager.panelIsActive && !pickUpChoice && isActive)
             {
                 //checks that all the letters of the specific dialogue line have been displayed

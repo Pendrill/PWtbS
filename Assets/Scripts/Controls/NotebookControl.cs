@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DontDestroy : MonoBehaviour {
-    //public static bool once;
-    public DontDestroy Instance;
+public class NotebookControl : MonoBehaviour {
+    public static NotebookControl Instance;
     void Awake()
     {
         if (Instance == null)

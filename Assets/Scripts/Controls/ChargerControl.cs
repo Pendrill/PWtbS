@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DontDestroy : MonoBehaviour {
-    //public static bool once;
-    public DontDestroy Instance;
+public class ChargerControl : MonoBehaviour {
+    public static ChargerControl Instance;
     void Awake()
     {
         if (Instance == null)
@@ -17,7 +16,6 @@ public class DontDestroy : MonoBehaviour {
             Destroy(gameObject);
         }
     }
-    // Use this for initialization
     void Start () {
 		
 	}
