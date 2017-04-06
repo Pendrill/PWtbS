@@ -231,6 +231,7 @@ public class objectPickupManager : MonoBehaviour {
 			notebook = true;
 
 		} else if (clickedObject.name.Equals ("charger")) {
+            Debug.Log("Charger got picked up");
 			charger = true;
 		}
 		clickedObject.GetComponent<PickUpObject> ().notebookSprite.enabled = false;
@@ -257,7 +258,7 @@ public class objectPickupManager : MonoBehaviour {
 		if (notebook) {
 			for (int i = 0; i < slotOpen.Length; i++) {
 				if (!slotOpen[i]) {
-					//Debug.Log ("got up to change sprite");
+					Debug.Log ("got up to change sprite");
 					slotOpen [i] = true;
 					InventorySlot [i].GetComponent<Image> ().sprite = notebookObj.GetComponent<PickUpObject> ().notebookSprite.sprite;
                     InventorySlot[i].GetComponent<InventoryButton>().currentObjectInSlot = notebookObj;
@@ -272,7 +273,7 @@ public class objectPickupManager : MonoBehaviour {
 		}else if (charger) {
 			for (int i = 0; i < slotOpen.Length; i++) {
 				if (!slotOpen[i]) {
-					//Debug.Log ("got up to change sprite");
+					Debug.Log ("got up to change sprite");
 					slotOpen [i] = true;
 					InventorySlot [i].GetComponent<Image> ().sprite = chargerObj.GetComponent<PickUpObject> ().chargerSprite.sprite;
                     InventorySlot[i].GetComponent<InventoryButton>().currentObjectInSlot = chargerObj;
