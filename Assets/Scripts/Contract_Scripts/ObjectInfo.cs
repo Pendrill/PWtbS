@@ -11,11 +11,29 @@ public class ObjectInfo : MonoBehaviour {
     public bool inInv, droppedInEnd;
     public int InvIndex;
 
+    MeshRenderer objectMeshRenderer;
+    PickUpObject theObjectPickUpScript;
+
+    public void Start()
+    {
+        objectMeshRenderer = GetComponent<MeshRenderer>();
+        theObjectPickUpScript = GetComponent<PickUpObject>(); 
+    }
     public void Update()
     {
         if( inInv || ((!originalScene.Trim().Equals( SceneManager.GetActiveScene().name.Trim()) && !endScene.Trim().Equals(SceneManager.GetActiveScene().name.Trim())) && !droppedInEnd))
         {
-            gameObject.SetActive(false);
+            objectMeshRenderer.enabled = false;
+            theObjectPickUpScript.enabled = false;
+            //gameObject.SetActive(false);
+        }else if (!inInv && !droppedInEnd && originalScene.Trim().Equals(SceneManager.GetActiveScene().name.Trim()))
+        {
+            objectMeshRenderer.enabled = true;
+            theObjectPickUpScript.enabled = true;
+        }else if(!inInv && droppedInEnd && endScene.Trim().Equals(SceneManager.GetActiveScene().name.Trim()))
+        {
+            objectMeshRenderer.enabled = true;
+            theObjectPickUpScript.enabled = true;
         }
         if (Name.Trim().Equals("charger".Trim()))
         {

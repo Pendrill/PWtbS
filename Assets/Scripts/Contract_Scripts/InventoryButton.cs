@@ -11,8 +11,8 @@ public class InventoryButton : MonoBehaviour {
     
 	// Use this for initialization
 	void Start () {
-        
-	}
+        Time.timeScale = 1;
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -23,6 +23,7 @@ public class InventoryButton : MonoBehaviour {
 	}
     public void invSlotPressed()
     {
+        Debug.Log("Button Got Pressed");
         drop.gameObject.SetActive(true);
         drop.GetComponent<RectTransform>().anchoredPosition3D = GetComponent<RectTransform>().anchoredPosition3D + new Vector3(73, 0, 0);
         drop.GetComponent<Drop>().currentObjectInSlot = currentObjectInSlot;
