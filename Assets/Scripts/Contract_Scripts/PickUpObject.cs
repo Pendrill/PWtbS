@@ -23,7 +23,7 @@ public class PickUpObject : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (SceneManager.GetActiveScene().name.Trim().Equals("Classroom".Trim()))
+        if (SceneManager.GetActiveScene().name.Trim().Equals("Classroom".Trim()) || SceneManager.GetActiveScene().name.Trim().Equals("StudentBedroom".Trim()))
         {
             notebookSprite = GameObject.FindGameObjectWithTag("notebookSprite").GetComponent<Image>();
             chargerSprite = GameObject.FindGameObjectWithTag("chargerSprite").GetComponent<Image>();

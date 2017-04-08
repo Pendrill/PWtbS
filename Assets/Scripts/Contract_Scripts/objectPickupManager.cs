@@ -242,7 +242,7 @@ public class objectPickupManager : MonoBehaviour {
 		}
 		clickedObject.GetComponent<PickUpObject> ().notebookSprite.enabled = false;
 		clickedObject.GetComponent<PickUpObject> ().chargerSprite.enabled = false;
-		clickedObject.SetActive (false);
+		//clickedObject.SetActive (false);
         clickedObject.GetComponent<ObjectInfo>().droppedInEnd = false;
 		disableTextBox ();
         checkInventory();
@@ -323,8 +323,8 @@ public class objectPickupManager : MonoBehaviour {
 		GlobalControl.Instance.o4 = o4;
 		GlobalControl.Instance.inventory = InventorySlot;
 		GlobalControl.Instance.slotOpen = slotOpen;
-		GlobalControl.Instance.notebookObj = notebookObj;
-		GlobalControl.Instance.chargerObj = chargerObj;
+		//GlobalControl.Instance.notebookObj = notebookObj;
+		//GlobalControl.Instance.chargerObj = chargerObj;
 	}
 
 	

@@ -30,6 +30,10 @@ public class ObjectInfo : MonoBehaviour {
         {
             objectMeshRenderer.enabled = true;
             theObjectPickUpScript.enabled = true;
+        }else if(!inInv && droppedInEnd && endScene.Trim().Equals(SceneManager.GetActiveScene().name.Trim()))
+        {
+            objectMeshRenderer.enabled = true;
+            theObjectPickUpScript.enabled = true;
         }
         if (Name.Trim().Equals("charger".Trim()))
         {
