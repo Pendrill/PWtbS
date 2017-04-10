@@ -13,7 +13,7 @@ public class MoveCameraDialogue : MonoBehaviour {
 	//refrence to eleapsed time
 	public float time;
 	//reference to the text box manager
-	public TextBoxManager theTextBoxManager;
+	public PrototypeTBM theTextBoxManager;
 	public objectPickupManager theObjectPickupManager;
 	bool back;
 
@@ -30,7 +30,7 @@ public class MoveCameraDialogue : MonoBehaviour {
 		OriginalCameraPosition = transform.position;
 		//originalCameraRotation = Camera.main.transform.eulerAngles;
 		//find the textbox manager
-		theTextBoxManager = FindObjectOfType<TextBoxManager> ();
+		theTextBoxManager = FindObjectOfType<PrototypeTBM> ();
 		theObjectPickupManager = FindObjectOfType<objectPickupManager> ();
 		//set the object to the main camera
 		theObject = this.gameObject;
