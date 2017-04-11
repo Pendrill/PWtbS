@@ -82,7 +82,7 @@ public class objectPickupManager : MonoBehaviour {
 		chargerObj = GlobalControl.Instance.chargerObj;
 		notebookObj = GlobalControl.Instance.notebookObj;
 		slotOpen = GlobalControl.Instance.slotOpen;
-            theTranslatorManager = FindObjectOfType<TranslatorManager>();
+        theTranslatorManager = FindObjectOfType<TranslatorManager>();
             //make sure that a textfile with the dialogue has been inputed
             if (placeHolder != null)
             {

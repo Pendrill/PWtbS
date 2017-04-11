@@ -49,6 +49,7 @@ public class PrototypeTBM : MonoBehaviour {
 	public bool ThoughtBubbleRequiered = false, beingDisplayed = false ;
 	public string playerText;
 	public bool noDialogue;
+    public bool[] isScrambled;
 
 	//we could include a way for the player to stop moving when dialogue pops up (DONE)
 
@@ -101,7 +102,7 @@ public class PrototypeTBM : MonoBehaviour {
 			individualWordTBT_2 = thoughtBubbleString_2.Split (' ');
 			individualWordTBT_3 = thoughtBubbleString_3.Split (' ');
 			for (int i = 0; i < individualWordTBT_1.Length; i++) {
-				updatedLineOfText_TB1 += theGameManager.checkIfScramble (individualWordTBT_1 [i]) + "  ";
+				updatedLineOfText_TB1 += theGameManager.checkIfScramble (individualWordTBT_1 [i], isScrambled, i) + " ";
 			}
 			for (int i = 0; i < individualWordTBT_2.Length; i++) {
 				updatedLineOfText_TB2 += theGameManager.checkIfScramble (individualWordTBT_2 [i]) + "  ";
@@ -109,7 +110,8 @@ public class PrototypeTBM : MonoBehaviour {
 			for (int i = 0; i < individualWordTBT_3.Length; i++) {
 				updatedLineOfText_TB3 += theGameManager.checkIfScramble (individualWordTBT_3 [i]) + "  ";
 			}
-			StartCoroutine (TextScroll_TB1 (updatedLineOfText_TB1));
+            //StartCoroutine (TextScroll_TB1 (updatedLineOfText_TB1));
+          // thoughtBubble_1.GetComponent<buttonshapetest>().displayButtonText(updatedLineOfText_TB1, isScrambled);
 			StartCoroutine (TextScroll_TB2 (updatedLineOfText_TB2));
 			StartCoroutine (TextScroll_TB3 (updatedLineOfText_TB3));
 			//StartCoroutine (TextScroll (updatedLineOfText));
@@ -356,7 +358,7 @@ public class PrototypeTBM : MonoBehaviour {
 	}
 
 	public void reloadThoughtBubble(GameObject hit){
-		ThoughtBubble currentThoughtBubble = hit.GetComponent<ThoughtBubble> ();
+		PrototypeDialogueButton currentThoughtBubble = hit.GetComponent<PrototypeDialogueButton> ();
 		thoughtBubble_1= currentThoughtBubble.thoughtBubble_1;
 		thoughtBubble_2= currentThoughtBubble.thoughtBubble_2;
 		thoughtBubble_3= currentThoughtBubble.thoughtBubble_3;
