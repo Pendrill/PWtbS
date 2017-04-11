@@ -137,7 +137,7 @@ public class ThoughtBubble : MonoBehaviour {
 					theTextBoxManager.reloadScript (currentHit.GetComponent<ThoughtBubble> ().arbThought);
 					theTextBoxManager.currentLine = currentHit.GetComponent<ThoughtBubble> ().startLine;
 					theTextBoxManager.endAtLine = currentHit.GetComponent<ThoughtBubble> ().endLine;
-					theTextBoxManager.reloadThoughtBubble (currentHit);
+					theTextBoxManager.reloadThoughtBubble (currentHit, isHuman);
 					if (isHuman) {
 						theTextBoxManager.textBox.GetComponent<RectTransform> ().localPosition = new Vector3 (0, -220, 0);
 					} else {
