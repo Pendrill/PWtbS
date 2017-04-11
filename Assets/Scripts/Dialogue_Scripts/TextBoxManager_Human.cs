@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TextBoxManager : MonoBehaviour {
+public class TextBoxManager_Human : MonoBehaviour {
 
     //This is a reference to the actual panel gameobject for the dialogue
     public GameObject textBox;
