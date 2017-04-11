@@ -15,11 +15,13 @@ public class Drop : MonoBehaviour {
     //public string OriginalLocation;
     public objectPickupManager theObjectPickupManager;
     public ROOM_MANAGER theRoomManager;
+    public ExitRoom theExit;
     //public Button drop;
     // Use this for initialization
     public bool hoverOverDrop;
     void Start () {
         theObjectPickupManager = FindObjectOfType<objectPickupManager>();
+        theExit = FindObjectOfType<ExitRoom>();
     }
 	
 	// Update is called once per frame
@@ -44,6 +46,7 @@ public class Drop : MonoBehaviour {
             
         } else if (endScene.Trim().Equals(SceneManager.GetActiveScene().name.Trim()))
         {
+            Debug.Log("Dropped at the end");
             currentObjectInSlot.transform.position = endPosition;
             currentObjectInSlot.SetActive(true);
             currentObjectInSlot.GetComponent<ObjectInfo>().droppedInEnd = true;
@@ -52,6 +55,7 @@ public class Drop : MonoBehaviour {
             theObjectPickupManager.InventorySlot[currentObjectInSlot.GetComponent<ObjectInfo>().InvIndex].GetComponent<Image>().sprite = null;
             theObjectPickupManager.slotOpen[InvIndex] = false;
             ROOM_MANAGER.complete = true;
+            theExit.GetComponent<ExitRoom>().complete = true;
         }
         hoverOverDrop = false;
         gameObject.SetActive(false);

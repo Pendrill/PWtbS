@@ -7,7 +7,7 @@ public class NewThoughtBubble : MonoBehaviour {
 	// Use this for initialization\
 	public GameObject nextThoughtBubble;
 	public bool isFinalThought;
-	public TextBoxManager theTextBoxManager;
+	public PrototypeTBM theTextBoxManager;
 	public GameObject thoughtBubble_1, thoughtBubble_2, thoughtBubble_3, currentHit;
 	public Text thoughtBubbleText_1, thoughtBubbleText_2, thoughtBubbleText_3;
 	public string thoughtBubbleString_1, thoughtBubbleString_2, thoughtBubbleString_3;
@@ -16,7 +16,7 @@ public class NewThoughtBubble : MonoBehaviour {
     //public GameObject originalThoughtBubble;
 
 	void Start () {
-		theTextBoxManager = FindObjectOfType<TextBoxManager> ();
+		theTextBoxManager = FindObjectOfType<PrototypeTBM> ();
         //originalThoughtBubble = nextThoughtBubble;
 	}
 	

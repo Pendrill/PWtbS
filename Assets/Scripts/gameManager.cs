@@ -93,11 +93,53 @@ public class gameManager : MonoBehaviour {
 		return word;
 	}
 
-	/// <summary>
-	/// Removes the punctuation that might have come with the word.
-	/// </summary>
-	/// <param name="word">Word.</param>
-	public void removePunctuation(string word){
+    public string checkIfScramble(string word, bool[] isScrambled , int index)
+    {
+        //Debug.Log (word + " checkifScramble");
+        //we first remove any punctuation that might have come with the word
+        removePunctuation(word);
+        //we use a for loop ot go through the key words
+        for (int i = 0; i < keyWords.Length; i++)
+        {
+            //Debug.Log (keyWords[i] + "   " + removedPunctuation);
+            //we check if the word is equal to any of the words within the keywords list
+            if (removedPunctuation.Trim().Equals(keyWords[i].Trim()))
+            {
+                //Debug.Log ("What about this one?");
+                //have the check for if it has been translated within this if statement
+                //if yes then we check if it has already been translated
+                if (isWordTranslated[i])
+                {
+                    //if yes then we return the word
+                    removedPunctuation = "";
+                    isScrambled[index] = false;
+                    return word;
+                }
+                //Otherwise we check if word has tentative definition
+                if (theTranslatorManager.getTentativeDefinition(keyWordsScramble[i]))
+                {
+                    //if yes then we return the tentative definition offered by the user
+                    isScrambled[index] = true;
+                    return TranslatorManager.definitionOffered[theTranslatorManager.translationIndex];
+                }
+                //Otherwise we first check if the specific word has been encountered
+                removedPunctuation = "";
+                theTranslatorManager.checkIfWordHasAlreadyBeenEncountered(keyWordsScramble[i]);
+                //and then return the scrambled version of the word
+                isScrambled[index] = true;
+                return keyWordsScramble[i];
+            }
+        }
+        //if it is not in the key words then we simply return the word
+        removedPunctuation = "";
+        return word;
+    }
+
+    /// <summary>
+    /// Removes the punctuation that might have come with the word.
+    /// </summary>
+    /// <param name="word">Word.</param>
+    public void removePunctuation(string word){
 		//Debug.Log (word + " removePunct");
 		//we go through each character that is contained within the word
 		for (int i = 0; i < word.Length; i++) {
