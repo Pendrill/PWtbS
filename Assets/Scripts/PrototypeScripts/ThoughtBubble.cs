@@ -63,14 +63,22 @@ public class ThoughtBubble : MonoBehaviour {
 	public bool isHuman;
 	public Vector3 thoughtBubble1Pos, thoughtBubble2Pos, thoughtBubble3Pos;
 	public GameObject TB1, TB2, TB3;
-	//public NewThoughtBubble theNewThoughtBubble;
-	// Use this for initialization
-	void Start () {
-		//we find the specific objects in the scene as to be able to access their functions
-		//thoughtBubble_1.GetComponent<NewThoughtBubble>().nextThoughtBubble = TB1;
-		//thoughtBubble_2.GetComponent<NewThoughtBubble>().nextThoughtBubble = TB2;
-		//thoughtBubble_3.GetComponent<NewThoughtBubble>().nextThoughtBubble = TB3;
-		theTranslatorManager = FindObjectOfType<TranslatorManager> ();
+    public GameObject panel1, panel2, panel3;
+    public buttonshapetest BSTpanel1, BSTpanel2, BSTpanel3;
+    //public NewThoughtBubble theNewThoughtBubble;
+    // Use this for initialization
+    void Start () {
+        if (isHuman)
+        {
+            BSTpanel1 = panel1.GetComponent<buttonshapetest>();
+            BSTpanel2 = panel2.GetComponent<buttonshapetest>();
+            BSTpanel3 = panel3.GetComponent<buttonshapetest>();
+        }
+        //we find the specific objects in the scene as to be able to access their functions
+        //thoughtBubble_1.GetComponent<NewThoughtBubble>().nextThoughtBubble = TB1;
+        //thoughtBubble_2.GetComponent<NewThoughtBubble>().nextThoughtBubble = TB2;
+        //thoughtBubble_3.GetComponent<NewThoughtBubble>().nextThoughtBubble = TB3;
+        theTranslatorManager = FindObjectOfType<TranslatorManager> ();
 		theTextBoxManager = FindObjectOfType<TextBoxManager> ();
 		MoveCameraDialogue = FindObjectOfType<MoveCameraDialogue> ();
 		//theRotateCamera = FindObjectOfType<RotateCamera>();
@@ -124,14 +132,15 @@ public class ThoughtBubble : MonoBehaviour {
 						//if so then we need to check the translations offered by the player
 						theTranslatorManager.startTranslatingJournal ();
 					}
-					/*if(hit.collider.gameObject.name.Equals("notebook")){
+                    /*if(hit.collider.gameObject.name.Equals("notebook")){
 						ActivateTextAtLine.notebook = true;
                         notebookSprite.enabled = true;
 					}else if(hit.collider.gameObject.name.Equals("charger")){
 						ActivateTextAtLine.charger = true;                       
                         chargerSprite.enabled = true;
 					}*/
-					//otherwise we need to zoom in the camera towards the object that got hit by the raycast
+                    //otherwise we need to zoom in the camera towards the object that got hit by the raycast
+                    theTextBoxManager.GetComponent<TextBoxManager>().isHuman = isHuman;
 					MoveCameraDialogue.moveTowardObject (currentHit, specificOffset);
 					//and then we need to update the dialogue text, start, and end line
 					theTextBoxManager.reloadScript (currentHit.GetComponent<ThoughtBubble> ().arbThought);
@@ -140,32 +149,40 @@ public class ThoughtBubble : MonoBehaviour {
 					theTextBoxManager.reloadThoughtBubble (currentHit, isHuman);
 					if (isHuman) {
 						theTextBoxManager.textBox.GetComponent<RectTransform> ().localPosition = new Vector3 (0, -220, 0);
-					} else {
+                        BSTpanel1.nextButton_1 = TB1;
+                        BSTpanel2.nextButton_1 = TB2;
+                        BSTpanel3.nextButton_1 = TB3;
+
+                        BSTpanel1.nextText1 = thoughtBubbleString_1;
+                        BSTpanel2.nextText1 = thoughtBubbleString_2;
+                        BSTpanel3.nextText1 = thoughtBubbleString_3;
+                    } else {
 						theTextBoxManager.textBox.GetComponent<RectTransform> ().localPosition = new Vector3 (0, 220, 0);
-					}
-					//Finally we have a coroutine that starts so as to wait that the camera has zoomed in
-					//Debug.Log("is reached");
-					thoughtBubble_1.transform.position = thoughtBubble1Pos;
-					thoughtBubble_2.transform.position = thoughtBubble2Pos;
-					thoughtBubble_3.transform.position = thoughtBubble3Pos;
-					//theNewThoughtBubble.resetNextBubble (thoughtBubble_1, TB1);
-					//theNewThoughtBubble.resetNextBubble (thoughtBubble_2, TB2);
-					//theNewThoughtBubble.resetNextBubble (thoughtBubble_3, TB3);
-					thoughtBubble_1.GetComponent<NewThoughtBubble>().nextThoughtBubble = hit.collider.gameObject.GetComponent<ThoughtBubble>().TB1;
-					thoughtBubble_2.GetComponent<NewThoughtBubble>().nextThoughtBubble = hit.collider.gameObject.GetComponent<ThoughtBubble>().TB2;
-					thoughtBubble_3.GetComponent<NewThoughtBubble>().nextThoughtBubble = hit.collider.gameObject.GetComponent<ThoughtBubble>().TB3;
-					thoughtBubble_1.GetComponent<NewThoughtBubble>().thoughtBubbleText_1 = hit.collider.gameObject.GetComponent<ThoughtBubble>().thoughtBubbleText_1;
-					thoughtBubble_1.GetComponent<NewThoughtBubble>().thoughtBubbleText_2 = hit.collider.gameObject.GetComponent<ThoughtBubble>().thoughtBubbleText_2;
-					thoughtBubble_1.GetComponent<NewThoughtBubble>().thoughtBubbleText_3 = hit.collider.gameObject.GetComponent<ThoughtBubble>().thoughtBubbleText_3;
-					thoughtBubble_2.GetComponent<NewThoughtBubble>().thoughtBubbleText_1 = hit.collider.gameObject.GetComponent<ThoughtBubble>().thoughtBubbleText_1;
-					thoughtBubble_2.GetComponent<NewThoughtBubble>().thoughtBubbleText_2 = hit.collider.gameObject.GetComponent<ThoughtBubble>().thoughtBubbleText_2;
-					thoughtBubble_2.GetComponent<NewThoughtBubble>().thoughtBubbleText_3 = hit.collider.gameObject.GetComponent<ThoughtBubble>().thoughtBubbleText_3;
-					thoughtBubble_3.GetComponent<NewThoughtBubble>().thoughtBubbleText_1 = hit.collider.gameObject.GetComponent<ThoughtBubble>().thoughtBubbleText_1;
-					thoughtBubble_3.GetComponent<NewThoughtBubble>().thoughtBubbleText_2 = hit.collider.gameObject.GetComponent<ThoughtBubble>().thoughtBubbleText_2;
-					thoughtBubble_3.GetComponent<NewThoughtBubble>().thoughtBubbleText_3 = hit.collider.gameObject.GetComponent<ThoughtBubble>().thoughtBubbleText_3;
-					originalThoughtBubble_1 = thoughtBubble_1.GetComponent<NewThoughtBubble>().nextThoughtBubble;
-					originalThoughtBubble_2 = thoughtBubble_2.GetComponent<NewThoughtBubble>().nextThoughtBubble;
-					originalThoughtBubble_3 = thoughtBubble_3.GetComponent<NewThoughtBubble>().nextThoughtBubble;
+                        //Finally we have a coroutine that starts so as to wait that the camera has zoomed in
+                        //Debug.Log("is reached");
+                        thoughtBubble_1.transform.position = thoughtBubble1Pos;
+                        thoughtBubble_2.transform.position = thoughtBubble2Pos;
+                        thoughtBubble_3.transform.position = thoughtBubble3Pos;
+                        //theNewThoughtBubble.resetNextBubble (thoughtBubble_1, TB1);
+                        //theNewThoughtBubble.resetNextBubble (thoughtBubble_2, TB2);
+                        //theNewThoughtBubble.resetNextBubble (thoughtBubble_3, TB3);
+                        thoughtBubble_1.GetComponent<NewThoughtBubble>().nextThoughtBubble = hit.collider.gameObject.GetComponent<ThoughtBubble>().TB1;
+                        thoughtBubble_2.GetComponent<NewThoughtBubble>().nextThoughtBubble = hit.collider.gameObject.GetComponent<ThoughtBubble>().TB2;
+                        thoughtBubble_3.GetComponent<NewThoughtBubble>().nextThoughtBubble = hit.collider.gameObject.GetComponent<ThoughtBubble>().TB3;
+                        thoughtBubble_1.GetComponent<NewThoughtBubble>().thoughtBubbleText_1 = hit.collider.gameObject.GetComponent<ThoughtBubble>().thoughtBubbleText_1;
+                        thoughtBubble_1.GetComponent<NewThoughtBubble>().thoughtBubbleText_2 = hit.collider.gameObject.GetComponent<ThoughtBubble>().thoughtBubbleText_2;
+                        thoughtBubble_1.GetComponent<NewThoughtBubble>().thoughtBubbleText_3 = hit.collider.gameObject.GetComponent<ThoughtBubble>().thoughtBubbleText_3;
+                        thoughtBubble_2.GetComponent<NewThoughtBubble>().thoughtBubbleText_1 = hit.collider.gameObject.GetComponent<ThoughtBubble>().thoughtBubbleText_1;
+                        thoughtBubble_2.GetComponent<NewThoughtBubble>().thoughtBubbleText_2 = hit.collider.gameObject.GetComponent<ThoughtBubble>().thoughtBubbleText_2;
+                        thoughtBubble_2.GetComponent<NewThoughtBubble>().thoughtBubbleText_3 = hit.collider.gameObject.GetComponent<ThoughtBubble>().thoughtBubbleText_3;
+                        thoughtBubble_3.GetComponent<NewThoughtBubble>().thoughtBubbleText_1 = hit.collider.gameObject.GetComponent<ThoughtBubble>().thoughtBubbleText_1;
+                        thoughtBubble_3.GetComponent<NewThoughtBubble>().thoughtBubbleText_2 = hit.collider.gameObject.GetComponent<ThoughtBubble>().thoughtBubbleText_2;
+                        thoughtBubble_3.GetComponent<NewThoughtBubble>().thoughtBubbleText_3 = hit.collider.gameObject.GetComponent<ThoughtBubble>().thoughtBubbleText_3;
+                        originalThoughtBubble_1 = thoughtBubble_1.GetComponent<NewThoughtBubble>().nextThoughtBubble;
+                        originalThoughtBubble_2 = thoughtBubble_2.GetComponent<NewThoughtBubble>().nextThoughtBubble;
+                        originalThoughtBubble_3 = thoughtBubble_3.GetComponent<NewThoughtBubble>().nextThoughtBubble;
+                    }
+					
 
 					StartCoroutine (waitToDisplayDialogueBox ());
 
