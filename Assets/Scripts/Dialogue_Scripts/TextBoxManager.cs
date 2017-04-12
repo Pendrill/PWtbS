@@ -48,7 +48,7 @@ public class TextBoxManager : MonoBehaviour {
     public string[] individualWordTBT_1, individualWordTBT_2, individualWordTBT_3;
     public bool ThoughtBubbleRequiered = false, beingDisplayed = false;
     public string playerText;
-    public bool noDialogue;
+    public bool noDialogue, isHuman;
     public bool[] isScrambled;
 
     //we could include a way for the player to stop moving when dialogue pops up (DONE)
@@ -105,7 +105,7 @@ public class TextBoxManager : MonoBehaviour {
         }
 
         //theText.text = textLines [currentLine];
-        if (ThoughtBubbleRequiered && !beingDisplayed)
+        if (ThoughtBubbleRequiered && !beingDisplayed && !isHuman)
         {
             beingDisplayed = true;
 

@@ -12,7 +12,7 @@ public class PrototypeDialogueButton : MonoBehaviour {
 	public int endLine;
 
 	//get the script and game object that contain the textboxmanager info and functions
-	public TextBoxManager_Human theTextBoxManager;
+	public TextBoxManager theTextBoxManager;
 
 	//bools that check whether or not we need to destroy the object once we talked to it (currently never being used)
 	//and whether or not the object that is being interacted with is the translator character.
@@ -78,7 +78,7 @@ public class PrototypeDialogueButton : MonoBehaviour {
 		//thoughtBubble_2.GetComponent<NewThoughtBubble>().nextThoughtBubble = TB2;
 		//thoughtBubble_3.GetComponent<NewThoughtBubble>().nextThoughtBubble = TB3;
 		theTranslatorManager = FindObjectOfType<TranslatorManager> ();
-		theTextBoxManager = FindObjectOfType<TextBoxManager_Human> ();
+		theTextBoxManager = FindObjectOfType<TextBoxManager> ();
 		MoveCameraDialogue = FindObjectOfType<MoveCameraDialogue> ();
 		//theRotateCamera = FindObjectOfType<RotateCamera>();
 		theRotateMouseClick = FindObjectOfType<RotateMouseClick> ();
