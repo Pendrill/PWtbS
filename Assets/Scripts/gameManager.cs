@@ -8,7 +8,7 @@ public class gameManager : MonoBehaviour {
 	//set up the various text assets we will be including te key words and their scrambled versions
 	public TextAsset textFile, keyWordsTXT, keyWordsScrambleTXT;
 	//we set up their respective arrays
-	public string[] keyWords, keyWordsScramble;
+	public static  string[] keyWords, keyWordsScramble;
 	//we create a number of strings to keep track of the scrambled word and the word without punctuation
 	public string scrambledWord, removedPunctuation;// testString;
 	// we create a list that will keep track of wether or not the 
@@ -33,10 +33,11 @@ public class gameManager : MonoBehaviour {
 		//get the translator object
 		theTranslatorManager = FindObjectOfType<TranslatorManager> ();
 		//check that there is a text object fro the key words and there scrambled equivalent and then split into the array
-		if (keyWordsTXT != null) {
+
+		if (keyWordsTXT != null && first) {
 			keyWords = keyWordsTXT.text.Split ('\n');
 		}
-		if (keyWordsScrambleTXT != null) {
+		if (keyWordsScrambleTXT != null && first) {
 			keyWordsScramble = keyWordsScrambleTXT.text.Split ('\n');
 		}
 		//use a for loop to set the list keeping track of if the words got translated to false
@@ -68,10 +69,11 @@ public class gameManager : MonoBehaviour {
 			//Debug.Log (keyWords[i] + "   " + removedPunctuation);
 			//we check if the word is equal to any of the words within the keywords list
 			if (removedPunctuation.Trim().Equals(keyWords [i].Trim()) ) {
-				//Debug.Log ("What about this one?");
-				//have the check for if it has been translated within this if statement
-				//if yes then we check if it has already been translated
-				if (isWordTranslated [i]) {
+                return keyWordsScramble[i];
+                //Debug.Log ("What about this one?");
+                //have the check for if it has been translated within this if statement
+                //if yes then we check if it has already been translated
+                if (isWordTranslated [i]) {
 					//if yes then we return the word
 					removedPunctuation = "";
 					return word;
