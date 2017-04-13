@@ -35,6 +35,38 @@ public class RotateMouseClick : MonoBehaviour {
 				dragOrigin = Input.mousePosition;
 				return;
 			}
+            if (!inDialogue)
+            {
+                if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
+                {
+                    Camera.main.transform.eulerAngles = euler;
+                    euler.y += dragSpeed * Time.deltaTime;
+                }
+                if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
+                {
+                    Camera.main.transform.eulerAngles = euler;
+                    euler.y -= dragSpeed * Time.deltaTime;
+                }
+                if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
+                {
+                    Camera.main.transform.eulerAngles = euler;
+                    euler.x -= dragSpeed * Time.deltaTime;
+                }
+                if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
+                {
+                    Camera.main.transform.eulerAngles = euler;
+                    euler.x += dragSpeed * Time.deltaTime;
+                }
+                if (euler.x >= RotateCameraMaxX)
+                {
+                    euler.x = Mathf.Clamp(euler.x, RotateCameraMinX, RotateCameraMaxX);
+                }
+                else if (euler.x <= RotateCameraMinX)
+                {
+                    euler.x = Mathf.Clamp(euler.x, RotateCameraMinX, RotateCameraMaxX);
+                }
+                //Debug.Log("We are not in dialogue");
+            }
 			if (!Input.GetMouseButton (0)) {
 				horizontal = false;
 				vertical = false;
@@ -53,6 +85,10 @@ public class RotateMouseClick : MonoBehaviour {
 			}
             if (!inDialogue)
             {
+              /*  if (Input.GetKeyDown(KeyCode.D))
+                {
+                    Debug.Log("D was pressded");
+                }*/
                 Vector3 direction = Input.mousePosition - dragOrigin;
                 if (direction.x < -10 && !horizontal)
                 {

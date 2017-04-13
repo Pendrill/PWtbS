@@ -377,10 +377,274 @@ public class TranslatorManager : MonoBehaviour {
 
 	}
 
-	/// <summary>
-	/// Starts the translating process for the journal. Basically checks if the translated words offered by the user were correct
+    /// <summary>
+	/// Enables the user to type the traslation for the given word
 	/// </summary>
-	public void startTranslatingJournal(){
+	public void typeTranslation(int index)
+    {
+        //makes sure that the translation given does not go over 10 characters
+        if (userDefinition.Length < 10)
+        {
+            //if the user types in a letter
+            if (Input.GetKeyDown(KeyCode.A))
+            {
+                //then we add that letter to the user definition string
+                userDefinition += 'a';
+                //we remove the definition offered in the list
+                gameManager.keyWordsScramble[index] = userDefinition;
+                //definitionOffered.RemoveAt(currentPage);
+                //and add the one with the extra letter in its place
+                //definitionOffered.Insert(currentPage, userDefinition);
+                moveTyperForward();
+            }
+            else if (Input.GetKeyDown(KeyCode.B))
+            {
+                userDefinition += 'b';
+                gameManager.keyWordsScramble[index] = userDefinition;
+                //definitionOffered.RemoveAt(currentPage);
+                //and add the one with the extra letter in its place
+                //definitionOffered.Insert(currentPage, userDefinition);
+                moveTyperForward();
+            }
+            else if (Input.GetKeyDown(KeyCode.C))
+            {
+                userDefinition += 'c';
+                gameManager.keyWordsScramble[index] = userDefinition;
+                //definitionOffered.RemoveAt(currentPage);
+                //and add the one with the extra letter in its place
+                //definitionOffered.Insert(currentPage, userDefinition);
+                moveTyperForward();
+            }
+            else if (Input.GetKeyDown(KeyCode.D))
+            {
+                userDefinition += 'd';
+                gameManager.keyWordsScramble[index] = userDefinition;
+                //definitionOffered.RemoveAt(currentPage);
+                //and add the one with the extra letter in its place
+                //definitionOffered.Insert(currentPage, userDefinition);
+                moveTyperForward();
+            }
+            else if (Input.GetKeyDown(KeyCode.E))
+            {
+                userDefinition += 'e';
+                gameManager.keyWordsScramble[index] = userDefinition;
+                //definitionOffered.RemoveAt(currentPage);
+                //and add the one with the extra letter in its place
+                //definitionOffered.Insert(currentPage, userDefinition);
+                moveTyperForward();
+            }
+            else if (Input.GetKeyDown(KeyCode.F))
+            {
+                userDefinition += 'f';
+                gameManager.keyWordsScramble[index] = userDefinition;
+                //definitionOffered.RemoveAt(currentPage);
+                //and add the one with the extra letter in its place
+                //definitionOffered.Insert(currentPage, userDefinition);
+                moveTyperForward();
+            }
+            else if (Input.GetKeyDown(KeyCode.G))
+            {
+                userDefinition += 'g';
+                gameManager.keyWordsScramble[index] = userDefinition;
+                //definitionOffered.RemoveAt(currentPage);
+                //and add the one with the extra letter in its place
+                //definitionOffered.Insert(currentPage, userDefinition);
+                moveTyperForward();
+            }
+            else if (Input.GetKeyDown(KeyCode.H))
+            {
+                userDefinition += 'h';
+                gameManager.keyWordsScramble[index] = userDefinition;
+                //definitionOffered.RemoveAt(currentPage);
+                //and add the one with the extra letter in its place
+                //definitionOffered.Insert(currentPage, userDefinition);
+                moveTyperForward();
+            }
+            else if (Input.GetKeyDown(KeyCode.I))
+            {
+                userDefinition += 'i';
+                gameManager.keyWordsScramble[index] = userDefinition;
+                //definitionOffered.RemoveAt(currentPage);
+                //and add the one with the extra letter in its place
+                //definitionOffered.Insert(currentPage, userDefinition);
+                moveTyperForward();
+            }
+            else if (Input.GetKeyDown(KeyCode.J))
+            {
+                userDefinition += 'j';
+                gameManager.keyWordsScramble[index] = userDefinition;
+                //definitionOffered.RemoveAt(currentPage);
+                //and add the one with the extra letter in its place
+                //definitionOffered.Insert(currentPage, userDefinition);
+                moveTyperForward();
+            }
+            else if (Input.GetKeyDown(KeyCode.K))
+            {
+                userDefinition += 'k';
+                gameManager.keyWordsScramble[index] = userDefinition;
+                //definitionOffered.RemoveAt(currentPage);
+                //and add the one with the extra letter in its place
+                //definitionOffered.Insert(currentPage, userDefinition);
+                moveTyperForward();
+            }
+            else if (Input.GetKeyDown(KeyCode.L))
+            {
+                userDefinition += 'l';
+                gameManager.keyWordsScramble[index] = userDefinition;
+                //definitionOffered.RemoveAt(currentPage);
+                //and add the one with the extra letter in its place
+                //definitionOffered.Insert(currentPage, userDefinition);
+                moveTyperForward();
+            }
+            else if (Input.GetKeyDown(KeyCode.M))
+            {
+                userDefinition += 'm';
+                gameManager.keyWordsScramble[index] = userDefinition;
+                //definitionOffered.RemoveAt(currentPage);
+                //and add the one with the extra letter in its place
+                //definitionOffered.Insert(currentPage, userDefinition);
+                moveTyperForward();
+            }
+            else if (Input.GetKeyDown(KeyCode.N))
+            {
+                userDefinition += 'n';
+                gameManager.keyWordsScramble[index] = userDefinition;
+                //definitionOffered.RemoveAt(currentPage);
+                //and add the one with the extra letter in its place
+                //definitionOffered.Insert(currentPage, userDefinition);
+                moveTyperForward();
+            }
+            else if (Input.GetKeyDown(KeyCode.O))
+            {
+                userDefinition += 'o';
+                gameManager.keyWordsScramble[index] = userDefinition;
+                //definitionOffered.RemoveAt(currentPage);
+                //and add the one with the extra letter in its place
+                //definitionOffered.Insert(currentPage, userDefinition);
+                moveTyperForward();
+            }
+            else if (Input.GetKeyDown(KeyCode.P))
+            {
+                userDefinition += 'p';
+                gameManager.keyWordsScramble[index] = userDefinition;
+                //definitionOffered.RemoveAt(currentPage);
+                //and add the one with the extra letter in its place
+                //definitionOffered.Insert(currentPage, userDefinition);
+                moveTyperForward();
+            }
+            else if (Input.GetKeyDown(KeyCode.Q))
+            {
+                userDefinition += 'q';
+                gameManager.keyWordsScramble[index] = userDefinition;
+                //definitionOffered.RemoveAt(currentPage);
+                //and add the one with the extra letter in its place
+                //definitionOffered.Insert(currentPage, userDefinition);
+                definitionOffered.Insert(currentPage, userDefinition);
+                moveTyperForward();
+            }
+            else if (Input.GetKeyDown(KeyCode.R))
+            {
+                userDefinition += 'r';
+                gameManager.keyWordsScramble[index] = userDefinition;
+                //definitionOffered.RemoveAt(currentPage);
+                //and add the one with the extra letter in its place
+                //definitionOffered.Insert(currentPage, userDefinition);
+                moveTyperForward();
+            }
+            else if (Input.GetKeyDown(KeyCode.S))
+            {
+                userDefinition += 's';
+                gameManager.keyWordsScramble[index] = userDefinition;
+                //definitionOffered.RemoveAt(currentPage);
+                //and add the one with the extra letter in its place
+                //definitionOffered.Insert(currentPage, userDefinition);
+                moveTyperForward();
+            }
+            else if (Input.GetKeyDown(KeyCode.T))
+            {
+                userDefinition += 't';
+                gameManager.keyWordsScramble[index] = userDefinition;
+                //definitionOffered.RemoveAt(currentPage);
+                //and add the one with the extra letter in its place
+                //definitionOffered.Insert(currentPage, userDefinition);
+                moveTyperForward();
+            }
+            else if (Input.GetKeyDown(KeyCode.U))
+            {
+                userDefinition += 'u';
+                gameManager.keyWordsScramble[index] = userDefinition;
+                //definitionOffered.RemoveAt(currentPage);
+                //and add the one with the extra letter in its place
+                //definitionOffered.Insert(currentPage, userDefinition);
+                moveTyperForward();
+            }
+            else if (Input.GetKeyDown(KeyCode.V))
+            {
+                userDefinition += 'v';
+                gameManager.keyWordsScramble[index] = userDefinition;
+                //definitionOffered.RemoveAt(currentPage);
+                //and add the one with the extra letter in its place
+                //definitionOffered.Insert(currentPage, userDefinition);
+                moveTyperForward();
+            }
+            else if (Input.GetKeyDown(KeyCode.W))
+            {
+                userDefinition += 'w';
+                gameManager.keyWordsScramble[index] = userDefinition;
+                //definitionOffered.RemoveAt(currentPage);
+                //and add the one with the extra letter in its place
+                //definitionOffered.Insert(currentPage, userDefinition);
+                moveTyperForward();
+            }
+            else if (Input.GetKeyDown(KeyCode.X))
+            {
+                userDefinition += 'x';
+                gameManager.keyWordsScramble[index] = userDefinition;
+                //definitionOffered.RemoveAt(currentPage);
+                //and add the one with the extra letter in its place
+                //definitionOffered.Insert(currentPage, userDefinition);
+                moveTyperForward();
+            }
+            else if (Input.GetKeyDown(KeyCode.Y))
+            {
+                userDefinition += 'y';
+                gameManager.keyWordsScramble[index] = userDefinition;
+                //definitionOffered.RemoveAt(currentPage);
+                //and add the one with the extra letter in its place
+                //definitionOffered.Insert(currentPage, userDefinition);
+                moveTyperForward();
+            }
+            else if (Input.GetKeyDown(KeyCode.Z))
+            {
+                userDefinition += 'z';
+                gameManager.keyWordsScramble[index] = userDefinition;
+                //definitionOffered.RemoveAt(currentPage);
+                //and add the one with the extra letter in its place
+                //definitionOffered.Insert(currentPage, userDefinition);
+                moveTyperForward();
+            }
+
+        }
+        //if the user presses backspace and the user definition's length is not negative
+        if (Input.GetKeyDown(KeyCode.Backspace) && userDefinition.Length > 0)
+        {
+            //then we remove the last character from the string
+            userDefinition = userDefinition.Substring(0, userDefinition.Length - 1);
+            //we remove the definition offered at that index 
+            gameManager.keyWordsScramble[index] = userDefinition;
+            //definitionOffered.RemoveAt(currentPage);
+            //and add the one with the extra letter in its place
+            //definitionOffered.Insert(currentPage, userDefinition);
+            moveTyperBackward();
+        }
+
+
+    }
+
+    /// <summary>
+    /// Starts the translating process for the journal. Basically checks if the translated words offered by the user were correct
+    /// </summary>
+    public void startTranslatingJournal(){
 		//goes throught the list of translations offered by the user
 		for (int i = 0; i < definitionOffered.Count; i++) {
 			//if the translation was correct
