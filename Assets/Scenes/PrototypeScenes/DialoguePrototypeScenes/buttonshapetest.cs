@@ -12,7 +12,7 @@ public class buttonshapetest : MonoBehaviour {
     public string nextText1, updatedLine;
     public bool[] isScrambles = new bool[8];
     public GameObject nextButton_1;
-    public bool isBeingDisplayed;
+    public bool isBeingDisplayed, removeOldText;
     public gameManager theGameManager;
 
     // Use this for initialization
@@ -50,15 +50,21 @@ public class buttonshapetest : MonoBehaviour {
                 wordButton[i].GetComponent<ButtonInfo>().isScrambled = false;
                 wordButton[i].GetComponent<ButtonInfo>().nextButton_1 = nextButton_1;
             }
+            if (!removeOldText)
+            {
+                resetText(i);
+            }
             buttonText[i].text = individualWord[i];
             
         }
+        removeOldText = false;
     }
-    public void resetText()
+    public void resetText(int index)
     {
-        for(int i = 0; i < buttonText.Length; i++)
+        for(int i = index; i < buttonText.Length; i++)
         {
             buttonText[i].text = "";
         }
+        removeOldText = true;
     }
 }

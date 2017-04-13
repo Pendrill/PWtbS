@@ -12,11 +12,16 @@ public class ButtonInfo : MonoBehaviour {
     public GameObject panel1, panel2, panel3;
     public string nextText1, nextText2, nextText3;
     public TextBoxManager thep;
+    public gameManager theGameManager;
+    public int index;
+  
 
     // Use this for initialization
     void Start () {
         theTranslatorManager = FindObjectOfType<TranslatorManager>();
         theTranslatorManager = theTranslatorManager.GetComponent<TranslatorManager>();
+        theGameManager = FindObjectOfType<gameManager>();
+        theGameManager = theGameManager.GetComponent<gameManager>();
         thep = FindObjectOfType<TextBoxManager>();
 	}
 	
@@ -31,11 +36,13 @@ public class ButtonInfo : MonoBehaviour {
         }
         if (isTyping)
         {
-            theTranslatorManager.typeTranslation();
+            index = System.Array.IndexOf(gameManager.keyWordsScramble, buttonText.text);
+            theTranslatorManager.typeTranslation(index);
             buttonText.text = theTranslatorManager.userDefinition;
             if (Input.GetKeyDown(KeyCode.Return))
             {
                 isTyping = false;
+                theTranslatorManager.userDefinition = "";
             }
         }
         if(nextButton_1 != null)
