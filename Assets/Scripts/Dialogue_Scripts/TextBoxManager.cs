@@ -48,15 +48,18 @@ public class TextBoxManager : MonoBehaviour {
     public string[] individualWordTBT_1, individualWordTBT_2, individualWordTBT_3;
     public bool ThoughtBubbleRequiered = false, beingDisplayed = false;
     public string playerText;
-    public bool noDialogue, isHuman;
+    public bool noDialogue, isHuman, shiftDialogueBox;
     public bool[] isScrambled;
+    public Vector3 OriginalPanelPosition, PanelDestination;
+    public float time;
+
 
     //we could include a way for the player to stop moving when dialogue pops up (DONE)
 
     // Use this for initialization
     void Start()
     {
-
+        time = 0f;
         //get the game manager object
         theGameManager = FindObjectOfType<gameManager>();
         theTranslatorManager = FindObjectOfType<TranslatorManager>();
@@ -81,12 +84,14 @@ public class TextBoxManager : MonoBehaviour {
         //if the textbox bool is set to active then it should be enable at the beginning of the scene. Otherwise no.
         if (isTextBoxActive)
         {
-            enableTextBox();
+            enableTextBox(isHuman);
         }
         else
         {
             disableTextBox();
         }
+
+        OriginalPanelPosition = textBox.GetComponent<RectTransform>().anchoredPosition3D;
     }
 
     // Update is called once per frame
@@ -104,6 +109,20 @@ public class TextBoxManager : MonoBehaviour {
             time_left -= Time.deltaTime;
         }
 
+        if (shiftDialogueBox)
+        {
+            time += Time.deltaTime*6;
+            textBox.GetComponent<RectTransform>().anchoredPosition3D = Vector3.Lerp(OriginalPanelPosition, PanelDestination, time);
+        }
+        if(textBox.GetComponent<RectTransform>().anchoredPosition3D == PanelDestination)
+        {
+            if (shiftDialogueBox)
+            {
+                StartCoroutine(DisplayResponces());
+            }
+            shiftDialogueBox = false;
+            
+        }
         //theText.text = textLines [currentLine];
         if (ThoughtBubbleRequiered && !beingDisplayed && !isHuman)
         {
@@ -124,10 +143,10 @@ public class TextBoxManager : MonoBehaviour {
             {
                 updatedLineOfText_TB3 += theGameManager.checkIfScramble(individualWordTBT_3[i]) + "  ";
             }
-            StartCoroutine (TextScroll_TB1 (updatedLineOfText_TB1));
+            StartCoroutine(TextScroll_TB1(thoughtBubbleString_1));//updatedLineOfText_TB1));
             // thoughtBubble_1.GetComponent<buttonshapetest>().displayButtonText(updatedLineOfText_TB1, isScrambled);
-            StartCoroutine(TextScroll_TB2(updatedLineOfText_TB2));
-            StartCoroutine(TextScroll_TB3(updatedLineOfText_TB3));
+            StartCoroutine(TextScroll_TB2(thoughtBubbleString_2));//updatedLineOfText_TB2));
+            StartCoroutine(TextScroll_TB3(thoughtBubbleString_3));//updatedLineOfText_TB3));
             //StartCoroutine (TextScroll (updatedLineOfText));
         }
         //Checks if the player clicked the mouse
@@ -308,6 +327,37 @@ public class TextBoxManager : MonoBehaviour {
     /// <summary>
     /// Enables the text box specific for the dialogue.
     /// </summary>
+    public void enableTextBox(bool human)
+    {
+        noDialogue = true;
+        //we set the text box to active
+        textBox.SetActive(true);
+        //the text box is thus currently active
+        isTextBoxActive = true;
+        //if (stopPlayerMovement) {
+        //playerMovement.canMove = false;
+        //}
+        if (!human)
+        {
+            shiftDialogueBox = true;
+        } else
+        {
+            shiftDialogueBox = false;
+        }
+
+        //we represt the same process as above to check if the words witin the line of dialogue need to be scrambled, and then updated the line of text accordingly 
+        //individualWord = textLines[currentLine].Split (' ');
+        individualWord = playerText.Split(' ');
+        for (int i = 0; i < individualWord.Length; i++)
+        {
+            updatedLineOfText += theGameManager.checkIfScramble(individualWord[i]) + "  ";
+        }
+        //we then start the couroutine that will display the sentences of dialogue one letter at a time.
+
+
+        StartCoroutine(TextScroll(playerText));//updatedLineOfText));//textLines [currentLine]));
+        
+    }
     public void enableTextBox()
     {
         noDialogue = true;
@@ -318,6 +368,7 @@ public class TextBoxManager : MonoBehaviour {
         //if (stopPlayerMovement) {
         //playerMovement.canMove = false;
         //}
+        //shiftDialogueBox = true;
 
         //we represt the same process as above to check if the words witin the line of dialogue need to be scrambled, and then updated the line of text accordingly 
         //individualWord = textLines[currentLine].Split (' ');
@@ -335,6 +386,7 @@ public class TextBoxManager : MonoBehaviour {
     /// </summary>
     public void disableTextBox()
     {
+        time = 0;
         //we set the text box to unactive
         textBox.SetActive(false);
         //thus the text box is no longer active
@@ -387,7 +439,7 @@ public class TextBoxManager : MonoBehaviour {
             updatedLineOfText += theGameManager.checkIfScramble(individualWord[i]) + "  ";
         }
         //we then start the couroutine that will display the sentences of dialogue one letter at a time.
-        StartCoroutine(TextScroll(updatedLineOfText));//textLines [currentLine]));
+        StartCoroutine(TextScroll(playerText));//updatedLineOfText));//textLines [currentLine]));
     }
 
     public void reloadThoughtBubble(GameObject hit)
@@ -436,5 +488,13 @@ public class TextBoxManager : MonoBehaviour {
     public void setBox(GameObject thought)
     {
 
+    }
+    private IEnumerator DisplayResponces()
+    {
+        thoughtBubble_1.SetActive (true);
+        yield return new WaitForSeconds(0.2f);
+        thoughtBubble_2.SetActive (true);
+        yield return new WaitForSeconds(0.2f);
+        thoughtBubble_3.SetActive(true);
     }
 }

@@ -55,10 +55,12 @@ public class WallZoom : MonoBehaviour {
 		}
 		//if we are zoomed in
 		if (isZoom) {
-			if (isBar){ 
-				if(theContractManager.confirmed) {
+			if (isBar){
+                theRotateMouseClick.euler = new Vector3 (0, 180,0);
+                if (theContractManager.confirmed) {
 					theMoveCameraDialogue.wallZoom = true;
 					theMoveCameraDialogue.moveToMouse = false;
+                    
 					isZoom = false;
 					ZoomOut = true;
 					theContractManager.confirmed = false;
