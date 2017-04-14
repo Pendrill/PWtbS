@@ -101,7 +101,7 @@ public class MoveCameraDialogue : MonoBehaviour {
 			if (wallZoom) {
 				transform.position = Vector3.Lerp (OriginalCameraPosition, mouseLocationZoom + mouseOffsetPosition, time);
 				if (bar) {
-					transform.rotation = Quaternion.Lerp (transform.rotation, Quaternion.Euler(-10,-175,0), time);
+					transform.rotation = Quaternion.Lerp (transform.rotation, Quaternion.Euler(0,-180,0), time);
 				}
 				//wallZoom = false;
 			} else if(objectZoom) {
