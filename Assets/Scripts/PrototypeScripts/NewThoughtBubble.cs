@@ -64,6 +64,44 @@ public class NewThoughtBubble : MonoBehaviour {
 		}
         
 	}
+    public void hitButtonDialogue()
+    {
+        isFinalThought = nextThoughtBubble.GetComponent<NextThoughtBubble>().isFinalThought;
+        if (isFinalThought)
+        {
+            thoughtBubble_1.SetActive(false);
+            thoughtBubble_2.SetActive(false);
+            thoughtBubble_3.SetActive(false);
+            theTextBoxManager.disableTextBox();
+        }
+        else
+        {
+            thoughtBubbleString_1 = nextThoughtBubble.GetComponent<NextThoughtBubble>().thoughtBubbleString_1;
+            thoughtBubbleString_2 = nextThoughtBubble.GetComponent<NextThoughtBubble>().thoughtBubbleString_2;
+            thoughtBubbleString_3 = nextThoughtBubble.GetComponent<NextThoughtBubble>().thoughtBubbleString_3;
+            arbThought = nextThoughtBubble.GetComponent<NextThoughtBubble>().arbThought;
+            //currentHit = hit.collider.gameObject;
+            theTextBoxManager.reloadScriptNext(gameObject.GetComponent<NewThoughtBubble>().arbThought);
+            theTextBoxManager.nextThoughtBubble(gameObject);
+
+            if (identifier == 1)
+            {
+                thoughtBubble_2.GetComponent<NewThoughtBubble>().nextThoughtBubble = nextThoughtBubble.GetComponent<NextThoughtBubble>().otherBubble_1;
+                thoughtBubble_3.GetComponent<NewThoughtBubble>().nextThoughtBubble = nextThoughtBubble.GetComponent<NextThoughtBubble>().otherBubble_2;
+            }
+            else if (identifier == 2)
+            {
+                thoughtBubble_1.GetComponent<NewThoughtBubble>().nextThoughtBubble = nextThoughtBubble.GetComponent<NextThoughtBubble>().otherBubble_1;
+                thoughtBubble_3.GetComponent<NewThoughtBubble>().nextThoughtBubble = nextThoughtBubble.GetComponent<NextThoughtBubble>().otherBubble_2;
+            }
+            else if (identifier == 3)
+            {
+                thoughtBubble_1.GetComponent<NewThoughtBubble>().nextThoughtBubble = nextThoughtBubble.GetComponent<NextThoughtBubble>().otherBubble_1;
+                thoughtBubble_2.GetComponent<NewThoughtBubble>().nextThoughtBubble = nextThoughtBubble.GetComponent<NextThoughtBubble>().otherBubble_2;
+            }
+            nextThoughtBubble = nextThoughtBubble.GetComponent<NextThoughtBubble>().nextThoughtBubble;
+        }
+    }
 	public void resetNextBubble(GameObject hit, GameObject bubble){
 		hit.GetComponent<NewThoughtBubble>().nextThoughtBubble = bubble;
 	}

@@ -37,12 +37,13 @@ public class buttonshapetest : MonoBehaviour {
         {
             updatedLine += theGameManager.checkIfScramble(individualWord[i], isScrambled, i) + " ";
         }
-       // individualWord = new string[1];
+        // individualWord = new string[1];
+        updatedLine = updatedLine.Substring(0, updatedLine.Length - 1);
         individualWord = updatedLine.Split(' ');
         updatedLine = "";
-        for (int i = 0; i < individualWord.Length; i++)
+        for (int i = 0; i < wordButton.Length; i++)
         {
-            if (isScrambled[i])
+            if(isScrambled[i])
             {
                 wordButton[i].GetComponent<ButtonInfo>().isScrambled = true;
             }else
@@ -50,6 +51,10 @@ public class buttonshapetest : MonoBehaviour {
                 wordButton[i].GetComponent<ButtonInfo>().isScrambled = false;
                 wordButton[i].GetComponent<ButtonInfo>().nextButton_1 = nextButton_1;
             }
+        }
+        for (int i = 0; i < individualWord.Length; i++)
+        {
+            
             if (!removeOldText)
             {
                 resetText(i);

@@ -148,7 +148,7 @@ public class ThoughtBubble : MonoBehaviour {
 					theTextBoxManager.endAtLine = currentHit.GetComponent<ThoughtBubble> ().endLine;
 					theTextBoxManager.reloadThoughtBubble (currentHit, isHuman);
 					if (isHuman) {
-						theTextBoxManager.textBox.GetComponent<RectTransform> ().localPosition = new Vector3 (0, -220, 0);
+						//theTextBoxManager.textBox.GetComponent<RectTransform> ().localPosition = new Vector3 (0, -220, 0);
                         BSTpanel1.nextButton_1 = TB1;
                         BSTpanel2.nextButton_1 = TB2;
                         BSTpanel3.nextButton_1 = TB3;
@@ -157,12 +157,12 @@ public class ThoughtBubble : MonoBehaviour {
                         BSTpanel2.nextText1 = thoughtBubbleString_2;
                         BSTpanel3.nextText1 = thoughtBubbleString_3;
                     } else {
-						theTextBoxManager.textBox.GetComponent<RectTransform> ().localPosition = new Vector3 (0, 220, 0);
+						//theTextBoxManager.textBox.GetComponent<RectTransform> ().localPosition = new Vector3 (0, 220, 0);
                         //Finally we have a coroutine that starts so as to wait that the camera has zoomed in
                         //Debug.Log("is reached");
-                        thoughtBubble_1.transform.position = thoughtBubble1Pos;
-                        thoughtBubble_2.transform.position = thoughtBubble2Pos;
-                        thoughtBubble_3.transform.position = thoughtBubble3Pos;
+                        //thoughtBubble_1.transform.position = thoughtBubble1Pos;
+                        //thoughtBubble_2.transform.position = thoughtBubble2Pos;
+                        //thoughtBubble_3.transform.position = thoughtBubble3Pos;
                         //theNewThoughtBubble.resetNextBubble (thoughtBubble_1, TB1);
                         //theNewThoughtBubble.resetNextBubble (thoughtBubble_2, TB2);
                         //theNewThoughtBubble.resetNextBubble (thoughtBubble_3, TB3);
@@ -268,10 +268,13 @@ public class ThoughtBubble : MonoBehaviour {
 	private IEnumerator waitToDisplayDialogueBox()
 	{
 		yield return new WaitForSeconds(0.4f);
-		theTextBoxManager.enableTextBox();
-		thoughtBubble_1.SetActive (true);
-		thoughtBubble_2.SetActive (true);
-		thoughtBubble_3.SetActive(true);
+		theTextBoxManager.enableTextBox(isHuman);
+        if (isHuman)
+        {
+            thoughtBubble_1.SetActive (true);
+            thoughtBubble_2.SetActive (true);
+            thoughtBubble_3.SetActive(true);
+        }
 
 		if (destroyWhenActivated)
 		{
