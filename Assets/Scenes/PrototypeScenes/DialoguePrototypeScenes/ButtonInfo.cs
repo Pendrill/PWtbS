@@ -59,6 +59,7 @@ public class ButtonInfo : MonoBehaviour {
         if (isScrambled)
         {
             isTyping = true;
+            theTranslatorManager.userDefinition = "";
         }
         else
         {
@@ -92,6 +93,20 @@ public class ButtonInfo : MonoBehaviour {
             panel2.GetComponent<buttonshapetest>().nextText1 = nextText2;
             panel3.GetComponent<buttonshapetest>().nextText1 = nextText3;
 
+        }
+    }
+    public void enterHoverOverButton()
+    {
+        if (isScrambled)
+        {
+            gameObject.GetComponentInChildren<Text>().fontStyle = FontStyle.Bold;
+        }
+    }
+    public void exitHoverOverButton()
+    {
+        if (isScrambled)
+        {
+            gameObject.GetComponentInChildren<Text>().fontStyle = FontStyle.Normal;
         }
     }
 }
