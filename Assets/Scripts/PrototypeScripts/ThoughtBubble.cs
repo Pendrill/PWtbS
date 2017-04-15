@@ -107,10 +107,10 @@ public class ThoughtBubble : MonoBehaviour {
 		//if the dialogue textbox is active and the camera is not in its original position
 		if (theTextBoxManager.isTextBoxActive || MoveCameraDialogue.transform.position != MoveCameraDialogue.OriginalCameraPosition || theTranslatorManager.panelIsActive) {
 			//then the mini dialogue box should not be displayed
-			canTalk.SetActive (false);
+			//canTalk.SetActive (false);
 			//On the other hand, if the object is interactable then we enable the hoverOverObject function
 		} else if(interactable){
-			hoverOverObject ();
+			//hoverOverObject ();
 		}
 
 		//If the player clicks on the mouse, and we are currently not in dialogue, the camera is not moving, and we are not currently translating words, that means the player is trying to interact with an object in the world
