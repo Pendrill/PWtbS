@@ -95,4 +95,18 @@ public class ButtonInfo : MonoBehaviour {
 
         }
     }
+    public void enterHoverOverButton()
+    {
+        if (isScrambled)
+        {
+            gameObject.GetComponentInChildren<Text>().fontStyle = FontStyle.Bold;
+        }
+    }
+    public void exitHoverOverButton()
+    {
+        if (isScrambled)
+        {
+            gameObject.GetComponentInChildren<Text>().fontStyle = FontStyle.Normal;
+        }
+    }
 }
