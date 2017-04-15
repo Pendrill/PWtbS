@@ -72,4 +72,11 @@ public class buttonshapetest : MonoBehaviour {
         }
         removeOldText = true;
     }
+    public void resetTyping()
+    {
+        for( int i = 0; i < wordButton.Length; i++)
+        {
+            wordButton[i].GetComponent<ButtonInfo>().isTyping = false;
+        }
+    }
 }

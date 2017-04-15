@@ -62,6 +62,11 @@ public class ButtonInfo : MonoBehaviour {
         }
         else
         {
+            //isTyping = false;
+            //theTranslatorManager.userDefinition = "";
+            panel1.GetComponent<buttonshapetest>().resetTyping();
+            panel2.GetComponent<buttonshapetest>().resetTyping();
+            panel3.GetComponent<buttonshapetest>().resetTyping();
             if (nextButton_1.GetComponent<NextThoughtBubble>().isFinalThought)
             {
                 //disable the text box

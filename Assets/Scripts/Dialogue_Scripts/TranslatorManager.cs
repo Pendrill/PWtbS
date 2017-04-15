@@ -71,8 +71,9 @@ public class TranslatorManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		//if the user presses I and the panel is not active then we activate the panel
+        
 		if (Input.GetMouseButtonDown(2) && !panelIsActive) {
-			enableTranslatorPanel ();
+			//enableTranslatorPanel ();
 		//if the player presses I and the panel is active and the user is not typing in a definition, then we disable the translator panel
 		} else if (Input.GetMouseButtonDown(2) && panelIsActive && !userIsTyping) {
 			disableTranslatorPanel ();
