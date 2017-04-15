@@ -59,6 +59,7 @@ public class ButtonInfo : MonoBehaviour {
         if (isScrambled)
         {
             isTyping = true;
+            theTranslatorManager.userDefinition = "";
         }
         else
         {
