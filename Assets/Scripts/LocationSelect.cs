@@ -5,8 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class LocationSelect : MonoBehaviour
 {
-    public Transform school, apartment, spiritBar, mart;
-    public Vector3 OGschool, OGapartment, OGSpiritBar, OGMart;
+    public Transform school, apartment, spiritBar, mart, subway;
+    public Vector3 OGschool, OGapartment, OGSpiritBar, OGMart, OGsubway;
     // Use this for initialization
     void Start()
     {
@@ -14,6 +14,7 @@ public class LocationSelect : MonoBehaviour
         OGapartment = apartment.localScale;
         OGSpiritBar = spiritBar.localScale;
         OGMart = mart.localScale;
+        OGsubway = subway.localScale;
     }
 
     // Update is called once per frame
@@ -63,6 +64,14 @@ public class LocationSelect : MonoBehaviour
                     SceneManager.LoadScene("BarDesignTest");
                 }
             }
+            if ((hit.transform.tag == "Subway"))
+            {
+                hit.transform.localScale = new Vector3(1.00078f , 1.08f, 0.9f);
+                if (Input.GetMouseButtonDown(0))
+                {
+                    SceneManager.LoadScene("Subway");
+                }
+            }
         }
         else
         {
@@ -70,6 +79,7 @@ public class LocationSelect : MonoBehaviour
             apartment.localScale = OGapartment;
             spiritBar.localScale = OGSpiritBar;
             mart.localScale = OGMart;
+            subway.localScale = OGsubway;
         }
     }
 }
