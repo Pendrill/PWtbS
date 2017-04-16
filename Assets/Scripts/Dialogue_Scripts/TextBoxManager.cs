@@ -470,6 +470,20 @@ public class TextBoxManager : MonoBehaviour {
         thoughtBubbleString_3 = currentThoughtBubble.thoughtBubbleString_3;
         ThoughtBubbleRequiered = true;
     }
+    public void reloadThoughtBubble(GameObject hit, bool isHuman, bool start)
+    {
+        StartTalkingToLoretto currentThoughtBubble = hit.GetComponent<StartTalkingToLoretto>();
+        thoughtBubble_1 = currentThoughtBubble.thoughtBubble_1;
+        thoughtBubble_2 = currentThoughtBubble.thoughtBubble_2;
+        thoughtBubble_3 = currentThoughtBubble.thoughtBubble_3;
+        thoughtBubbleText_1 = currentThoughtBubble.thoughtBubbleText_1;
+        thoughtBubbleText_2 = currentThoughtBubble.thoughtBubbleText_2;
+        thoughtBubbleText_3 = currentThoughtBubble.thoughtBubbleText_3;
+        thoughtBubbleString_1 = currentThoughtBubble.thoughtBubbleString_1;
+        thoughtBubbleString_2 = currentThoughtBubble.thoughtBubbleString_2;
+        thoughtBubbleString_3 = currentThoughtBubble.thoughtBubbleString_3;
+        ThoughtBubbleRequiered = true;
+    }
     public void nextThoughtBubble(GameObject hit)
     {
         NewThoughtBubble currentThoughtBubble = hit.GetComponent<NewThoughtBubble>();
