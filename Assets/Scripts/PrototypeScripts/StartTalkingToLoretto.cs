@@ -67,7 +67,7 @@ public class StartTalkingToLoretto : MonoBehaviour {
     public buttonshapetest BSTpanel1, BSTpanel2, BSTpanel3;
 
     public GameObject Loretto;
-    public GameObject drunkPanel;
+    public GameObject drunkPanel, eyeLid1, eyeLid2;
     //public NewThoughtBubble theNewThoughtBubble;
     // Use this for initialization
     void Start()
@@ -102,7 +102,7 @@ public class StartTalkingToLoretto : MonoBehaviour {
         theTextBoxManager.reloadScript(Loretto.GetComponent<StartTalkingToLoretto>().arbThought);
         theTextBoxManager.currentLine = Loretto.GetComponent<StartTalkingToLoretto>().startLine;
         theTextBoxManager.endAtLine = Loretto.GetComponent<StartTalkingToLoretto>().endLine;
-        theTextBoxManager.reloadThoughtBubble(Loretto, isHuman);
+        theTextBoxManager.reloadThoughtBubble(Loretto, isHuman, true);
 
         //theTextBoxManager.textBox.GetComponent<RectTransform> ().localPosition = new Vector3 (0, 220, 0);
         //Finally we have a coroutine that starts so as to wait that the camera has zoomed in
@@ -263,6 +263,13 @@ public class StartTalkingToLoretto : MonoBehaviour {
         yield return new WaitForSeconds(0.4f);
         theTextBoxManager.enableTextBox(isHuman);
         drunkPanel.SetActive(false);
+        eyeLid1.SetActive(true);
+        eyeLid2.SetActive(true);
+        yield return new WaitForSeconds(1.3f);
+        eyeLid1.SetActive(false);
+        eyeLid2.SetActive(false);
+        
+        
         if (isHuman)
         {
             thoughtBubble_1.SetActive(true);
