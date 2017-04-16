@@ -146,8 +146,8 @@ public class MoveCameraDialogue : MonoBehaviour {
         Debug.Log("This is reached");
         moveToObject = true;
 		objectZoom = true;
-		if (theDestination.GetComponent<ActivateTextAtLine> () != null) {
-			back = theDestination.GetComponent<ActivateTextAtLine> ().behind;
+		if (theDestination.GetComponent<ThoughtBubble> () != null) {
+			back = theDestination.GetComponent<ThoughtBubble> ().behind;
 		}
 	}
 	/// <summary>
