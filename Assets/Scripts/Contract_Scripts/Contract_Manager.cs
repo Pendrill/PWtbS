@@ -79,7 +79,9 @@ public class Contract_Manager : MonoBehaviour {
 	public void SelectContract(){
 		Set = selectedContract.GetComponent<Contract_Selection> ().Set;
 		Number = selectedContract.GetComponent<Contract_Selection> ().Number;
-		ChooseOtherContract ();
+        QuestManager.currentContract = selectedContract.GetComponent<Contract_Selection>().Number;
+
+        ChooseOtherContract ();
 		confirmed = true;
 	}
 }
