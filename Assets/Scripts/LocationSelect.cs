@@ -18,7 +18,7 @@ public class LocationSelect : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit, 10000000))
+        if (Physics.Raycast(ray, out hit))
         {
             if((hit.transform.tag == "CLASSROOM"))
             {
@@ -27,6 +27,7 @@ public class LocationSelect : MonoBehaviour
                 if (Input.GetMouseButtonDown(0))
                 {
                     SceneManager.LoadScene("CLASSROOM");
+                    Debug.Log(hit);
                 }
             }
             if ((hit.transform.tag == "BEDROOM"))
