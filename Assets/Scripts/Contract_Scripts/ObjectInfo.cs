@@ -65,15 +65,18 @@ public class ObjectInfo : MonoBehaviour {
         {
             //checkIfThere = false;
             objectMeshRenderer.enabled = false;
+            GetComponent<PickUpObject>().enabled = false;
             return;
         }
         if (checkIfThere)
         {
+            GetComponent<PickUpObject>().enabled = false;
             objectMeshRenderer.enabled = false;
         }
         else
         {
             objectMeshRenderer.enabled = true;
+            GetComponent<PickUpObject>().enabled = true;
         }
         /*if( inInv || ((!originalScene.Trim().Equals( SceneManager.GetActiveScene().name.Trim()) && !endScene.Trim().Equals(SceneManager.GetActiveScene().name.Trim())) && !droppedInEnd))
         {
