@@ -9,7 +9,7 @@ public class PickUpObject : MonoBehaviour {
 	public MoveCameraDialogue MoveCameraDialogue;
 	public TranslatorManager theTranslatorManager;
 	public objectPickupManager theObjectPickupManager;
-	public Image chargerSprite, notebookSprite;
+	//public Image chargerSprite, notebookSprite;
 	public int startLine, endLine;
 	public TextAsset theText;
     public Vector3 specificOffset;
@@ -25,8 +25,8 @@ public class PickUpObject : MonoBehaviour {
 	void Update () {
         if (SceneManager.GetActiveScene().name.Trim().Equals("Classroom".Trim()) || SceneManager.GetActiveScene().name.Trim().Equals("StudentBedroom".Trim()))
         {
-            notebookSprite = GameObject.FindGameObjectWithTag("notebookSprite").GetComponent<Image>();
-            chargerSprite = GameObject.FindGameObjectWithTag("chargerSprite").GetComponent<Image>();
+           // notebookSprite = GameObject.FindGameObjectWithTag("notebookSprite").GetComponent<Image>();
+            //chargerSprite = GameObject.FindGameObjectWithTag("chargerSprite").GetComponent<Image>();
             theTextBoxManager = GameObject.FindGameObjectWithTag("TextBoxManager").GetComponent<TextBoxManager>();
             MoveCameraDialogue = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<MoveCameraDialogue>();
 
@@ -40,13 +40,14 @@ public class PickUpObject : MonoBehaviour {
 				//we only want to run this for the specific object that got hit (as this script will be attached to many objects)
 				if (hit.collider.gameObject.name == this.gameObject.name ) {
 					Debug.Log (hit.collider.gameObject.name);
-					if(hit.collider.gameObject.name.Equals("notebook")){
+                    gameObject.GetComponent<ObjectInfo>().objectSprite.enabled = true;
+					/*if(hit.collider.gameObject.name.Equals("notebook")){
 						//ActivateTextAtLine.notebook = true;
 						notebookSprite.enabled = true;
 					}else if(hit.collider.gameObject.name.Equals("charger")){
 						//ActivateTextAtLine.charger = true;                       
 						chargerSprite.enabled = true;
-					}
+					}*/
 					//otherwise we need to zoom in the camera towards the object that got hit by the raycast
 					MoveCameraDialogue.moveTowardObject (hit.transform.gameObject, specificOffset);
 					//and then we need to update the dialogue text, start, and end line

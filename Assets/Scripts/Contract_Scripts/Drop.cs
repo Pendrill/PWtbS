@@ -16,6 +16,7 @@ public class Drop : MonoBehaviour {
     public objectPickupManager theObjectPickupManager;
     public ROOM_MANAGER theRoomManager;
     public ExitRoom theExit;
+    public GameObject invButton;
     //public Button drop;
     // Use this for initialization
     public bool hoverOverDrop;
@@ -37,25 +38,43 @@ public class Drop : MonoBehaviour {
         endPosition = currentObjectInSlot.GetComponent<ObjectInfo>().endPosition;
         if (originalScene.Trim().Equals(SceneManager.GetActiveScene().name.Trim()))
         {
-            currentObjectInSlot.transform.position = originalPosition;
-            currentObjectInSlot.SetActive(true);
-            currentObjectInSlot.GetComponent<ObjectInfo>().inInv = false;
-            InvIndex = currentObjectInSlot.GetComponent<ObjectInfo>().InvIndex;
-            theObjectPickupManager.InventorySlot[currentObjectInSlot.GetComponent<ObjectInfo>().InvIndex].GetComponent<Image>().sprite = null;
-            theObjectPickupManager.slotOpen[InvIndex] = false;
-            
+            invButton.GetComponent<InventoryButton>().reference = 0;
+           // currentObjectInSlot.transform.position = originalPosition;
+            //currentObjectInSlot.SetActive(true);
+           // currentObjectInSlot.GetComponent<ObjectInfo>().inInv = false;
+            //InvIndex = currentObjectInSlot.GetComponent<ObjectInfo>().InvIndex;
+            theObjectPickupManager.InventorySlot[InvIndex].GetComponent<Image>().sprite = null;
+
+            objectPickupManager.slotOpen[InvIndex] = false;
+            objectPickupManager.inventoryReference[InvIndex] = 0;
+            invButton.GetComponent<InventoryButton>().currentObjectInSlot = null;
+
         } else if (endScene.Trim().Equals(SceneManager.GetActiveScene().name.Trim()))
         {
-            Debug.Log("Dropped at the end");
+            objectPickupManager.droppedInEndRef[invButton.GetComponent<InventoryButton>().reference] = currentObjectInSlot.GetComponent<ObjectInfo>().reference;
+            /*for(int i = 0; i < objectPickupManager.droppedInEndRef.Length; i++)
+            {
+                if(objectPickupManager.droppedInEndRef[i] == 0)
+                {
+                    Debug.Log("boiiiiiiiiii");
+                    objectPickupManager.droppedInEndRef[i] = currentObjectInSlot.GetComponent<ObjectInfo>().reference;
+                    break;
+                }
+            }*/
+            theObjectPickupManager.InventorySlot[InvIndex].GetComponent<Image>().sprite = null;
+            objectPickupManager.slotOpen[InvIndex] = false;
+            objectPickupManager.inventoryReference[InvIndex] = 0;
+            invButton.GetComponent<InventoryButton>().currentObjectInSlot = null;
+            /*Debug.Log("Dropped at the end");
             currentObjectInSlot.transform.position = endPosition;
             currentObjectInSlot.SetActive(true);
             currentObjectInSlot.GetComponent<ObjectInfo>().droppedInEnd = true;
             currentObjectInSlot.GetComponent<ObjectInfo>().inInv = false;
             InvIndex = currentObjectInSlot.GetComponent<ObjectInfo>().InvIndex;
             theObjectPickupManager.InventorySlot[currentObjectInSlot.GetComponent<ObjectInfo>().InvIndex].GetComponent<Image>().sprite = null;
-            theObjectPickupManager.slotOpen[InvIndex] = false;
+            objectPickupManager.slotOpen[InvIndex] = false;
             ROOM_MANAGER.complete = true;
-            theExit.GetComponent<ExitRoom>().complete = true;
+            theExit.GetComponent<ExitRoom>().complete = true;*/
         }
         hoverOverDrop = false;
         gameObject.SetActive(false);
