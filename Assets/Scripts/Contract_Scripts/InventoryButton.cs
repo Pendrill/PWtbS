@@ -8,6 +8,8 @@ public class InventoryButton : MonoBehaviour {
     public GameObject currentObjectInSlot;
     public string OriginalLocation;
     public Button drop;
+    public int index;
+    public int reference;
     
 	// Use this for initialization
 	void Start () {
@@ -20,6 +22,14 @@ public class InventoryButton : MonoBehaviour {
         {
             drop.gameObject.SetActive(false);
         }
+        if(currentObjectInSlot == null)
+        {
+            reference = 0;
+        }
+        else
+        {
+            reference = currentObjectInSlot.GetComponent<ObjectInfo>().reference ;
+        }
 	}
     public void invSlotPressed()
     {
@@ -27,6 +37,8 @@ public class InventoryButton : MonoBehaviour {
         drop.gameObject.SetActive(true);
         drop.GetComponent<RectTransform>().anchoredPosition3D = GetComponent<RectTransform>().anchoredPosition3D + new Vector3(73, 0, 0);
         drop.GetComponent<Drop>().currentObjectInSlot = currentObjectInSlot;
+        drop.GetComponent<Drop>().InvIndex = index;
+        drop.GetComponent<Drop>().invButton = this.gameObject;
 
        
 

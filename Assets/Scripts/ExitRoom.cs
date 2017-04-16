@@ -36,7 +36,7 @@ public class ExitRoom : MonoBehaviour {
 					SceneManager.LoadScene ("BarDesignTest");
 				} else {
 					Debug.Log ("Clicked on the door");
-					theObjectPickupManager.SaveInventory();
+					//theObjectPickupManager.SaveInventory();
 					SceneManager.LoadScene ("Location Selection");
 				}
 			}

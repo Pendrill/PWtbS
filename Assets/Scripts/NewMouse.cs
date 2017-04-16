@@ -13,7 +13,7 @@ public class NewMouse : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-       Cursor.visible = false;
+      // Cursor.visible = false;
         theTextBoxManager = FindObjectOfType<TextBoxManager>();
 
     }
