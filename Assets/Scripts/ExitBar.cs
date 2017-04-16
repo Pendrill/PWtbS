@@ -27,7 +27,7 @@ public class ExitBar : MonoBehaviour {
 			//if it hits and it is for this specific object
 			if (Physics.Raycast (ray, out hit) && hit.collider.gameObject.name == this.gameObject.name && Contract_Manager.Set != 0) {
 				Debug.Log ("Clicked on the door");
-				SceneManager.LoadScene ("Location Selection");
+				SceneManager.LoadScene ("MainMap");
 			}
 		}
 				

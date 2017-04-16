@@ -37,7 +37,7 @@ public class ExitRoom : MonoBehaviour {
 				} else {
 					Debug.Log ("Clicked on the door");
 					//theObjectPickupManager.SaveInventory();
-					SceneManager.LoadScene ("Location Selection");
+					SceneManager.LoadScene ("MainMap");
 				}
 			}
 		}
