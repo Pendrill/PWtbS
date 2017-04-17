@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class NewMouse : MonoBehaviour {
 
@@ -13,7 +14,7 @@ public class NewMouse : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-      // Cursor.visible = false;
+        Cursor.visible = false;
         theTextBoxManager = FindObjectOfType<TextBoxManager>();
 
     }
@@ -27,7 +28,7 @@ public class NewMouse : MonoBehaviour {
         RectTransformUtility.ScreenPointToLocalPointInRectangle(CanvasGO.transform as RectTransform, Input.mousePosition, CanvasGO.worldCamera, out pos);
         transform.position = CanvasGO.transform.TransformPoint(pos);
 
-        if (!theTextBoxManager.isTextBoxActive)
+        if (SceneManager.GetActiveScene().name.Trim().Equals("MainMap".Trim()) || !theTextBoxManager.isTextBoxActive)
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
