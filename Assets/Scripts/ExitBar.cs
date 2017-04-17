@@ -25,7 +25,7 @@ public class ExitBar : MonoBehaviour {
 			Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
 			RaycastHit hit;
 			//if it hits and it is for this specific object
-			if (Physics.Raycast (ray, out hit) && hit.collider.gameObject.name == this.gameObject.name && Contract_Manager.Set != 0) {
+			if (Physics.Raycast (ray, out hit) && hit.collider.gameObject.name == this.gameObject.name && QuestManager.currentContract != 0) {
 				Debug.Log ("Clicked on the door");
 				SceneManager.LoadScene ("MainMap");
 			}

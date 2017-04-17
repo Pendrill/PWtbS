@@ -65,6 +65,14 @@ public class ThoughtBubble : MonoBehaviour {
 	public GameObject TB1, TB2, TB3;
     public GameObject panel1, panel2, panel3;
     public buttonshapetest BSTpanel1, BSTpanel2, BSTpanel3;
+
+
+    public bool isTutorialArb, textBoxActivated;
+    public GameObject otherArb;
+    private bool canFade;
+    private Color alphaColor;
+    private float timeToFade = 1.0f;
+
     //public NewThoughtBubble theNewThoughtBubble;
     // Use this for initialization
     void Start () {
@@ -83,15 +91,19 @@ public class ThoughtBubble : MonoBehaviour {
 		MoveCameraDialogue = FindObjectOfType<MoveCameraDialogue> ();
 		//theRotateCamera = FindObjectOfType<RotateCamera>();
 		theRotateMouseClick = FindObjectOfType<RotateMouseClick> ();
-		//theNewThoughtBubble = FindObjectOfType<NewThoughtBubble> ();
+        //theNewThoughtBubble = FindObjectOfType<NewThoughtBubble> ();
+
+        canFade = false;
+        alphaColor = GetComponent<SpriteRenderer>().color;
+        alphaColor.a = 0;
 
         //originalThoughtBubble_1 = thoughtBubble_1.GetComponent<NewThoughtBubble>().nextThoughtBubble;
         //originalThoughtBubble_2 = thoughtBubble_2.GetComponent<NewThoughtBubble>().nextThoughtBubble;
         //originalThoughtBubble_3 = thoughtBubble_3.GetComponent<NewThoughtBubble>().nextThoughtBubble;
-		//thoughtBubble_1.transform.position = thoughtBubble1Pos;
-		//thoughtBubble_2.transform.position = thoughtBubble2Pos;
-		//thoughtBubble_3.transform.position = thoughtBubble3Pos;
-	}
+        //thoughtBubble_1.transform.position = thoughtBubble1Pos;
+        //thoughtBubble_2.transform.position = thoughtBubble2Pos;
+        //thoughtBubble_3.transform.position = thoughtBubble3Pos;
+    }
 
 	// Update is called once per frame
 	void Update () {
@@ -210,7 +222,32 @@ public class ThoughtBubble : MonoBehaviour {
 		if (ActivateTextAtLine.charger) {
 			//Debug.Log ("hello");
 		}
-	}
+
+
+        if (isTutorialArb)
+        {
+            if (textBoxActivated)
+            {
+                if (!theTextBoxManager.isTextBoxActive)
+                {
+                    canFade = true;
+                    //otherArb.SetActive(true);
+                    textBoxActivated = false;
+
+                    //have this one dissapear
+                }
+            }
+        }
+        if (canFade)
+        {
+            GetComponent<SpriteRenderer>().color = Color.Lerp(GetComponent<SpriteRenderer>().color, alphaColor, timeToFade * Time.deltaTime);
+            StartCoroutine(fadeArb());
+
+        }
+
+
+
+    }
 
 	/// <summary>
 	/// Hovers  over the object. Checks whether or not we need to display the mini dialogue box next to the interactable object
@@ -269,6 +306,7 @@ public class ThoughtBubble : MonoBehaviour {
 	{
 		yield return new WaitForSeconds(0.4f);
 		theTextBoxManager.enableTextBox(isHuman);
+        textBoxActivated = true;
         if (isHuman)
         {
             thoughtBubble_1.SetActive (true);
@@ -295,5 +333,13 @@ public class ThoughtBubble : MonoBehaviour {
 			disableObject = true;
 		}
 	}
+    private IEnumerator fadeArb() 
+    {
+        yield return new WaitForSeconds(2f);
+        Debug.Log("is this getting accessed");
+        otherArb.SetActive(true);
+        gameObject.SetActive(false);
+    }
 
-}
+
+ }
