@@ -36,7 +36,7 @@ public class ButtonInfo : MonoBehaviour {
         }
         if (isTyping)
         {
-            index = System.Array.IndexOf(gameManager.keyWordsScramble, buttonText.text);
+            //index = System.Array.IndexOf(gameManager.keyWordsScramble, buttonText.text);
             theTranslatorManager.typeTranslation(index);
             buttonText.text = theTranslatorManager.userDefinition;
             if (Input.GetKeyDown(KeyCode.Return))
@@ -60,6 +60,8 @@ public class ButtonInfo : MonoBehaviour {
         {
             isTyping = true;
             theTranslatorManager.userDefinition = "";
+            index = System.Array.IndexOf(gameManager.keyWordsScramble, buttonText.text);
+            gameManager.keyWordsScramble[index] = "";
         }
         else
         {
