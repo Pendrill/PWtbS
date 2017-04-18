@@ -61,7 +61,7 @@ public class LocationSelect : MonoBehaviour
                 hit.transform.localScale = new Vector3(1.3f, 1.3f, transform.localScale.z);
                 if (Input.GetMouseButtonDown(0))
                 {
-                    SceneManager.LoadScene("BarDesignTest");
+                    SceneManager.LoadScene("returnBar");
                 }
             }
             if ((hit.transform.tag == "Subway"))
