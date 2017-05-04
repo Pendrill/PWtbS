@@ -70,8 +70,14 @@ public class StartTalkingToLoretto : MonoBehaviour {
     public GameObject drunkPanel, eyeLid1, eyeLid2;
     //public NewThoughtBubble theNewThoughtBubble;
     // Use this for initialization
+    public Vector3 cameraLocationContractSelect;
+    public bool isBar;
+    public WallZoom theWallZoom;
     void Start()
     {
+        isBar = true;
+        cameraLocationContractSelect = new Vector3 (-2.62f, 5.59f, -20.35f);
+        StartCoroutine(theWallZoom.waitToZoomOut());
         if (isHuman)
         {
             BSTpanel1 = panel1.GetComponent<buttonshapetest>();
@@ -98,6 +104,7 @@ public class StartTalkingToLoretto : MonoBehaviour {
 
         theTextBoxManager.GetComponent<TextBoxManager>().isHuman = isHuman;
         MoveCameraDialogue.moveTowardObject(Loretto, specificOffset);
+        MoveCameraDialogue.moveTowardNonObject(cameraLocationContractSelect, isBar);
         //and then we need to update the dialogue text, start, and end line
         theTextBoxManager.reloadScript(Loretto.GetComponent<StartTalkingToLoretto>().arbThought);
         theTextBoxManager.currentLine = Loretto.GetComponent<StartTalkingToLoretto>().startLine;

@@ -59,7 +59,7 @@ public class ExamineObject : MonoBehaviour {
                     theObjectExamineManager.reloadScript(hit.transform.gameObject.GetComponent<ExamineObject>().theText, hit.transform.gameObject);
                     theObjectExamineManager.currentLine = hit.transform.gameObject.GetComponent<ExamineObject>().startLine;
                     theObjectExamineManager.endAtLine = hit.transform.gameObject.GetComponent<ExamineObject>().endLine;
-                    theObjectExamineManager.textBox.GetComponent<RectTransform>().localPosition = new Vector3(0, -220, 0);
+                    //theObjectExamineManager.textBox.GetComponent<RectTransform>().localPosition = new Vector3(0, -220, 0);
                     //Finally we have a coroutine that starts so as to wait that the camera has zoomed in
                     StartCoroutine(waitToDisplayDialogueBox());
                 }

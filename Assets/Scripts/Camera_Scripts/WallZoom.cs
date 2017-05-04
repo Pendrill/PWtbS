@@ -91,7 +91,7 @@ public class WallZoom : MonoBehaviour {
 	/// Waits to zoom out.
 	/// </summary>
 	/// <returns>The to zoom out.</returns>
-	private IEnumerator waitToZoomOut(){
+	public IEnumerator waitToZoomOut(){
 		yield return new WaitForSeconds (0.4f);
 		isZoom = true;
 		//theTextBoxManager.enableTextBox ();
