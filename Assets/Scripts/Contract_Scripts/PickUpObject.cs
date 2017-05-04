@@ -54,7 +54,7 @@ public class PickUpObject : MonoBehaviour {
 					theObjectPickupManager.reloadScript (hit.transform.gameObject.GetComponent<PickUpObject> ().theText, hit.transform.gameObject);
 					theObjectPickupManager.currentLine = hit.transform.gameObject.GetComponent<PickUpObject> ().startLine;
 					theObjectPickupManager.endAtLine = hit.transform.gameObject.GetComponent<PickUpObject> ().endLine;
-                    theObjectPickupManager.textBox.GetComponent<RectTransform>().localPosition = new Vector3(0, -220, 0);
+                    //theObjectPickupManager.textBox.GetComponent<RectTransform>().localPosition = new Vector3(0, -220, 0);
                     //Finally we have a coroutine that starts so as to wait that the camera has zoomed in
                     StartCoroutine (waitToDisplayDialogueBox ());
 				}
