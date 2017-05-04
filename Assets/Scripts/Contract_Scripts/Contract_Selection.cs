@@ -38,13 +38,16 @@ public class Contract_Selection : MonoBehaviour {
 				//Debug.Log ("hit");
 				aSelectionHappened = true;
 				Debug.Log (hit.collider.gameObject.name);
-				//we only want to run this for the specific object that got hit (as this script will be attached to many objects)
-				if (hit.collider.gameObject.name == this.gameObject.name) {
+                //we only want to run this for the specific object that got hit (as this script will be attached to many objects)
+                Debug.Log(hit.collider.gameObject.name);
+				if (hit.collider.gameObject.name == this.gameObject.name ) {
 					theContractManager.contractGotSelected = true;
 					theContractManager.setUpSelectedContract (hit.collider.gameObject);
 					contractGotSelected = true;
 					//aSelectionHappened = true;
-				} else {
+				}
+                else {
+                    Debug.Log("Contract is not getting selescted");
 					contractGotSelected = false;
 
 				}
@@ -52,8 +55,8 @@ public class Contract_Selection : MonoBehaviour {
 
 		}
 		if (!contractGotSelected && aSelectionHappened) {
-			time += Time.deltaTime * 2;
-			transform.position = Vector3.Lerp (contractLocationOnBar, movedContract, time);
+			//time += Time.deltaTime * 2;
+			//transform.position = Vector3.Lerp (contractLocationOnBar, movedContract, time);
 			//theContractManager.moveUnselectedContractsAwayFromBar (this.gameObject);
 		} else if (contractGotSelected && aSelectionHappened) {
 			time += Time.deltaTime * 2;
