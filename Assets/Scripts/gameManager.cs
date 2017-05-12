@@ -185,4 +185,8 @@ public class gameManager : MonoBehaviour {
 		return false;
 
 	}
+    public string[] getKeyWords()
+    {
+        return keyWords;
+    }
 }
