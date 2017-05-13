@@ -14,8 +14,8 @@ public class dialogueTest : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        scrambled = "qwertyuiopa";
-        notScrambled = "hello_world";
+        scrambled = "@#$%$#@#$%@*@%#$@&#%@#^";
+        notScrambled = "hello there fellow arb";
         theText.text = "";
         isTyping = true;
         StartCoroutine(typeDatWord());
@@ -31,6 +31,7 @@ public class dialogueTest : MonoBehaviour {
         while(isTyping && currentLetter < scrambled.Length - 1)
         {
             theText.text += scrambled[currentLetter];
+            
             currentLetter += 1;
             if(currentLetter == 5)
             {
