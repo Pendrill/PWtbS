@@ -6,9 +6,9 @@ using UnityEngine;
 public class gameManager : MonoBehaviour {
 
 	//set up the various text assets we will be including te key words and their scrambled versions
-	public TextAsset textFile, keyWordsTXT, keyWordsScrambleTXT;
+	public TextAsset textFile, keyWordsTXT, keyWordsScrambleTXT,symbolsTXT;
 	//we set up their respective arrays
-	public static  string[] keyWords, keyWordsScramble;
+	public static  string[] keyWords, keyWordsScramble, symbols;
 	//we create a number of strings to keep track of the scrambled word and the word without punctuation
 	public string scrambledWord, removedPunctuation;// testString;
 	// we create a list that will keep track of wether or not the 
@@ -40,6 +40,10 @@ public class gameManager : MonoBehaviour {
 		if (keyWordsScrambleTXT != null && first) {
 			keyWordsScramble = keyWordsScrambleTXT.text.Split ('\n');
 		}
+        if(symbolsTXT != null && first)
+        {
+            symbols = symbolsTXT.text.Split('\n');
+        }
 		//use a for loop to set the list keeping track of if the words got translated to false
 		if (first) {
 			for (int i = 0; i < keyWordsScramble.Length; i++) {
