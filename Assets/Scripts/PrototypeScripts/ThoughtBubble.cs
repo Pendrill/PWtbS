@@ -73,6 +73,8 @@ public class ThoughtBubble : MonoBehaviour {
     private Color alphaColor;
     private float timeToFade = 1.0f;
 
+    public string[] dialogue;
+
     //public NewThoughtBubble theNewThoughtBubble;
     // Use this for initialization
     void Start () {
@@ -155,7 +157,7 @@ public class ThoughtBubble : MonoBehaviour {
                     theTextBoxManager.GetComponent<TextBoxManager>().isHuman = isHuman;
 					MoveCameraDialogue.moveTowardObject (currentHit, specificOffset);
 					//and then we need to update the dialogue text, start, and end line
-					theTextBoxManager.reloadScript (currentHit.GetComponent<ThoughtBubble> ().arbThought);
+					theTextBoxManager.reloadScript (currentHit.GetComponent<ThoughtBubble> ().dialogue);
 					theTextBoxManager.currentLine = currentHit.GetComponent<ThoughtBubble> ().startLine;
 					theTextBoxManager.endAtLine = currentHit.GetComponent<ThoughtBubble> ().endLine;
 					theTextBoxManager.reloadThoughtBubble (currentHit, isHuman);

@@ -13,6 +13,8 @@ public class NewThoughtBubble : MonoBehaviour {
 	public string thoughtBubbleString_1, thoughtBubbleString_2, thoughtBubbleString_3;
 	public string arbThought;
 	public int identifier;
+    public GameObject endDialogueIndicator;
+    public string[] dialogue;
     //public GameObject originalThoughtBubble;
 
 	void Start () {
@@ -27,6 +29,7 @@ public class NewThoughtBubble : MonoBehaviour {
             //Debug.Log("from where is this getting accessed?");
             this.nextThoughtBubble = this.originalThoughtBubble;
         }*/
+        
         if (Input.GetKeyDown (KeyCode.Mouse0)) {
 			Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
 			RaycastHit hit;
@@ -76,30 +79,48 @@ public class NewThoughtBubble : MonoBehaviour {
         }
         else
         {
-            thoughtBubbleString_1 = nextThoughtBubble.GetComponent<NextThoughtBubble>().thoughtBubbleString_1;
-            thoughtBubbleString_2 = nextThoughtBubble.GetComponent<NextThoughtBubble>().thoughtBubbleString_2;
-            thoughtBubbleString_3 = nextThoughtBubble.GetComponent<NextThoughtBubble>().thoughtBubbleString_3;
-            arbThought = nextThoughtBubble.GetComponent<NextThoughtBubble>().arbThought;
-            //currentHit = hit.collider.gameObject;
-            theTextBoxManager.reloadScriptNext(gameObject.GetComponent<NewThoughtBubble>().arbThought);
-            theTextBoxManager.nextThoughtBubble(gameObject);
+            if (theTextBoxManager.doneActivating)
+            {
+                theTextBoxManager.currentLine = 0;
+                theTextBoxManager.done1 = false;
+                theTextBoxManager.done2  = false;
+                theTextBoxManager.done3 = false;
+                theTextBoxManager.doneActivating = false;
+                theTextBoxManager.thoughtBubbleText_1.text = "";
+                theTextBoxManager.thoughtBubbleText_2.text = "";
+                theTextBoxManager.thoughtBubbleText_3.text = "";
+                thoughtBubbleString_1 = nextThoughtBubble.GetComponent<NextThoughtBubble>().thoughtBubbleString_1;
+                thoughtBubbleString_2 = nextThoughtBubble.GetComponent<NextThoughtBubble>().thoughtBubbleString_2;
+                thoughtBubbleString_3 = nextThoughtBubble.GetComponent<NextThoughtBubble>().thoughtBubbleString_3;
+                //arbThought = nextThoughtBubble.GetComponent<NextThoughtBubble>().arbThought;
+                dialogue = nextThoughtBubble.GetComponent<NextThoughtBubble>().dialogue;
+                //currentHit = hit.collider.gameObject;
+                thoughtBubble_1.SetActive(false);
+                thoughtBubble_2.SetActive(false);
+                thoughtBubble_3.SetActive(false);
+                theTextBoxManager.reloadScript(gameObject.GetComponent<NewThoughtBubble>().dialogue);
+                theTextBoxManager.nextThoughtBubble(gameObject);
+                theTextBoxManager.DeActivateResponceBoxes();
 
-            if (identifier == 1)
-            {
-                thoughtBubble_2.GetComponent<NewThoughtBubble>().nextThoughtBubble = nextThoughtBubble.GetComponent<NextThoughtBubble>().otherBubble_1;
-                thoughtBubble_3.GetComponent<NewThoughtBubble>().nextThoughtBubble = nextThoughtBubble.GetComponent<NextThoughtBubble>().otherBubble_2;
-            }
-            else if (identifier == 2)
-            {
-                thoughtBubble_1.GetComponent<NewThoughtBubble>().nextThoughtBubble = nextThoughtBubble.GetComponent<NextThoughtBubble>().otherBubble_1;
-                thoughtBubble_3.GetComponent<NewThoughtBubble>().nextThoughtBubble = nextThoughtBubble.GetComponent<NextThoughtBubble>().otherBubble_2;
-            }
-            else if (identifier == 3)
-            {
-                thoughtBubble_1.GetComponent<NewThoughtBubble>().nextThoughtBubble = nextThoughtBubble.GetComponent<NextThoughtBubble>().otherBubble_1;
-                thoughtBubble_2.GetComponent<NewThoughtBubble>().nextThoughtBubble = nextThoughtBubble.GetComponent<NextThoughtBubble>().otherBubble_2;
-            }
-            nextThoughtBubble = nextThoughtBubble.GetComponent<NextThoughtBubble>().nextThoughtBubble;
+
+                if (identifier == 1)
+                {
+                    thoughtBubble_2.GetComponent<NewThoughtBubble>().nextThoughtBubble = nextThoughtBubble.GetComponent<NextThoughtBubble>().otherBubble_1;
+                    thoughtBubble_3.GetComponent<NewThoughtBubble>().nextThoughtBubble = nextThoughtBubble.GetComponent<NextThoughtBubble>().otherBubble_2;
+                }
+                else if (identifier == 2)
+                {
+                    thoughtBubble_1.GetComponent<NewThoughtBubble>().nextThoughtBubble = nextThoughtBubble.GetComponent<NextThoughtBubble>().otherBubble_1;
+                    thoughtBubble_3.GetComponent<NewThoughtBubble>().nextThoughtBubble = nextThoughtBubble.GetComponent<NextThoughtBubble>().otherBubble_2;
+                }
+                else if (identifier == 3)
+                {
+                    thoughtBubble_1.GetComponent<NewThoughtBubble>().nextThoughtBubble = nextThoughtBubble.GetComponent<NextThoughtBubble>().otherBubble_1;
+                    thoughtBubble_2.GetComponent<NewThoughtBubble>().nextThoughtBubble = nextThoughtBubble.GetComponent<NextThoughtBubble>().otherBubble_2;
+                }
+                nextThoughtBubble = nextThoughtBubble.GetComponent<NextThoughtBubble>().nextThoughtBubble;
+           }
+
         }
     }
 	public void resetNextBubble(GameObject hit, GameObject bubble){

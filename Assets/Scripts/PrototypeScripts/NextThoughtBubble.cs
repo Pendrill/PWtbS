@@ -8,6 +8,7 @@ public class NextThoughtBubble : MonoBehaviour {
 	public string arbThought;
 	public GameObject nextThoughtBubble, otherBubble_1, otherBubble_2;
 	public bool isFinalThought;
+    public string[] dialogue;
 
 	// Use this for initialization
 	void Start () {
