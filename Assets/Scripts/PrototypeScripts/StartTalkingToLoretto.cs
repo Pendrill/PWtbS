@@ -73,6 +73,7 @@ public class StartTalkingToLoretto : MonoBehaviour {
     public Vector3 cameraLocationContractSelect;
     public bool isBar;
     public WallZoom theWallZoom;
+    public string[] LorettoStartingThoughts;
     void Start()
     {
         isBar = true;
@@ -106,7 +107,7 @@ public class StartTalkingToLoretto : MonoBehaviour {
         MoveCameraDialogue.moveTowardObject(Loretto, specificOffset);
         MoveCameraDialogue.moveTowardNonObject(cameraLocationContractSelect, isBar);
         //and then we need to update the dialogue text, start, and end line
-        theTextBoxManager.reloadScript(Loretto.GetComponent<StartTalkingToLoretto>().arbThought);
+        theTextBoxManager.reloadScript(Loretto.GetComponent<StartTalkingToLoretto>().LorettoStartingThoughts);
         theTextBoxManager.currentLine = Loretto.GetComponent<StartTalkingToLoretto>().startLine;
         theTextBoxManager.endAtLine = Loretto.GetComponent<StartTalkingToLoretto>().endLine;
         theTextBoxManager.reloadThoughtBubble(Loretto, isHuman, true);

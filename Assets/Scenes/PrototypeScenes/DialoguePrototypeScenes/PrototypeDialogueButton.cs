@@ -141,7 +141,7 @@ public class PrototypeDialogueButton : MonoBehaviour {
 					//otherwise we need to zoom in the camera towards the object that got hit by the raycast
 					MoveCameraDialogue.moveTowardObject (currentHit, specificOffset);
 					//and then we need to update the dialogue text, start, and end line
-					theTextBoxManager.reloadScript (currentHit.GetComponent<ThoughtBubble> ().arbThought);
+					//theTextBoxManager.reloadScript (currentHit.GetComponent<ThoughtBubble> ().arbThought);
 					theTextBoxManager.currentLine = currentHit.GetComponent<ThoughtBubble> ().startLine;
 					theTextBoxManager.endAtLine = currentHit.GetComponent<ThoughtBubble> ().endLine;
 					//theTextBoxManager.reloadThoughtBubble (currentHit);
