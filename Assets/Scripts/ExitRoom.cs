@@ -24,7 +24,7 @@ public class ExitRoom : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         
-		if (Input.GetKeyDown (KeyCode.Mouse0) && !theTextBoxManager.isTextBoxActive && theMoveCameraDialogue.transform.position == theMoveCameraDialogue.OriginalCameraPosition && !theTranslatorManager.panelIsActive) {
+		if (Input.GetKeyUp (KeyCode.Mouse0) && !theTextBoxManager.isTextBoxActive && theMoveCameraDialogue.transform.position == theMoveCameraDialogue.OriginalCameraPosition && !theTranslatorManager.panelIsActive) {
 
 			//we send out a raycast from the mouse position
 			Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
