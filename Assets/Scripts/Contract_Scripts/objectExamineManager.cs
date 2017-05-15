@@ -158,6 +158,7 @@ public class objectExamineManager : MonoBehaviour {
     public void enableTextBox()
     {
         //we set the text box to active
+        Debug.Log("Is the textbox getting activated?");
         textBox.SetActive(true);
         isActive = true;
         //the text box is thus currently active
