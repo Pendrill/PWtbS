@@ -9,13 +9,19 @@ public class NewMouse : MonoBehaviour {
     public GameObject WorldObject;
     public RectTransform UI_Element, CanvasRect;
     public Canvas CanvasGO;
-    public Image Idle, Object, Talk;
+    public Image Idle, Object, Talk, moveCameraR, moveCameraL;
     TextBoxManager theTextBoxManager;
+    public float theScreenWidth, theScreenHeight, offsetScreenPostition;
     // Use this for initialization
     void Start()
     {
         Cursor.visible = false;
         theTextBoxManager = FindObjectOfType<TextBoxManager>();
+
+        offsetScreenPostition = 50;
+        //gets/sets the screen width and height
+        theScreenWidth = Screen.width;
+        theScreenHeight = Screen.height;
 
     }
 	// Update is called once per frame
@@ -28,7 +34,22 @@ public class NewMouse : MonoBehaviour {
         RectTransformUtility.ScreenPointToLocalPointInRectangle(CanvasGO.transform as RectTransform, Input.mousePosition, CanvasGO.worldCamera, out pos);
         transform.position = CanvasGO.transform.TransformPoint(pos);
 
-        if (SceneManager.GetActiveScene().name.Trim().Equals("MainMap".Trim()) || !theTextBoxManager.isTextBoxActive)
+        if (Input.mousePosition.x > theScreenWidth - offsetScreenPostition) {
+            moveCameraR.gameObject.SetActive(true);
+            moveCameraL.gameObject.SetActive(false);
+            Idle.gameObject.SetActive(false);
+            Object.gameObject.SetActive(false);
+            Talk.gameObject.SetActive(false);
+        }
+        else if(Input.mousePosition.x < 0 + offsetScreenPostition){
+            moveCameraL.gameObject.SetActive(true);
+            moveCameraR.gameObject.SetActive(false);
+            Idle.gameObject.SetActive(false);
+            Object.gameObject.SetActive(false);
+            Talk.gameObject.SetActive(false);
+        }
+
+        else if (SceneManager.GetActiveScene().name.Trim().Equals("MainMap".Trim()) || !theTextBoxManager.isTextBoxActive)
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
@@ -39,17 +60,24 @@ public class NewMouse : MonoBehaviour {
                     Idle.gameObject.SetActive(false);
                     Object.gameObject.SetActive(false);
                     Talk.gameObject.SetActive(true);
-                }else if(hit.collider.gameObject.tag == "Object")
+                    moveCameraR.gameObject.SetActive(false);
+                    moveCameraL.gameObject.SetActive(false);
+                }
+                else if(hit.collider.gameObject.tag == "Object")
                 {
                     Idle.gameObject.SetActive(false);
                     Object.gameObject.SetActive(true);
                     Talk.gameObject.SetActive(false);
+                    moveCameraR.gameObject.SetActive(false);
+                    moveCameraL.gameObject.SetActive(false);
                 }
                 else
                 {
                     Idle.gameObject.SetActive(true);
                     Object.gameObject.SetActive(false);
                     Talk.gameObject.SetActive(false);
+                    moveCameraR.gameObject.SetActive(false);
+                    moveCameraL.gameObject.SetActive(false);
                 }
 
             }else
@@ -57,6 +85,8 @@ public class NewMouse : MonoBehaviour {
                 Idle.gameObject.SetActive(true);
                 Object.gameObject.SetActive(false);
                 Talk.gameObject.SetActive(false);
+                moveCameraR.gameObject.SetActive(false);
+                moveCameraL.gameObject.SetActive(false);
             }
         }
         else
@@ -64,6 +94,8 @@ public class NewMouse : MonoBehaviour {
             Idle.gameObject.SetActive(true);
             Object.gameObject.SetActive(false);
             Talk.gameObject.SetActive(false);
+            moveCameraR.gameObject.SetActive(false);
+            moveCameraL.gameObject.SetActive(false);
         }
 
             /*Vector2 ViewportPosition = Camera.main.WorldToViewportPoint(Input.mousePosition);
