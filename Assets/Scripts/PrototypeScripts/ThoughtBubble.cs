@@ -91,8 +91,8 @@ public class ThoughtBubble : MonoBehaviour {
         theTranslatorManager = FindObjectOfType<TranslatorManager> ();
 		theTextBoxManager = FindObjectOfType<TextBoxManager> ();
 		MoveCameraDialogue = FindObjectOfType<MoveCameraDialogue> ();
-		//theRotateCamera = FindObjectOfType<RotateCamera>();
-		theRotateMouseClick = FindObjectOfType<RotateMouseClick> ();
+		theRotateCamera = FindObjectOfType<RotateCamera>();
+		//theRotateMouseClick = FindObjectOfType<RotateMouseClick> ();
         //theNewThoughtBubble = FindObjectOfType<NewThoughtBubble> ();
 
         canFade = false;
@@ -320,8 +320,8 @@ public class ThoughtBubble : MonoBehaviour {
 		{
 			disableObject = true;
 		}
-		//theRotateCamera.back = behind;
-		theRotateMouseClick.back = behind;
+		theRotateCamera.back = behind;
+		//theRotateMouseClick.back = behind;
 	}
 	private IEnumerator waitToDisplayChargerSprite()
 	{
