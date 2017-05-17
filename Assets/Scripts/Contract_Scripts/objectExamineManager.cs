@@ -36,7 +36,7 @@ public class objectExamineManager : MonoBehaviour {
     public GameObject canvas;
     public static bool outOfScene;
 
-    public bool interactable;
+    public bool interactable, zoomingIn;
 
     // Use this for initialization
     //private void Awake(){

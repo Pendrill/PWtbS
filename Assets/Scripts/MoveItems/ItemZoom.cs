@@ -52,6 +52,7 @@ public class ItemZoom : MonoBehaviour {
         if(!once && !theObjectExamineManager.isTextBoxActive)
         {
             moveObjectTowardsPlayer = false;
+            theObjectExamineManager.zoomingIn = false;
         }
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
@@ -62,6 +63,7 @@ public class ItemZoom : MonoBehaviour {
                 if (hit.collider.gameObject.name == this.gameObject.name)
                 {
                     moveObjectTowardsPlayer = true;
+                    theObjectExamineManager.zoomingIn = true;
                     //Offset += Cam.transform.forward;
                     //Cam.transform.position = new Vector3(Cam.transform.position.x, Cam.transform.position.y, Offset);
                     endDestination = new Vector3(0, 0, 0);

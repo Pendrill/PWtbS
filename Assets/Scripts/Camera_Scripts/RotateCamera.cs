@@ -27,6 +27,9 @@ public class RotateCamera : MonoBehaviour {
 
     public int lockLeft, lockRight;
 
+    public objectExamineManager theObjectExamineManager;
+    public ConfirmExit theConfirmExit;
+
 	// Use this for initialization
 	void Start () {
 		//get the textboxmanager and the translator manager
@@ -34,6 +37,9 @@ public class RotateCamera : MonoBehaviour {
 		theTranslatorManager = FindObjectOfType<TranslatorManager> ();
 		theMoveCameraDialogue = FindObjectOfType<MoveCameraDialogue> ();
 		theObjectPickupManager = FindObjectOfType<objectPickupManager> ();
+        theObjectExamineManager = FindObjectOfType<objectExamineManager>();
+        theConfirmExit = FindObjectOfType<ConfirmExit>();
+
 		//we set the speed for how fast the rotation of the camera will happen when the mouse reaches the edges of the screen
 		speed = 55;
 		//maximum and minimum degrees fro which the degrees the camera can rotate on both the x and y axis
@@ -55,7 +61,7 @@ public class RotateCamera : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		//if the translator journal panel is no active 
-		if (!theTranslatorManager.panelIsActive && !theMoveCameraDialogue.moveToMouse ){//&& !theTextBoxManager.isTextBoxActive) {
+		if (!theTranslatorManager.panelIsActive && !theMoveCameraDialogue.moveToMouse && !theObjectExamineManager.zoomingIn && !theConfirmExit.isDialoguePanelActive){//&& !theTextBoxManager.isTextBoxActive) {
 			//then if the mouse reaches the edges of the screen
 			//rotate on the x and y axises accordingly 
 
@@ -168,9 +174,14 @@ public class RotateCamera : MonoBehaviour {
                 if (!back)
                 {
                     euler = new Vector3(0, 0, 0);
-                }else
+                    RotateCameraMaxY = 0;
+                    RotateCameraMinY = -10;
+                }
+                else
                 {
                     euler = new Vector3(0, 180, 0);
+                    RotateCameraMaxY = 180;
+                    RotateCameraMinY = 170;
                 }
 				
 			}
