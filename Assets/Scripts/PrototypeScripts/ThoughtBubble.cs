@@ -128,7 +128,7 @@ public class ThoughtBubble : MonoBehaviour {
 		}
 
 		//If the player clicks on the mouse, and we are currently not in dialogue, the camera is not moving, and we are not currently translating words, that means the player is trying to interact with an object in the world
-		if (Input.GetKeyDown (KeyCode.Mouse0) && !theTextBoxManager.isTextBoxActive && MoveCameraDialogue.transform.position == MoveCameraDialogue.OriginalCameraPosition && !theTranslatorManager.panelIsActive) {
+		if (Input.GetKeyDown (KeyCode.Mouse0) && !theTextBoxManager.isTextBoxActive && MoveCameraDialogue.transform.position == MoveCameraDialogue.OriginalCameraPosition && !theTranslatorManager.panelIsActive && !ItemZoom.itemGotSelected) {
 			//this is some test out shit
 
 			//we create a ray cast that is emmited forward from the position of the mouse
