@@ -75,6 +75,11 @@ public class ThoughtBubble : MonoBehaviour {
 
     public string[] dialogue;
 
+
+
+    private bool gotClickedHuman;
+    public GameObject blackPanel;
+
     //public NewThoughtBubble theNewThoughtBubble;
     // Use this for initialization
     void Start () {
