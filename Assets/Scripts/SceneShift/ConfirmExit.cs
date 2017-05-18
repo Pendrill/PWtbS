@@ -38,6 +38,7 @@ public class ConfirmExit : MonoBehaviour {
                 {
                     if (hit.collider.gameObject.name == this.gameObject.name)
                     {
+                        SceneManager.LoadScene("MainMap");
                         dialoguePanel.GetComponent<RectTransform>().anchoredPosition3D = originalPos;
                         isDialoguePanelActive = true;
                     }
@@ -72,6 +73,7 @@ public class ConfirmExit : MonoBehaviour {
                 attemptToLeave = true;
             }
         } else {
+            Debug.Log("The button is getting clicked");
             Confirm.gameObject.SetActive(false);
             Reject.gameObject.SetActive(false);
             dialoguePanel.SetActive(false);
