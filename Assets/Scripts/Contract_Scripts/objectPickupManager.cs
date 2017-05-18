@@ -122,6 +122,7 @@ public class objectPickupManager : MonoBehaviour {
                 {
                     InventorySlot[i].GetComponent<Image>().sprite = ReferenceObjects[j].GetComponent<ObjectInfo>().objectSprite.sprite;
                     InventorySlot[i].GetComponent<InventoryButton>().currentObjectInSlot = ReferenceObjects[j];
+                    ReferenceObjects[j].GetComponent<ObjectInfo>().inInv = true;
                     InventorySlot[i].GetComponent<InventoryButton>().OriginalLocation = SceneManager.GetActiveScene().name;
                 }
             }
@@ -268,6 +269,7 @@ public class objectPickupManager : MonoBehaviour {
     }
 	public void left(){
         clickedObject.GetComponent<ObjectInfo>().objectSprite.enabled = false;
+        clickedObject.GetComponent<PickUpObject>().leave = true;
         //clickedObject.GetComponent<PickUpObject> ().notebookSprite.enabled = false;
 		//clickedObject.GetComponent<PickUpObject> ().chargerSprite.enabled = false;
 		//clickedObject.SetActive (false);
@@ -326,6 +328,64 @@ public class objectPickupManager : MonoBehaviour {
         notebook = false;
         charger = false;*/
 	}
+    public void checkInventory(GameObject currentObject)
+    {
+        Debug.Log("is this getting accessed - objectpickupmanager");
+        clickedObject = currentObject;
+        /* if (notebook)
+         {
+             notebookObj.SetActive(false);
+         }else if (charger)
+         {
+             chargerObj.SetActive(false);
+         }*/
+        //if (notebook) {
+        for (int i = 0; i < droppedInEndRef.Length; i++)
+        {
+            if (droppedInEndRef[i] == clickedObject.GetComponent<ObjectInfo>().reference)
+            {
+                Debug.Log("remove from ref");
+                droppedInEndRef[i] = 0;
+            }
+        }
+        for (int i = 0; i < slotOpen.Length; i++)
+        {
+            if (!slotOpen[i])
+            {
+                Debug.Log("got up to change sprite");
+                slotOpen[i] = true;
+                //InventorySlot [i].GetComponent<Image> ().sprite = notebookObj.GetComponent<PickUpObject> ().notebookSprite.sprite;
+                //InventorySlot[i].GetComponent<InventoryButton>().currentObjectInSlot = notebookObj;
+                //InventorySlot[i].GetComponent<InventoryButton>().OriginalLocation = SceneManager.GetActiveScene().name;
+                clickedObject.GetComponent<ObjectInfo>().inInv = true;
+                clickedObject.GetComponent<ObjectInfo>().InvIndex = i;
+                inventoryReference[i] = clickedObject.GetComponent<ObjectInfo>().reference;
+                //notebookInv = true;
+                break;
+            }
+
+        }
+
+        /*}else if (charger) {
+			for (int i = 0; i < slotOpen.Length; i++) {
+				if (!slotOpen[i]) {
+					Debug.Log ("got up to change sprite");
+					slotOpen [i] = true;
+					//InventorySlot [i].GetComponent<Image> ().sprite = chargerObj.GetComponent<PickUpObject> ().chargerSprite.sprite;
+                    //InventorySlot[i].GetComponent<InventoryButton>().currentObjectInSlot = chargerObj;
+                    //InventorySlot[i].GetComponent<InventoryButton>().OriginalLocation = SceneManager.GetActiveScene().name;
+                    chargerObj.GetComponent<ObjectInfo>().inInv = true;
+                    chargerObj.GetComponent<ObjectInfo>().InvIndex = i;
+                    inventoryReference[i] = 2;
+                    //chargerInv = true;
+					break;
+				}
+			}
+
+		}
+        notebook = false;
+        charger = false;*/
+    }
     public void alphaCheck()
     {
         for (int i = 0; i < slotOpen.Length; i++)

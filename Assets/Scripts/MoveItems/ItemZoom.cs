@@ -5,7 +5,7 @@ using UnityEngine;
 public class ItemZoom : MonoBehaviour {
 
     public Vector3 originalPosition, endDestination, originalRotation ;
-    public bool moveObjectTowardsPlayer, once;
+    public bool moveObjectTowardsPlayer, once, canPickUp;
     public float time, Offset;
     public GameObject Cam;
     public float rotationsPerMinute= 10.0f;
@@ -46,7 +46,7 @@ public class ItemZoom : MonoBehaviour {
             if (once)
             {
                 once = false;
-                theObjectExamineManager.reloadScript(theText);
+                theObjectExamineManager.reloadScript(theText, gameObject, canPickUp);
                 theObjectExamineManager.currentLine = startLine;
                 theObjectExamineManager.endAtLine = endLine;
                 theObjectExamineManager.enableTextBox();

@@ -47,8 +47,8 @@ public class TranslatorManager : MonoBehaviour {
 		} else {
 			disableTranslatorPanel ();
 		}
-		typerPos = typingBar.GetComponent<RectTransform> ().anchoredPosition3D;
-		typerOriginalPos = typingBar.GetComponent<RectTransform> ().anchoredPosition3D;
+		//typerPos = typingBar.GetComponent<RectTransform> ().anchoredPosition3D;
+		//typerOriginalPos = typingBar.GetComponent<RectTransform> ().anchoredPosition3D;
     
 	}
 
@@ -147,7 +147,7 @@ public class TranslatorManager : MonoBehaviour {
 	public void disableTranslatorPanel(){
 		//we turn the panel off
 		panelIsActive = false;
-		translatorPanel.SetActive (false);
+		//translatorPanel.SetActive (false);
 	}
 	/// <summary>
 	/// Checks if word has already been encountered.
@@ -187,8 +187,8 @@ public class TranslatorManager : MonoBehaviour {
 	/// We move to the next page in the translator journal.
 	/// </summary>
 	public void nextPage(){
-		typingBar.GetComponent<RectTransform> ().anchoredPosition3D = typerOriginalPos;
-		typingBar.SetActive (false);
+		//typingBar.GetComponent<RectTransform> ().anchoredPosition3D = typerOriginalPos;
+		//typingBar.SetActive (false);
 		//we make sure the the current page value does not go over the total number of pages
 		if (currentPage < newScrambledWord.Count - 1) {
 			//we increase the number by one
@@ -205,8 +205,8 @@ public class TranslatorManager : MonoBehaviour {
 		}
 	}
 	public void previousPage(){
-		typingBar.GetComponent<RectTransform> ().anchoredPosition3D = typerOriginalPos;
-		typingBar.SetActive (false);
+		//typingBar.GetComponent<RectTransform> ().anchoredPosition3D = typerOriginalPos;
+		//typingBar.SetActive (false);
 		//we make sure the the current page value does not go under 0
 		if (currentPage > 0) {
 			//we reduce the page value by one

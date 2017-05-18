@@ -15,7 +15,7 @@ public class PickUpObject : MonoBehaviour {
     public Vector3 specificOffset;
 
     public Vector3 originalPosition, endDestination, originalRotation;
-    public bool moveObjectTowardsPlayer, once;
+    public bool moveObjectTowardsPlayer, once, leave;
     public float time, Offset;
     public GameObject Cam;
     public float rotationsPerMinute = 10.0f;
@@ -23,6 +23,7 @@ public class PickUpObject : MonoBehaviour {
     public objectExamineManager theObjectExamineManager;
  
     public static bool itemGotSelected;
+    public GameObject item;
 
     // Use this for initialization
     void Start () {
@@ -31,6 +32,7 @@ public class PickUpObject : MonoBehaviour {
 		MoveCameraDialogue = FindObjectOfType<MoveCameraDialogue> ();
 		theObjectPickupManager = FindObjectOfType<objectPickupManager> ();
         theObjectExamineManager = FindObjectOfType<objectExamineManager>();
+        originalPosition = transform.position;
 
     }
 	
@@ -53,23 +55,31 @@ public class PickUpObject : MonoBehaviour {
         }
         if (time > 1)
         {
-            transform.Rotate(0, 6.0f * rotationsPerMinute * Time.deltaTime, 0);
+            transform.Rotate(0, 0, 6.0f * rotationsPerMinute * Time.deltaTime);
             if (once)
             {
                 once = false;
-                theObjectExamineManager.reloadScript(theText);
+                //theObjectExamineManager.reloadScript(theText);
                 theObjectExamineManager.currentLine = startLine;
                 theObjectExamineManager.endAtLine = endLine;
-                theObjectExamineManager.enableTextBox();
+                theObjectPickupManager.enableTextBox();
                 //StartCoroutine(waitToDisplayDialogueBox());
             }
         }
-        if (!once && !theObjectExamineManager.isTextBoxActive)
+        if (!once && !theObjectPickupManager.isTextBoxActive)
         {
+            if (!leave)
+            {
+                item.SetActive(false);
+            }
             moveObjectTowardsPlayer = false;
             theObjectExamineManager.zoomingIn = false;
+            itemGotSelected = false;
         }
-
+        if (leave) {
+            item.SetActive(true);
+        
+        }
 
 
         if (SceneManager.GetActiveScene().name.Trim().Equals("Classroom".Trim()) || SceneManager.GetActiveScene().name.Trim().Equals("StudentBedroom".Trim()))
@@ -90,6 +100,7 @@ public class PickUpObject : MonoBehaviour {
 				if (hit.collider.gameObject.name == this.gameObject.name ) {
 					Debug.Log (hit.collider.gameObject.name);
                     gameObject.GetComponent<ObjectInfo>().objectSprite.enabled = true;
+                    leave = false;
 					/*if(hit.collider.gameObject.name.Equals("notebook")){
 						//ActivateTextAtLine.notebook = true;
 						notebookSprite.enabled = true;
@@ -100,9 +111,9 @@ public class PickUpObject : MonoBehaviour {
 					//otherwise we need to zoom in the camera towards the object that got hit by the raycast
 					//MoveCameraDialogue.moveTowardObject (hit.transform.gameObject, specificOffset);
 					//and then we need to update the dialogue text, start, and end line
-					//theObjectPickupManager.reloadScript (hit.transform.gameObject.GetComponent<PickUpObject> ().theText, hit.transform.gameObject);
-					//theObjectPickupManager.currentLine = hit.transform.gameObject.GetComponent<PickUpObject> ().startLine;
-					//theObjectPickupManager.endAtLine = hit.transform.gameObject.GetComponent<PickUpObject> ().endLine;
+					theObjectPickupManager.reloadScript (hit.transform.gameObject.GetComponent<PickUpObject> ().theText, hit.transform.gameObject);
+					theObjectPickupManager.currentLine = hit.transform.gameObject.GetComponent<PickUpObject> ().startLine;
+					theObjectPickupManager.endAtLine = hit.transform.gameObject.GetComponent<PickUpObject> ().endLine;
                     itemGotSelected = true;
                     moveObjectTowardsPlayer = true;
                     theObjectExamineManager.zoomingIn = true;
@@ -117,7 +128,15 @@ public class PickUpObject : MonoBehaviour {
 
 			}
 		}
-	}
+        if (time > 1f)
+        {
+            time = 1f;
+        }
+        else if (time < 0f)
+        {
+            time = 0f;
+        }
+    }
 	private IEnumerator waitToDisplayDialogueBox()
 	{
 		yield return new WaitForSeconds(0.2f);

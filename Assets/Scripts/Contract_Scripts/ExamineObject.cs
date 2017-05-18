@@ -56,7 +56,7 @@ public class ExamineObject : MonoBehaviour {
                     //otherwise we need to zoom in the camera towards the object that got hit by the raycast
                     MoveCameraDialogue.moveTowardObject(hit.transform.gameObject, specificOffset);
                     //and then we need to update the dialogue text, start, and end line
-                    theObjectExamineManager.reloadScript(hit.transform.gameObject.GetComponent<ExamineObject>().theText, hit.transform.gameObject);
+                    theObjectExamineManager.reloadScript(hit.transform.gameObject.GetComponent<ExamineObject>().theText, hit.transform.gameObject, false);
                     theObjectExamineManager.currentLine = hit.transform.gameObject.GetComponent<ExamineObject>().startLine;
                     theObjectExamineManager.endAtLine = hit.transform.gameObject.GetComponent<ExamineObject>().endLine;
                     //theObjectExamineManager.textBox.GetComponent<RectTransform>().localPosition = new Vector3(0, -220, 0);

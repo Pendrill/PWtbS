@@ -7,30 +7,45 @@ using UnityEngine.UI;
 public class ObjectInfo : MonoBehaviour {
 
     public string Name;
-    public string originalScene, endScene;
+    public string originalScene, endScene, currentScene;
     public Vector3 originalPosition, endPosition;
     public bool inInv, droppedInEnd;
     public int InvIndex;
     public Image objectSprite;
-    MeshRenderer objectMeshRenderer;
+    public SpriteRenderer objectMeshRenderer;
     PickUpObject theObjectPickUpScript;
     public int reference;
     public objectPickupManager theObjectPickUpManager;
     bool checkIfThere;
     public bool droppedOffAtEnd;
+    public GameObject referenceObject;
     
     
 
     public void Start()
     {
-        objectMeshRenderer = GetComponent<MeshRenderer>();
+        objectMeshRenderer = GetComponent<SpriteRenderer>();
         theObjectPickUpScript = GetComponent<PickUpObject>();
         theObjectPickUpManager = FindObjectOfType<objectPickupManager>();
     }
     public void Update()
     {
-        
-        for (int i = 0; i < theObjectPickUpManager.InventorySlot.Length; i++)
+        currentScene = referenceObject.GetComponent<ObjectInfo>().currentScene;
+        inInv = referenceObject.GetComponent<ObjectInfo>().inInv;
+        if (inInv)
+        {
+            Debug.Log("Is object Info getting accessed?");
+            objectMeshRenderer.enabled = false;
+            currentScene = "inventory";
+        }
+        else if (currentScene.Trim().Equals(SceneManager.GetActiveScene().name.Trim()) && !inInv)
+        {
+            objectMeshRenderer.enabled = true;
+        }else if(!currentScene.Trim().Equals(SceneManager.GetActiveScene().name.Trim()) && !inInv)
+        {
+            objectMeshRenderer.enabled = false;
+        }
+        /*for (int i = 0; i < theObjectPickUpManager.InventorySlot.Length; i++)
         {
             if (droppedOffAtEnd && theObjectPickUpManager.InventorySlot[i].GetComponent<InventoryButton>().currentObjectInSlot == null && objectPickupManager.droppedInEndRef[i] == reference)
             {
@@ -65,19 +80,19 @@ public class ObjectInfo : MonoBehaviour {
         {
             //checkIfThere = false;
             objectMeshRenderer.enabled = false;
-            GetComponent<PickUpObject>().enabled = false;
+            GetComponent<ItemZoom>().enabled = false;
             return;
         }
         if (checkIfThere)
         {
-            GetComponent<PickUpObject>().enabled = false;
+            GetComponent<ItemZoom>().enabled = false;
             objectMeshRenderer.enabled = false;
         }
         else
         {
             objectMeshRenderer.enabled = true;
-            GetComponent<PickUpObject>().enabled = true;
-        }
+            GetComponent<ItemZoom>().enabled = true;
+        }*/
         /*if( inInv || ((!originalScene.Trim().Equals( SceneManager.GetActiveScene().name.Trim()) && !endScene.Trim().Equals(SceneManager.GetActiveScene().name.Trim())) && !droppedInEnd))
         {
             objectMeshRenderer.enabled = false;
