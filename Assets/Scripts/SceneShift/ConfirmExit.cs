@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class ConfirmExit : MonoBehaviour {
     public GameObject dialoguePanel;
+    private Vector3 originalPos;
     public Text theText;
     public Button Confirm, Reject;
     public string LeaveDialogue, scrambled;
@@ -14,12 +15,13 @@ public class ConfirmExit : MonoBehaviour {
     public float typingSpeed;
 	// Use this for initialization
 	void Start () {
-		
-	}
+        originalPos = dialoguePanel.GetComponent<RectTransform>().anchoredPosition3D;
+
+    }
 	
 	// Update is called once per frame
 	void Update () {
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        if (Input.GetKeyDown(KeyCode.Mouse0) && !ItemZoom.itemGotSelected)
         {
             if (isTyping)
             {
@@ -36,6 +38,7 @@ public class ConfirmExit : MonoBehaviour {
                 {
                     if (hit.collider.gameObject.name == this.gameObject.name)
                     {
+                        dialoguePanel.GetComponent<RectTransform>().anchoredPosition3D = originalPos;
                         isDialoguePanelActive = true;
                     }
                 }
@@ -108,7 +111,15 @@ public class ConfirmExit : MonoBehaviour {
             }
             yield return new WaitForSeconds(typingSpeed);
         }
-        
+        if (!isTyping && currentLetter <= LeaveDialogue.Length / 2)
+        {
+            theText.text = LeaveDialogue;
+            if (!attemptToLeave)
+            {
+                ActivateButtons();
+            }
+        }
+
 
     }
     public IEnumerator displayExitDialogueTranslation(string LeaveDialogue)

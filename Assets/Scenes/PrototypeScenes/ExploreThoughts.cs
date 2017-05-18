@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ExploreThoughts : MonoBehaviour {
 
@@ -21,20 +22,61 @@ public class ExploreThoughts : MonoBehaviour {
     public TextBoxManager theTextBoxManager;
     public MoveCameraDialogue MoveCameraDialogue;
     public GameObject currentHit;
+    public Image blackPanel;
+    private Color color;
     public Vector3 specificOffset;
-
+    public static bool humanWasClicked;
+    private float time;
     public int humanNumber;
+    public GameObject ActivateWords;
+    public GameObject ExitLine, EyeLid1, Eyelid2;
+    public float theScreenWidth, theScreenHeight, offsetScreenPostition;
+
     //we porbs need the other game object that woudld be the black bar that would fade in as you zoom in here.
 
 
     // Use this for initialization
     void Start () {
-		
-	}
+        theTextBoxManager = FindObjectOfType<TextBoxManager>();
+        MoveCameraDialogue = FindObjectOfType<MoveCameraDialogue>();
+        //blackPanel = GetComponent<Image>();
+        color = blackPanel.color;
+        offsetScreenPostition = 38;
+        //gets/sets the screen width and height
+        theScreenWidth = Screen.width;
+        theScreenHeight = Screen.height;
+    }
 	
 	// Update is called once per frame
 	void Update () {
-        if (Input.GetKeyDown(KeyCode.Mouse0) && !theTextBoxManager.isTextBoxActive && MoveCameraDialogue.transform.position == MoveCameraDialogue.OriginalCameraPosition)
+        if(Input.mousePosition.y < 0 + offsetScreenPostition && humanWasClicked)
+        {
+            if(Input.GetKeyDown(KeyCode.Mouse0)){
+
+                DisplaySingleWord.disableLetter = true;
+                ExitLine.SetActive(false);
+                
+                humanWasClicked = false;
+                StartCoroutine(wait_A_Frame());
+                
+                time = 0;
+            }
+        }
+        if (humanWasClicked)
+        {
+            //lerp color of back panel
+            time += Time.deltaTime;
+            color.a = Mathf.Lerp(0.0f, 1.0f, time*2);
+            blackPanel.color = color;
+        }
+        if(color.a >= 1.0f)
+        {
+            
+            ExitLine.SetActive(true);
+            ActivateWords.SetActive(true);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Mouse0) && !theTextBoxManager.isTextBoxActive && MoveCameraDialogue.transform.position == MoveCameraDialogue.OriginalCameraPosition && !humanWasClicked)
         {
             //we create a ray cast that is emmited forward from the position of the mouse
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -48,6 +90,7 @@ public class ExploreThoughts : MonoBehaviour {
                     currentHit = hit.collider.gameObject;
                     //Edits need to made to the the move camera script as to make sure that it zooms in faster ( Don't know if we need the camera rotation lerp anymore)
                     MoveCameraDialogue.moveTowardObject(currentHit, specificOffset);
+                    humanWasClicked = true;
                     //I think that we need to make sure whether or not the player is the only one in the scene. Have a specific number
                     //associated to the button layout it needs based on the number of interactable humans there are in the scene.
 
@@ -61,6 +104,34 @@ public class ExploreThoughts : MonoBehaviour {
                 }
             }
       }
+        if (time > 1f)
+        {
+            time = 1f;
+        }
+        else if (time < 0f)
+        {
+            time = 0f;
+        }
 
+    }
+    private IEnumerator finishBlinking()
+    {
+        yield return new WaitForSeconds(1.4f);
+        Eyelid2.SetActive(false);
+        EyeLid1.SetActive(false);
+        color.a = 0.0f;
+        DisplaySingleWord.disableLetter = false;
+    }
+    private IEnumerator wait_A_Frame()
+    {
+        yield return new WaitForSeconds(1.0f);
+        color.a = 0.0f;
+        blackPanel.color = color;
+      
+        ActivateWords.SetActive(false);
+        ExitLine.SetActive(false);
+        EyeLid1.SetActive(true);
+        Eyelid2.SetActive(true);
+        StartCoroutine(finishBlinking());
     }
 }

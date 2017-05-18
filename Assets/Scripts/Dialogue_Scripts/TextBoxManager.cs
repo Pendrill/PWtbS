@@ -56,7 +56,8 @@ public class TextBoxManager : MonoBehaviour {
     public string[] dialogue;
     public int dialogueSize;
     public bool displayDecisions, displayBox, answer1,answer2,answer3, doneActivating, done1, done2, done3;
-
+    public string scramble, scramble_1, scramble_2, scramble_3;
+    public int letter, letterTranslation, letter1, letterTranslation1, letter2, letterTranslation2, letter3, letterTranslation3;
 
     //we could include a way for the player to stop moving when dialogue pops up (DONE)
 
@@ -205,6 +206,10 @@ public class TextBoxManager : MonoBehaviour {
                 endDialogueIndicator.SetActive(false);
                 StartCoroutine(TextScroll(dialogue[currentLine]));
             }
+            else if (isTyping)
+            {
+                isTyping = false;
+            }
             else
             {
                 cancelTyping = true;
@@ -280,28 +285,56 @@ public class TextBoxManager : MonoBehaviour {
     /// <param name="lineOfText"> this is the specific line that needs to be displayed on the screen .</param>
     private IEnumerator TextScroll(string lineOfText)
     {
-        Debug.Log(lineOfText);
+        
+        scramble = "";
+        for (int i = 0; i < lineOfText.Length; i++)
+        {
+            scramble += gameManager.symbols[Random.Range(0, 23)];
+        }
         //we reset the int that keeps track of the number of letters
-        int letter = 0;
+        letter = 0;
         //we reset the text that will be displayed on the screen as dialogue
         theText.text = "";
         //when this coroutine is happening than, we are currently typing letters on the screen
         isTyping = true;
         //we reset the cancel typing bool to false
         cancelTyping = false;
-
+        Debug.Log(scramble.Length/2);
         //we have a while loop that will display the line of text one letter at a time
-        while (isTyping && !cancelTyping && letter < lineOfText.Length - 1)
+        while (isTyping && letter < lineOfText.Length)
         {
-            Debug.Log("Does the textScroll get accessed?");
+            //Debug.Log("Does the textScroll get accessed?");
             //we add one letter to the text object
-            theText.text += lineOfText[letter];
+            theText.text += scramble[letter];
             //we move on to the next letter
             letter += 1;
+            if (letter == lineOfText.Length / 2)
+            {
+                Debug.Log(lineOfText);
+                StartCoroutine(TextScroll_Translation(lineOfText));
+            }
             //we then return and wait a number of seconds before displaying the nest letter
             yield return new WaitForSeconds(typeSpeed);
         }
+        if(!isTyping && letter < lineOfText.Length / 2)
+        {
+            theText.text = lineOfText;
+        }
         //once all the letters have been displayed or if the user cancelled the typing, we diplay the whole line of dialogue
+        
+    }
+    private IEnumerator TextScroll_Translation(string lineOfText)
+    {
+
+        letterTranslation = 0;
+        while (letterTranslation < lineOfText.Length && isTyping)
+        {
+            theText.text = theText.text.Remove(letterTranslation, 1);
+            theText.text = theText.text.Insert(letterTranslation, lineOfText[letterTranslation].ToString());
+            letterTranslation += 1;
+            yield return new WaitForSeconds(typeSpeed);
+        }
+
         theText.text = lineOfText;
         if (currentLine < dialogueSize - 1)
         {
@@ -320,9 +353,15 @@ public class TextBoxManager : MonoBehaviour {
 
     private IEnumerator TextScroll_TB1(string lineOfText)
     {
+
+        scramble_1 = "";
+        for (int i = 0; i < lineOfText.Length; i++)
+        {
+            scramble_1 += gameManager.symbols[Random.Range(0, 23)];
+        }
         //we reset the int that keeps track of the number of letters
         Debug.Log("Is this getting accessed twice?");
-        int letter = 0;
+        letter1 = 0;
         //we reset the text that will be displayed on the screen as dialogue
         thoughtBubbleText_1.text = "";
         //when this coroutine is happening than, we are currently typing letters on the screen
@@ -331,31 +370,60 @@ public class TextBoxManager : MonoBehaviour {
         cancelTyping_TB1 = false;
 
         //we have a while loop that will display the line of text one letter at a time
-        while (isTyping_TB1 && !cancelTyping_TB1 && letter < lineOfText.Length - 1)
+        while (isTyping_TB1  && letter1 < lineOfText.Length)
         {
             //we add one letter to the text object
-            thoughtBubbleText_1.text += lineOfText[letter];
+            thoughtBubbleText_1.text += scramble_1[letter1];
             //we move on to the next letter
-            letter += 1;
+            letter1 += 1;
+            if (letter1 == lineOfText.Length / 2)
+            {
+                Debug.Log(lineOfText);
+                StartCoroutine(TextScroll_TB1_Translation(lineOfText));
+            }
             //we then return and wait a number of seconds before displaying the nest letter
             yield return new WaitForSeconds(typeSpeed);
         }
-        //once all the letters have been displayed or if the user cancelled the typing, we diplay the whole line of dialogue
+        if (!isTyping_TB1 && letter1 < lineOfText.Length / 2)
+        {
+            thoughtBubbleText_1.text = lineOfText;
+        }
+        
+    }
+    private IEnumerator TextScroll_TB1_Translation(string lineOfText)
+    {
+        letterTranslation1 = 0;
+        while (letterTranslation1 < lineOfText.Length && isTyping_TB1)
+        {
+            thoughtBubbleText_1.text = thoughtBubbleText_1.text.Remove(letterTranslation1, 1);
+            thoughtBubbleText_1.text = thoughtBubbleText_1.text.Insert(letterTranslation1, lineOfText[letterTranslation1].ToString());
+            letterTranslation1 += 1;
+            yield return new WaitForSeconds(typeSpeed);
+        }
+
         thoughtBubbleText_1.text = lineOfText;
         done1 = true;
+        //endDialogueIndicator.SetActive(true);
         //we are no longer typing
         isTyping_TB1 = false;
         //there is no longer a need to cancel the typing
         cancelTyping_TB1 = false;
         //we reset the individual word array for the next line of dialogue
-        individualWordTBT_1 = new string[1];
+        individualWordTBT_1= new string[1];
         //we do the same for the updated line of text
         updatedLineOfText_TB1 = "";
+
     }
     private IEnumerator TextScroll_TB2(string lineOfText)
     {
+        scramble_2 = "";
+        for (int i = 0; i < lineOfText.Length; i++)
+        {
+            scramble_2 += gameManager.symbols[Random.Range(0, 23)];
+        }
         //we reset the int that keeps track of the number of letters
-        int letter = 0;
+        Debug.Log("Is this getting accessed twice?");
+        letter2 = 0;
         //we reset the text that will be displayed on the screen as dialogue
         thoughtBubbleText_2.text = "";
         //when this coroutine is happening than, we are currently typing letters on the screen
@@ -364,31 +432,61 @@ public class TextBoxManager : MonoBehaviour {
         cancelTyping_TB2 = false;
 
         //we have a while loop that will display the line of text one letter at a time
-        while (isTyping_TB2 && !cancelTyping_TB2 && letter < lineOfText.Length - 1)
+        while (isTyping_TB2 && letter2 < lineOfText.Length)
         {
             //we add one letter to the text object
-            thoughtBubbleText_2.text += lineOfText[letter];
+            thoughtBubbleText_2.text += scramble_2[letter2];
             //we move on to the next letter
-            letter += 1;
+            letter2 += 1;
+            if (letter2 == lineOfText.Length / 2)
+            {
+                Debug.Log(lineOfText);
+                StartCoroutine(TextScroll_TB2_Translation(lineOfText));
+            }
             //we then return and wait a number of seconds before displaying the nest letter
             yield return new WaitForSeconds(typeSpeed);
         }
-        //once all the letters have been displayed or if the user cancelled the typing, we diplay the whole line of dialogue
+        if (!isTyping_TB2 && letter2 < lineOfText.Length / 2)
+        {
+            thoughtBubbleText_2.text = lineOfText;
+        }
+    }
+
+
+    private IEnumerator TextScroll_TB2_Translation(string lineOfText)
+    {
+        letterTranslation2 = 0;
+        while (letterTranslation2 < lineOfText.Length && isTyping_TB2)
+        {
+            thoughtBubbleText_2.text = thoughtBubbleText_2.text.Remove(letterTranslation2, 1);
+            thoughtBubbleText_2.text = thoughtBubbleText_2.text.Insert(letterTranslation2, lineOfText[letterTranslation2].ToString());
+            letterTranslation2 += 1;
+            yield return new WaitForSeconds(typeSpeed);
+        }
+
         thoughtBubbleText_2.text = lineOfText;
+        done2 = true;
+        //endDialogueIndicator.SetActive(true);
         //we are no longer typing
         isTyping_TB2 = false;
-        done2 = true;
         //there is no longer a need to cancel the typing
         cancelTyping_TB2 = false;
         //we reset the individual word array for the next line of dialogue
         individualWordTBT_2 = new string[1];
         //we do the same for the updated line of text
         updatedLineOfText_TB2 = "";
+
     }
     private IEnumerator TextScroll_TB3(string lineOfText)
     {
+        scramble_3 = "";
+        for (int i = 0; i < lineOfText.Length; i++)
+        {
+            scramble_3 += gameManager.symbols[Random.Range(0, 23)];
+        }
         //we reset the int that keeps track of the number of letters
-        int letter = 0;
+        Debug.Log("Is this getting accessed twice?");
+        letter3 = 0;
         //we reset the text that will be displayed on the screen as dialogue
         thoughtBubbleText_3.text = "";
         //when this coroutine is happening than, we are currently typing letters on the screen
@@ -397,26 +495,49 @@ public class TextBoxManager : MonoBehaviour {
         cancelTyping_TB3 = false;
 
         //we have a while loop that will display the line of text one letter at a time
-        while (isTyping_TB3 && !cancelTyping_TB3 && letter < lineOfText.Length - 1)
+        while (isTyping_TB3 && letter3 < lineOfText.Length)
         {
             //we add one letter to the text object
-            thoughtBubbleText_3.text += lineOfText[letter];
+            thoughtBubbleText_3.text += scramble_3[letter3];
             //we move on to the next letter
-            letter += 1;
+            letter3 += 1;
+            if (letter3 == lineOfText.Length / 2)
+            {
+                Debug.Log(lineOfText);
+                StartCoroutine(TextScroll_TB3_Translation(lineOfText));
+            }
             //we then return and wait a number of seconds before displaying the nest letter
             yield return new WaitForSeconds(typeSpeed);
         }
-        //once all the letters have been displayed or if the user cancelled the typing, we diplay the whole line of dialogue
+        if (!isTyping_TB3 && letter3 < lineOfText.Length / 2)
+        {
+            thoughtBubbleText_3.text = lineOfText;
+        }
+    }
+
+    private IEnumerator TextScroll_TB3_Translation(string lineOfText)
+    {
+        letterTranslation3 = 0;
+        while (letterTranslation3 < lineOfText.Length && isTyping_TB3)
+        {
+            thoughtBubbleText_3.text = thoughtBubbleText_3.text.Remove(letterTranslation3, 1);
+            thoughtBubbleText_3.text = thoughtBubbleText_3.text.Insert(letterTranslation3, lineOfText[letterTranslation3].ToString());
+            letterTranslation3 += 1;
+            yield return new WaitForSeconds(typeSpeed);
+        }
+
         thoughtBubbleText_3.text = lineOfText;
+        done3 = true;
+        //endDialogueIndicator.SetActive(true);
         //we are no longer typing
         isTyping_TB3 = false;
-        done3 = true;
         //there is no longer a need to cancel the typing
         cancelTyping_TB3 = false;
         //we reset the individual word array for the next line of dialogue
         individualWordTBT_3 = new string[1];
         //we do the same for the updated line of text
         updatedLineOfText_TB3 = "";
+
     }
     /// <summary>
     /// Enables the text box specific for the dialogue.

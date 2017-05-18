@@ -37,6 +37,9 @@ public class objectExamineManager : MonoBehaviour {
     public static bool outOfScene;
 
     public bool interactable, zoomingIn;
+    private string scramble;
+    private int letter, letterTranslation;
+    public GameObject endDialogueIndicator;
 
     // Use this for initialization
     //private void Awake(){
@@ -122,6 +125,7 @@ public class objectExamineManager : MonoBehaviour {
             {
                 //if yes then we move on to the next line
                 currentLine += 1;
+                endDialogueIndicator.SetActive(false);
                 //we check if we have passed the final line of dialogue
                 if (currentLine >= endAtLine && !isDropOff && interactable)
                 {
@@ -140,6 +144,10 @@ public class objectExamineManager : MonoBehaviour {
                     StartCoroutine(TextScroll(textLines[currentLine]));//textLines [currentLine]));
                 }
                 //If the user clicks but the letters are still being displayed then we need to cancel the typing as to show the full line of dialogue immediately
+            }
+            else if (isTyping)
+            {
+                isTyping = false;
             }
             else if (isTyping && !cancelTyping && time_left < 0)
             {
@@ -211,6 +219,7 @@ public class objectExamineManager : MonoBehaviour {
         textBox.SetActive(false);
         isActive = false;
         isTextBoxActive = false;
+        ItemZoom.itemGotSelected = false;
     }
     public void disableTextBoxNonInteractable()
     {
@@ -221,39 +230,71 @@ public class objectExamineManager : MonoBehaviour {
         textBox.SetActive(false);
         isActive = false;
         isTextBoxActive = false;
+        ItemZoom.itemGotSelected = false;
     }
 
     private IEnumerator TextScroll(string lineOfText)
     {
+        scramble = "";
+        for (int i = 0; i < lineOfText.Length; i++)
+        {
+            scramble += gameManager.symbols[Random.Range(0, 23)];
+        }
         //we reset the int that keeps track of the number of letters
-        int letter = 0;
+        letter = 0;
         //we reset the text that will be displayed on the screen as dialogue
         theText.text = "";
         //when this coroutine is happening than, we are currently typing letters on the screen
         isTyping = true;
         //we reset the cancel typing bool to false
         cancelTyping = false;
-
+        Debug.Log(scramble.Length / 2);
         //we have a while loop that will display the line of text one letter at a time
-        while (isTyping && !cancelTyping && letter < lineOfText.Length - 1)
+        while (isTyping && letter < lineOfText.Length)
         {
+            //Debug.Log("Does the textScroll get accessed?");
             //we add one letter to the text object
-            theText.text += lineOfText[letter];
+            theText.text += scramble[letter];
             //we move on to the next letter
             letter += 1;
+            if (letter == lineOfText.Length / 2)
+            {
+                Debug.Log(lineOfText);
+                StartCoroutine(TextScroll_Translation(lineOfText));
+            }
             //we then return and wait a number of seconds before displaying the nest letter
             yield return new WaitForSeconds(typeSpeed);
         }
-        //once all the letters have been displayed or if the user cancelled the typing, we diplay the whole line of dialogue
+        if (!isTyping && letter < lineOfText.Length / 2)
+        {
+            theText.text = lineOfText;
+        }
+    }
+    private IEnumerator TextScroll_Translation(string lineOfText)
+    {
+        letterTranslation = 0;
+        while (letterTranslation < lineOfText.Length && isTyping)
+        {
+            theText.text = theText.text.Remove(letterTranslation, 1);
+            theText.text = theText.text.Insert(letterTranslation, lineOfText[letterTranslation].ToString());
+            letterTranslation += 1;
+            yield return new WaitForSeconds(typeSpeed);
+        }
+
         theText.text = lineOfText;
+        if (currentLine < textLines.Length - 1)
+        {
+            endDialogueIndicator.SetActive(true);
+        }
+        //endDialogueIndicator.SetActive(true);
         //we are no longer typing
         isTyping = false;
         //there is no longer a need to cancel the typing
         cancelTyping = false;
         //we reset the individual word array for the next line of dialogue
-        //individualWord = new string[1];
+        //textLines = new string[1];
         //we do the same for the updated line of text
-        //updatedLineOfText = "";
+       // updatedLineOfText = "";
     }
     public void pickedUp()
     {

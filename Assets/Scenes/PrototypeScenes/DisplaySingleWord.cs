@@ -15,13 +15,14 @@ public class DisplaySingleWord : MonoBehaviour {
     public int wordIndex;
     public float typingSpeed, newtypingSpeed;
     public gameManager theGameManager;
-    public bool edit, isScrambled;
+    public bool edit, isScrambled, hover;
 
     public static string tentativeDefinition;
     public static int currentEditedIndex;
     public int currentLetter, currentLetterTranslation;
     public bool isTyping, changingLetter;
     int count;
+    public static bool disableLetter;
     //public static List<string> keyWords = new List<string>();
 
     // Use this for initialization
@@ -36,13 +37,15 @@ public class DisplaySingleWord : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        
         if (edit)
         {
+            //thoughtText.color = Color.blue;
             currentEditedIndex = wordIndex;
             inputWord();
             
             //do the translation
-        }else if(!isTyping && isScrambled && !changingLetter) 
+        }else if(!isTyping && isScrambled && !changingLetter && !hover) 
         {
            //Debug.Log(count);
             //scrambled.Substring(Random.Range(0, scrambled.Length - 1), 1);
@@ -63,9 +66,12 @@ public class DisplaySingleWord : MonoBehaviour {
             if (tentativeDefinition.Trim().Equals(thought.Trim()))
             {
                 isScrambled = false;
+                thoughtText.text = thought;
+                thoughtText.color = Color.green;
                 //change the color of the word
             }else
             {
+                //thoughtText.color = Color.red;
                 //have the word return to scrambled
             }
             //check whether the word is correct or not;
@@ -89,6 +95,7 @@ public class DisplaySingleWord : MonoBehaviour {
         if(wordIndex != -1)
         {
             isScrambled = true;
+            thoughtText.color = Color.red;
         }
         for(int i = 0; i < thought.Length; i++)
         {
@@ -412,6 +419,30 @@ public class DisplaySingleWord : MonoBehaviour {
             //and add the one with the extra letter in its place
             //definitionOffered.Insert(currentPage, tentativeDefinition);
             //moveTyperBackward();
+        }
+    }
+    private void OnDisable()
+    {
+        changingLetter = false;
+        StopCoroutine(keepScramble());
+        
+    }
+    public void accessHover()
+    {
+        
+        //StopCoroutine(keepScramble());
+        //changingLetter = false;
+        if (isScrambled)
+        {
+            Debug.Log("Is this getting accessed");
+            hover = true;
+        }
+    }
+    public void leaveHover()
+    {
+        if (isScrambled)
+        {
+           hover = false;
         }
     }
 }
