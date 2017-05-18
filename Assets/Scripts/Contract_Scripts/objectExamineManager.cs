@@ -137,6 +137,7 @@ public class objectExamineManager : MonoBehaviour {
                     pickUpChoice = true;
                     pickUp.gameObject.SetActive(true);
                     leave.gameObject.SetActive(true);
+                    //endDialogueIndicator.SetActive(false);
 
                 }else if(currentLine > endAtLine && !interactable && !canPickUp)
                 {
@@ -291,7 +292,14 @@ public class objectExamineManager : MonoBehaviour {
         theText.text = lineOfText;
         if (currentLine < textLines.Length - 1)
         {
-            endDialogueIndicator.SetActive(true);
+            if (pickUpChoice)
+            {
+                endDialogueIndicator.SetActive(false);
+            }
+            else
+            {
+                endDialogueIndicator.SetActive(true);
+            }
         }
         //endDialogueIndicator.SetActive(true);
         //we are no longer typing
