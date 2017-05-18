@@ -10,11 +10,10 @@ public class StartBar : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
-        if (Input.GetKeyDown(KeyCode.Return))
-        {
-            SceneManager.LoadScene("BarDesignTest");
+	public void StartGame () {
+      
+            SceneManager.LoadScene("startBar");
 
-        }
+       
 	}
 }
