@@ -139,7 +139,7 @@ public class objectExamineManager : MonoBehaviour {
                     leave.gameObject.SetActive(true);
                     //endDialogueIndicator.SetActive(false);
 
-                }else if(currentLine > endAtLine && !interactable && !canPickUp)
+                }else if(currentLine > endAtLine-1 && !interactable && !canPickUp)
                 {
                     disableTextBoxNonInteractable();
                 } 
