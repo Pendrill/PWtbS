@@ -12,11 +12,14 @@ public class ItemZoom : MonoBehaviour {
     public int startLine, endLine;
     public TextAsset theText;
     public objectExamineManager theObjectExamineManager;
+    public TextBoxManager theTextBoxManager;
+    public static bool itemGotSelected;
 
     // Use this for initialization
     void Start () {
         originalPosition = transform.position;
         theObjectExamineManager = FindObjectOfType<objectExamineManager>();
+        theTextBoxManager = FindObjectOfType<TextBoxManager>();
         once = true;
         originalRotation = transform.eulerAngles;
         //Cam.transform.position= new Vector3 (Cam.transform.position.x, Cam.transform.position.y, Offset);
@@ -28,8 +31,9 @@ public class ItemZoom : MonoBehaviour {
         {
             time += Time.deltaTime;
             transform.position = Vector3.Lerp(originalPosition, endDestination , time);
-        }else
+        }else if(!itemGotSelected && !moveObjectTowardsPlayer)
         {
+            //itemGotSelected = false;
             once = true;
             time -= Time.deltaTime;
             transform.position = Vector3.Lerp(originalPosition, endDestination, time);
@@ -54,7 +58,7 @@ public class ItemZoom : MonoBehaviour {
             moveObjectTowardsPlayer = false;
             theObjectExamineManager.zoomingIn = false;
         }
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        if (Input.GetKeyDown(KeyCode.Mouse0) && !itemGotSelected && !theTextBoxManager.isTextBoxActive)
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
@@ -62,6 +66,7 @@ public class ItemZoom : MonoBehaviour {
             {
                 if (hit.collider.gameObject.name == this.gameObject.name)
                 {
+                    itemGotSelected = true;
                     moveObjectTowardsPlayer = true;
                     theObjectExamineManager.zoomingIn = true;
                     //Offset += Cam.transform.forward;
