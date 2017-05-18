@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class RotateCamera : MonoBehaviour {
 
@@ -43,10 +44,16 @@ public class RotateCamera : MonoBehaviour {
 		//we set the speed for how fast the rotation of the camera will happen when the mouse reaches the edges of the screen
 		speed = 55;
 		//maximum and minimum degrees fro which the degrees the camera can rotate on both the x and y axis
-		RotateCameraMaxY = 10;
-		RotateCameraMinY = -10;
-		RotateCameraMaxX = 10;
-		RotateCameraMinX = -10;
+		
+        RotateCameraMaxX = 10;
+        RotateCameraMinX = -10;
+        if (SceneManager.GetActiveScene().name.Trim().Equals("StartBar")){
+            RotateCameraMaxY = 180;
+            RotateCameraMinY = 170;
+        } else {
+            RotateCameraMaxY = 10;
+            RotateCameraMinY = -10;
+        }
 		//we set the offset to where the mouse needs to reach so that the camera starts to rotate
 		offsetScreenPostition = 50;
 		//gets/sets the screen width and height

@@ -204,7 +204,10 @@ public class TextBoxManager : MonoBehaviour {
             {
                 currentLine += 1;
                 endDialogueIndicator.SetActive(false);
-                StartCoroutine(TextScroll(dialogue[currentLine]));
+                if (currentLine < dialogueSize)
+                {
+                    StartCoroutine(TextScroll(dialogue[currentLine]));
+                }
             }
             else if (isTyping)
             {
@@ -648,6 +651,7 @@ public class TextBoxManager : MonoBehaviour {
 
     public void reloadScript(string[] arbThought)
     {
+        currentLine = 0;
         //playerText = arbThought;
         StopCoroutine(DisplayResponces());
         if (thoughtBubble_3 != null)
@@ -667,7 +671,7 @@ public class TextBoxManager : MonoBehaviour {
         answer3 = false;
         dialogue = arbThought;
         dialogueSize = arbThought.Length;
-        Debug.Log(dialogue[0] + "blahblahblah");
+        //Debug.Log(dialogue[0] + "blahblahblah");
         StartCoroutine(TextScroll(dialogue[0]));
         
         //enableTextBox();

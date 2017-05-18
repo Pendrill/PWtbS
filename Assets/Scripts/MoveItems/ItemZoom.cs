@@ -66,9 +66,11 @@ public class ItemZoom : MonoBehaviour {
             {
                 if (hit.collider.gameObject.name == this.gameObject.name)
                 {
+                    theTextBoxManager.textBox.GetComponent<RectTransform>().anchoredPosition3D = theTextBoxManager.OriginalPanelPosition;
                     itemGotSelected = true;
                     moveObjectTowardsPlayer = true;
                     theObjectExamineManager.zoomingIn = true;
+
                     //Offset += Cam.transform.forward;
                     //Cam.transform.position = new Vector3(Cam.transform.position.x, Cam.transform.position.y, Offset);
                     endDestination = new Vector3(0, 0, 0);
