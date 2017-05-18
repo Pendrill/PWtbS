@@ -65,7 +65,7 @@ public class gameManager : MonoBehaviour {
 	/// <returns>The if scramble.</returns>
 	/// <param name="word">Word.</param>
 	public string checkIfScramble(string word){
-		//Debug.Log (word + " checkifScramble");
+		/*//Debug.Log (word + " checkifScramble");
 		//we first remove any punctuation that might have come with the word
 		removePunctuation (word);
 		//we use a for loop ot go through the key words
@@ -73,7 +73,7 @@ public class gameManager : MonoBehaviour {
 			//Debug.Log (keyWords[i] + "   " + removedPunctuation);
 			//we check if the word is equal to any of the words within the keywords list
 			if (removedPunctuation.Trim().Equals(keyWords [i].Trim()) ) {
-                return keyWordsScramble[i];
+               // return keyWordsScramble[i];
                 //Debug.Log ("What about this one?");
                 //have the check for if it has been translated within this if statement
                 //if yes then we check if it has already been translated
@@ -95,13 +95,13 @@ public class gameManager : MonoBehaviour {
 			}
 		}
 		//if it is not in the key words then we simply return the word
-		removedPunctuation = "";
+		removedPunctuation = "";*/
 		return word;
 	}
 
     public string checkIfScramble(string word, bool[] isScrambled , int index)
     {
-        //Debug.Log (word + " checkifScramble");
+       /* //Debug.Log (word + " checkifScramble");
         //we first remove any punctuation that might have come with the word
         removePunctuation(word);
         //we use a for loop ot go through the key words
@@ -137,7 +137,7 @@ public class gameManager : MonoBehaviour {
             }
         }
         //if it is not in the key words then we simply return the word
-        removedPunctuation = "";
+        removedPunctuation = "";*/
         return word;
     }
 
