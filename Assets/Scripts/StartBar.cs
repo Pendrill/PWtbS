@@ -12,7 +12,7 @@ public class StartBar : MonoBehaviour {
 	// Update is called once per frame
 	public void StartGame () {
       
-            SceneManager.LoadScene("startBar");
+            SceneManager.LoadScene("startTranslation");
 
        
 	}
