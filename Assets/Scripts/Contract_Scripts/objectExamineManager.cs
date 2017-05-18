@@ -36,10 +36,12 @@ public class objectExamineManager : MonoBehaviour {
     public GameObject canvas;
     public static bool outOfScene;
 
-    public bool interactable, zoomingIn;
+    public bool interactable, zoomingIn, canPickUp;
     private string scramble;
     private int letter, letterTranslation;
     public GameObject endDialogueIndicator;
+    public objectPickupManager theObjectPickupManager;
+    
 
     // Use this for initialization
     //private void Awake(){
@@ -68,6 +70,7 @@ public class objectExamineManager : MonoBehaviour {
     void Start()
     {
         theTranslatorManager = FindObjectOfType<TranslatorManager>();
+        theObjectPickupManager = FindObjectOfType<objectPickupManager>();
         /* if (scene.name == "Classroom" && !outOfScene )
          {
              if (!start)
@@ -135,10 +138,12 @@ public class objectExamineManager : MonoBehaviour {
                     pickUp.gameObject.SetActive(true);
                     leave.gameObject.SetActive(true);
 
-                }else if(currentLine > endAtLine && !interactable)
+                }else if(currentLine > endAtLine && !interactable && !canPickUp)
                 {
                     disableTextBoxNonInteractable();
-                }
+                } 
+
+                
                 else
                 {
                     StartCoroutine(TextScroll(textLines[currentLine]));//textLines [currentLine]));
@@ -184,11 +189,11 @@ public class objectExamineManager : MonoBehaviour {
         StartCoroutine(TextScroll(textLines[currentLine]));//textLines [currentLine]));
     }
 
-    public void reloadScript(TextAsset newText, GameObject theObject)
+    public void reloadScript(TextAsset newText, GameObject theObject, bool pickUp)
     {
         clickedObject = theObject;
         isDropOff = false;
-        interactable = clickedObject.GetComponent<ExamineObject>().interact;
+        interactable = clickedObject.GetComponent<ItemZoom>().canPickUp;
         //makes sure there is a text file that can be parsed
         if (theText != null)
         {
@@ -200,6 +205,8 @@ public class objectExamineManager : MonoBehaviour {
     }
     public void reloadScript(TextAsset newText)
     {
+        
+        canPickUp = pickUp;
         isDropOff = true;
         if (theText != null)
         {
@@ -306,16 +313,17 @@ public class objectExamineManager : MonoBehaviour {
              Debug.Log("Charger got picked up");
              charger = true;
          }*/
-        clickedObject.GetComponent<ObjectInfo>().objectSprite.enabled = false;
+        //clickedObject.GetComponent<ObjectInfo>().objectSprite.enabled = false;
         //clickedObject.GetComponent<PickUpObject> ().chargerSprite.enabled = false;
         //clickedObject.SetActive (false);
         clickedObject.GetComponent<ObjectInfo>().droppedInEnd = false;
+        theObjectPickupManager.checkInventory(clickedObject);
         disableTextBox();
         
     }
     public void left()
     {
-        clickedObject.GetComponent<ObjectInfo>().objectSprite.enabled = false;
+        //clickedObject.GetComponent<ObjectInfo>().objectSprite.enabled = false;
         //clickedObject.GetComponent<PickUpObject> ().notebookSprite.enabled = false;
         //clickedObject.GetComponent<PickUpObject> ().chargerSprite.enabled = false;
         //clickedObject.SetActive (false);

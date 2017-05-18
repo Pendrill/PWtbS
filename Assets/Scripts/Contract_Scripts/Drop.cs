@@ -38,6 +38,8 @@ public class Drop : MonoBehaviour {
         endPosition = currentObjectInSlot.GetComponent<ObjectInfo>().endPosition;
         if (originalScene.Trim().Equals(SceneManager.GetActiveScene().name.Trim()))
         {
+            currentObjectInSlot.GetComponent<ObjectInfo>().currentScene = SceneManager.GetActiveScene().name.Trim();
+            currentObjectInSlot.GetComponent<ObjectInfo>().inInv = false;
             invButton.GetComponent<InventoryButton>().reference = 0;
            // currentObjectInSlot.transform.position = originalPosition;
             //currentObjectInSlot.SetActive(true);
@@ -51,6 +53,8 @@ public class Drop : MonoBehaviour {
 
         } else if (endScene.Trim().Equals(SceneManager.GetActiveScene().name.Trim()))
         {
+            currentObjectInSlot.GetComponent<ObjectInfo>().currentScene = SceneManager.GetActiveScene().name.Trim();
+            currentObjectInSlot.GetComponent<ObjectInfo>().inInv = false;
             objectPickupManager.droppedInEndRef[invButton.GetComponent<InventoryButton>().reference] = currentObjectInSlot.GetComponent<ObjectInfo>().reference;
             /*for(int i = 0; i < objectPickupManager.droppedInEndRef.Length; i++)
             {
