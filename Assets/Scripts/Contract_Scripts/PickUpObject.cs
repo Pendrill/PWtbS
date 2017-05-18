@@ -13,16 +13,65 @@ public class PickUpObject : MonoBehaviour {
 	public int startLine, endLine;
 	public TextAsset theText;
     public Vector3 specificOffset;
+
+    public Vector3 originalPosition, endDestination, originalRotation;
+    public bool moveObjectTowardsPlayer, once;
+    public float time, Offset;
+    public GameObject Cam;
+    public float rotationsPerMinute = 10.0f;
+    
+    public objectExamineManager theObjectExamineManager;
+ 
+    public static bool itemGotSelected;
+
     // Use this for initialization
     void Start () {
 		theTranslatorManager = FindObjectOfType<TranslatorManager> ();
 		theTextBoxManager = FindObjectOfType<TextBoxManager> ();
 		MoveCameraDialogue = FindObjectOfType<MoveCameraDialogue> ();
 		theObjectPickupManager = FindObjectOfType<objectPickupManager> ();
-	}
+        theObjectExamineManager = FindObjectOfType<objectExamineManager>();
+
+    }
 	
 	// Update is called once per frame
 	void Update () {
+
+        if (moveObjectTowardsPlayer)
+        {
+            time += Time.deltaTime;
+            transform.position = Vector3.Lerp(originalPosition, endDestination, time);
+        }
+        else if (!itemGotSelected && !moveObjectTowardsPlayer)
+        {
+            //itemGotSelected = false;
+            once = true;
+            time -= Time.deltaTime;
+            transform.position = Vector3.Lerp(originalPosition, endDestination, time);
+            transform.rotation = Quaternion.Lerp(Quaternion.Euler(originalRotation), transform.rotation, time);
+
+        }
+        if (time > 1)
+        {
+            transform.Rotate(0, 6.0f * rotationsPerMinute * Time.deltaTime, 0);
+            if (once)
+            {
+                once = false;
+                theObjectExamineManager.reloadScript(theText);
+                theObjectExamineManager.currentLine = startLine;
+                theObjectExamineManager.endAtLine = endLine;
+                theObjectExamineManager.enableTextBox();
+                //StartCoroutine(waitToDisplayDialogueBox());
+            }
+        }
+        if (!once && !theObjectExamineManager.isTextBoxActive)
+        {
+            moveObjectTowardsPlayer = false;
+            theObjectExamineManager.zoomingIn = false;
+        }
+
+
+
         if (SceneManager.GetActiveScene().name.Trim().Equals("Classroom".Trim()) || SceneManager.GetActiveScene().name.Trim().Equals("StudentBedroom".Trim()))
         {
            // notebookSprite = GameObject.FindGameObjectWithTag("notebookSprite").GetComponent<Image>();
@@ -49,11 +98,18 @@ public class PickUpObject : MonoBehaviour {
 						chargerSprite.enabled = true;
 					}*/
 					//otherwise we need to zoom in the camera towards the object that got hit by the raycast
-					MoveCameraDialogue.moveTowardObject (hit.transform.gameObject, specificOffset);
+					//MoveCameraDialogue.moveTowardObject (hit.transform.gameObject, specificOffset);
 					//and then we need to update the dialogue text, start, and end line
-					theObjectPickupManager.reloadScript (hit.transform.gameObject.GetComponent<PickUpObject> ().theText, hit.transform.gameObject);
-					theObjectPickupManager.currentLine = hit.transform.gameObject.GetComponent<PickUpObject> ().startLine;
-					theObjectPickupManager.endAtLine = hit.transform.gameObject.GetComponent<PickUpObject> ().endLine;
+					//theObjectPickupManager.reloadScript (hit.transform.gameObject.GetComponent<PickUpObject> ().theText, hit.transform.gameObject);
+					//theObjectPickupManager.currentLine = hit.transform.gameObject.GetComponent<PickUpObject> ().startLine;
+					//theObjectPickupManager.endAtLine = hit.transform.gameObject.GetComponent<PickUpObject> ().endLine;
+                    itemGotSelected = true;
+                    moveObjectTowardsPlayer = true;
+                    theObjectExamineManager.zoomingIn = true;
+                    //Offset += Cam.transform.forward;
+                    //Cam.transform.position = new Vector3(Cam.transform.position.x, Cam.transform.position.y, Offset);
+                    endDestination = new Vector3(0, 0, 0);
+                    endDestination += Camera.main.transform.position + Camera.main.transform.forward * Offset;
                     //theObjectPickupManager.textBox.GetComponent<RectTransform>().localPosition = new Vector3(0, -220, 0);
                     //Finally we have a coroutine that starts so as to wait that the camera has zoomed in
                     StartCoroutine (waitToDisplayDialogueBox ());
