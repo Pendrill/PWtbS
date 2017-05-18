@@ -34,6 +34,7 @@ public class ItemZoom : MonoBehaviour {
         }else if(!itemGotSelected && !moveObjectTowardsPlayer)
         {
             //itemGotSelected = false;
+            Debug.Log("is it returning");
             once = true;
             time -= Time.deltaTime;
             transform.position = Vector3.Lerp(originalPosition, endDestination, time);
